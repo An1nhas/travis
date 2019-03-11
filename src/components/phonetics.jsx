@@ -134,8 +134,9 @@ export default class Phonetics extends Component {
     }
 
     handleSubmit(e) {
-        alert(`The improved translation is: ${this.state.improvedTranslation}`);
         e.preventDefault();
+        const { improvedTranslation } = this.state;
+        alert(`The improved translation is: ${improvedTranslation}`);
     }
 
     switchTranslations() {
@@ -178,7 +179,7 @@ export default class Phonetics extends Component {
                         <Col md={6} lg={6}>
                             <p>Translate from English to Tigrinya</p>
                             <div>
-                                <input type='text' value={display} onChange={this.englishToTigrinya} onKeyUp={() => setTimeout(e => this.englishToTigrinya(e), 3000)} />
+                                <input type='text' value={display} onChange={this.englishToTigrinya} onKeyUp={setTimeout(e => this.englishToTigrinya(e), 3000)} />
                             </div>
                         </Col>
 
