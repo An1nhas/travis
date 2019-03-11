@@ -18,8 +18,14 @@ app.use(
         origin: ['http://localhost:3000'],
         methods: ['GET', 'HEAD', 'POST', 'DELETE', 'PUT', 'PATCH', 'OPTIONS'],
         credentials: true
+    }),
+    cors({
+        origin: ['http://localhost:5000'],
+        methods: ['GET', 'HEAD', 'POST', 'DELETE', 'PUT', 'PATCH', 'OPTIONS'],
+        credentials: true
     })
 );
+
 
 app.use('/api', router);
 

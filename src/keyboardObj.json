@@ -1,0 +1,469 @@
+{
+    "keyData": [
+        {
+            "id": 0,
+            "keyEng": "q",
+            "keyEngShift": "Q",
+            "keyNum": 1,
+            "keyPunct": "[",
+            "keyTgr": "ቀ",
+            "suggestions": [
+                "ቀ",
+                "ቁ",
+                "ቂ",
+                "ቃ",
+                "ቄ",
+                "ቅ",
+                "ቆ"
+            ]
+        },
+        {
+            "id": 1,
+            "keyEng": "w",
+            "keyEngShift": "W",
+            "keyNum": 2,
+            "keyPunct": "]",
+            "keyTgr": "ወ",
+            "suggestions": [
+                "ወ",
+                "ዉ",
+                "ዊ",
+                "ዋ",
+                "ዌ",
+                "ው",
+                "ዎ"
+            ]
+        },
+        {
+            "id": 2,
+            "keyEng": "e",
+            "keyEngShift": "E",
+            "keyNum": 3,
+            "keyPunct": "{",
+            "keyTgr": "አ",
+            "suggestions": [
+                "አ"
+            ]
+        },
+        {
+            "id": 3,
+            "keyEng": "r",
+            "keyEngShift": "R",
+            "keyNum": 4,
+            "keyPunct": "}",
+            "keyTgr": "ረ",
+            "suggestions": [
+                "ረ",
+                "ሩ",
+                "ሪ",
+                "ራ",
+                "ሬ",
+                "ር",
+                "ሮ"
+            ]
+        },
+        {
+            "id": 4,
+            "keyEng": "t",
+            "keyEngShift": "T",
+            "keyNum": 5,
+            "keyPunct": "#",
+            "keyTgr": "ተ",
+            "suggestions": [
+                "ተ",
+                "ቱ",
+                "ቲ",
+                "ታ",
+                "ቴ",
+                "ት",
+                "ቶ"
+            ]
+        },
+        {
+            "id": 5,
+            "keyEng": "y",
+            "keyEngShift": "Y",
+            "keyNum": 6,
+            "keyPunct": "%",
+            "keyTgr": "የ",
+            "suggestions": [
+                "የ",
+                "ዩ",
+                "ዪ",
+                "ያ",
+                "ዬ",
+                "ይ",
+                "ዮ"
+            ]
+        },
+        {
+            "id": 6,
+            "keyEng": "u",
+            "keyEngShift": "U",
+            "keyNum": 7,
+            "keyPunct": "^",
+            "keyTgr": "ኡ",
+            "suggestions": [
+                "ኡ"
+            ]
+        },
+        {
+            "id": 7,
+            "keyEng": "i",
+            "keyEngShift": "I",
+            "keyNum": 8,
+            "keyPunct": "*",
+            "keyTgr": "ኢ",
+            "suggestions": [
+                "ኢ"
+            ]
+        },
+        {
+            "id": 8,
+            "keyEng": "o",
+            "keyEngShift": "O",
+            "keyNum": 9,
+            "keyPunct": "+",
+            "keyTgr": "ኦ"
+        },
+        {
+            "id": 9,
+            "keyEng": "p",
+            "keyEngShift": "P",
+            "keyNum": 0,
+            "keyPunct": "=",
+            "keyTgr": "ፐ",
+            "suggestions": [
+                "ፐ",
+                "ፑ",
+                "ፒ",
+                "ፓ",
+                "ፔ",
+                "ፕ",
+                "ፖ"
+            ]
+        },
+        {
+            "id": 10,
+            "keyEng": "a",
+            "keyEngShift": "A",
+            "keyNum": "-",
+            "keyPunct": "_",
+            "keyTgr": "ኣ",
+            "suggestions": [
+                "ኣ"
+            ]
+        },
+        {
+            "id": 11,
+            "keyEng": "s",
+            "keyEngShift": "S",
+            "keyNum": "/",
+            "keyPunct": "\\",
+            "keyTgr": "ሰ",
+            "suggestions": [
+                "ሰ",
+                "ሱ",
+                "ሲ",
+                "ሳ",
+                "ሴ",
+                "ስ",
+                "ሶ"
+            ]
+        },
+        {
+            "id": 12,
+            "keyEng": "d",
+            "keyEngShift": "D",
+            "keyNum": ":",
+            "keyPunct": "|",
+            "keyTgr": "ደ",
+            "suggestions": [
+                "ደ",
+                "ዱ",
+                "ዲ",
+                "ዳ",
+                "ዴ",
+                "ድ",
+                "ዶ"
+            ]
+        },
+        {
+            "id": 13,
+            "keyEng": "f",
+            "keyEngShift": "F",
+            "keyNum": ";",
+            "keyPunct": "~",
+            "keyTgr": "ፈ",
+            "suggestions": [
+                "ፈ",
+                "ፉ",
+                "ፊ",
+                "ፋ",
+                "ፌ",
+                "ፍ",
+                "ፎ"
+            ]
+        },
+        {
+            "id": 14,
+            "keyEng": "g",
+            "keyEngShift": "G",
+            "keyNum": "(",
+            "keyPunct": "<",
+            "keyTgr": "ገ",
+            "suggestions": [
+                "ገ",
+                "ጉ",
+                "ጊ",
+                "ጋ",
+                "ጌ",
+                "ግ",
+                "ጎ"
+            ]
+        },
+        {
+            "id": 15,
+            "keyEng": "h",
+            "keyEngShift": "H",
+            "keyNum": ")",
+            "keyPunct": ">",
+            "keyTgr": "ሀ",
+            "suggestions": [
+                "ሀ",
+                "ሁ",
+                "ሂ",
+                "ሃ",
+                "ሄ",
+                "ህ",
+                "ሆ"
+            ]
+        },
+        {
+            "id": 16,
+            "keyEng": "j",
+            "keyEngShift": "J",
+            "keyNum": "$",
+            "keyPunct": "$",
+            "keyTgr": "ጀ",
+            "suggestions": [
+                "ጀ",
+                "ጁ",
+                "ጂ",
+                "ጃ",
+                "ጄ",
+                "ጅ",
+                "ጆ"
+            ]
+        },
+        {
+            "id": 17,
+            "keyEng": "k",
+            "keyEngShift": "K",
+            "keyNum": "&",
+            "keyPunct": "\u20AC",
+            "keyTgr": "ከ",
+            "suggestions": [
+                "ከ",
+                "ኩ",
+                "ኪ",
+                "ካ",
+                "ኬ",
+                "ክ",
+                "ኮ"
+            ]
+        },
+        {
+            "id": 18,
+            "keyEng": "l",
+            "keyEngShift": "L",
+            "keyNum": "@",
+            "keyPunct": "\u00A3",
+            "keyTgr": "ለ",
+            "suggestions": [
+                "ለ",
+                "ሉ",
+                "ሊ",
+                "ላ",
+                "ሌ",
+                "ል",
+                "ሎ"
+            ]
+        },
+        {
+            "id": 19,
+            "keyEng": "Shift",
+            "keyEngShift": "Shift",
+            "keyNum": "#+=",
+            "keyPunct": "123.,",
+            "keyTgr": "Shift"
+        },
+        {
+            "id": 20,
+            "keyEng": "z",
+            "keyEngShift": "Z",
+            "keyNum": ".",
+            "keyPunct": ".",
+            "keyTgr": "ዘ",
+            "suggestions": [
+                "ዘ",
+                "ዙ",
+                "ዚ",
+                "ዛ",
+                "ዜ",
+                "ዝ",
+                "ዞ"
+            ]
+        },
+        {
+            "id": 21,
+            "keyEng": "x",
+            "keyEngShift": "X",
+            "keyNum": ",",
+            "keyPunct": ",",
+            "keyTgr": "ጸ",
+            "suggestions": [
+                "ጸ",
+                "ጹ",
+                "ጺ",
+                "ጻ",
+                "ጼ",
+                "ጽ",
+                "ጾ"
+            ]
+        },
+        {
+            "id": 22,
+            "keyEng": "c",
+            "keyEngShift": "C",
+            "keyNum": "?",
+            "keyPunct": "?",
+            "keyTgr": "ቸ",
+            "suggestions": [
+                "ቸ",
+                "ቹ",
+                "ቺ",
+                "ቻ",
+                "ቼ",
+                "ች",
+                "ቾ"
+            ]
+        },
+        {
+            "id": 23,
+            "keyEng": "v",
+            "keyEngShift": "V",
+            "keyNum": "!",
+            "keyPunct": "!",
+            "keyTgr": "ቨ",
+            "suggestions": [
+                "ቨ",
+                "ቩ",
+                "ቪ",
+                "ቫ",
+                "ቬ",
+                "ቭ",
+                "ቮ"
+            ]
+        },
+        {
+            "id": 24,
+            "keyEng": "b",
+            "keyEngShift": "B",
+            "keyNum": "'",
+            "keyPunct": "'",
+            "keyTgr": "በ",
+            "suggestions": [
+                "በ",
+                "ቡ",
+                "ቢ",
+                "ባ",
+                "ቤ",
+                "ብ",
+                "ቦ"
+            ]
+        },
+        {
+            "id": 25,
+            "keyEng": "n",
+            "keyEngShift": "N",
+            "keyNum": "\"",
+            "keyPunct": "\"",
+            "keyTgr": "ነ",
+            "suggestions": [
+                "ነ",
+                "ኑ",
+                "ኒ",
+                "ና",
+                "ኔ",
+                "ን",
+                "ኖ"
+            ]
+        },
+        {
+            "id": 26,
+            "keyEng": "m",
+            "keyEngShift": "M",
+            "keyNum": "\\",
+            "keyPunct": "\\",
+            "keyTgr": "መ",
+            "suggestions": [
+                "መ",
+                "ሙ",
+                "ሚ",
+                "ማ",
+                "ሜ",
+                "ም",
+                "ሞ"
+            ]
+        },
+        {
+            "id": 27,
+            "keyEng": "Clear",
+            "keyEngShift": "Clear",
+            "keyNum": "Clear",
+            "keyPunct": "Clear",
+            "keyTgr": "Clear"
+        },
+        {
+            "id": 28,
+            "keyEng": "123.,",
+            "keyEngShift": "123.,",
+            "keyNum": "abc",
+            "keyPunct": "abc",
+            "keyTgr": "123.,"
+        },
+        {
+            "id": 29,
+            "keyEng": "lng",
+            "keyEngShift": "lng",
+            "keyNum": "lng",
+            "keyPunct": "lng",
+            "keyTgr": "lng"
+        },
+        {
+            "id": 30,
+            "keyEng": "micro",
+            "keyEngShift": "micro",
+            "keyNum": "micro",
+            "keyPunct": "micro",
+            "keyTgr": "micro"
+        },
+        {
+            "id": 31,
+            "keyEng": "space",
+            "keyEngShift": "space",
+            "keyNum": "space",
+            "keyPunct": "space",
+            "keyTgr": "space"
+        },
+        {
+            "id": 32,
+            "keyEng": "return",
+            "keyEngShift": "return",
+            "keyNum": "return",
+            "keyPunct": "return",
+            "keyTgr": "return"
+        }
+    ]
+}

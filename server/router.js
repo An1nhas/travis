@@ -1,9 +1,9 @@
 // import lang from './lang.json';
 const express = require('express');
-
-const Router = express.Router();
 const axios = require('axios');
 const lang = require('./lang.json');
+
+const Router = express.Router();
 
 axios.defaults.withCredentials = true;
 

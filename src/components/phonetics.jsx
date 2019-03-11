@@ -1,6 +1,8 @@
 /* eslint-disable no-console */
 import React, { Component } from 'react';
 import axios from 'axios';
+import { Container, Row, Col } from 'react-bootstrap';
+
 
 export default class Phonetics extends Component {
     constructor(props) {
@@ -10,100 +12,192 @@ export default class Phonetics extends Component {
             dict: {},
             queue: '',
             finalizedSymbols: '',
-            display: ''
+            display: '',
+            translation: '',
+            improvedTranslation: '',
+            TigrinyaToEnglish: true,
+            improveTranslation: false
         }
+        this.improveTranslation = this.improveTranslation.bind(this);
+        this.improveChangeHandler = this.improveChangeHandler.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.switchTranslations = this.switchTranslations.bind(this);
+        this.englishToTigrinya = this.englishToTigrinya.bind(this);
     };
 
     componentWillMount() {
         axios.get('http://localhost:8080/api/lang').then(response => this.setState({ dict: response.data }));
-
-        // const test = /(([^KkghQq]u)|([A-z][A-z]i)|[aeoWA])$/;
-        // console.log("REGEX")
-        // console.log(test.test("kih"));
-        // console.log(test.test("Kui"));
-        // console.log(test.test("A"));
-        // console.log(test.test("hie"));
-
-        // const obj = { alan: 4, moni: 3, seba: 22 };
-        // eslint-disable-next-line dot-notation
-        // console.log(obj['alan']);
     }
 
-    // Most recent status:
-    // -- words that don't work: 'hu' (because 'hua' is also an option) (Fix: in case length===3 if [A-z]u isn't followed by 'a' add 'hu' + 'a' to the queue)
-    // -- similarly: 'gui' (because 'guie' is also an option) and several similar
-    // -- the same two letters in a row: e.g. trying to write 'k' followed by 'ki' breakes the function (fix this in the case length===2)
-    changeHandler(e) {
-        const { finalizedSymbols, queue, english, dict } = this.state;
+    tigrinyaToEnglish(e) {
+        const { finalizedSymbols, queue, english, dict, display } = this.state;
+
+        // Letters which end a symbol
         const stoppers = /(([^KkghQq]u)|[aeoAW])$/;
+        // History of all Latin keyboard inputs
         const newEnglish = english.concat(" ", e.nativeEvent.data);
-
         const updatedQueue = queue.concat(e.nativeEvent.data);
-        console.log("Stopper test: ", stoppers.test(updatedQueue), " Queue is: ", updatedQueue);
 
-        if (stoppers.test(queue.concat(e.nativeEvent.data))) {
+        console.log("Stopper test: ", stoppers.test(updatedQueue), " Queue is: ", updatedQueue);
+        console.log(e.nativeEvent.data);
+        console.log(Date.now());
+        console.log(Date.now() + 10 - Date.now());
+
+        if (/[^a-zNKQHPCTZOK2]/.test(e.nativeEvent.data)) {
+            console.log("Character ", e.nativeEvent.data, " doesn't correspond to anything in Tigrinya");
+            if (queue !== '') {
+                const newFinalizedSymbols = finalizedSymbols.concat(dict[queue]).concat(e.nativeEvent.data);
+                this.setState({
+                    finalizedSymbols: newFinalizedSymbols,
+                    display: newFinalizedSymbols, queue: '', english: newEnglish
+                })
+            } else {
+                this.setState({
+                    finalizedSymbols: finalizedSymbols.concat(e.nativeEvent.data),
+                    display: finalizedSymbols.concat(e.nativeEvent.data), english: newEnglish
+                })
+            }
+
+            // "Translate" after each space
+            if (/\s/.test(e.nativeEvent.data)) {
+                const splitBySpace = display.split(" ");
+                // eslint-disable-next-line no-useless-escape
+                const test2 = splitBySpace.map(word => word.replace(/[^a-zA-Z0-9./<>?;:"'`!@#$%^&*()\[\]{}_+=|\\-]+/g, "<English>"))
+                const print = test2.join(" ");
+                this.setState({ translation: print })
+            }
+        }
+        else if (e.nativeEvent.inputType === "deleteContentBackward") {
+            if (display.length === finalizedSymbols.length) {
+                this.setState({
+                    display: display.slice(0, -1),
+                    finalizedSymbols: finalizedSymbols.slice(0, -1), queue: ''
+                })
+            } else if (display.length >= finalizedSymbols.length) {
+                this.setState({ display: display.slice(0, -1), queue: '' })
+            } else {
+                console.log("SHOULDN'T BE HERE");
+            }
+        }
+        // If, after inputing the newest letter, the queue has no match in the dictionary we return the last valid symbol
+        // and begin a new queue with the new letter
+        else if (typeof dict[updatedQueue] === "undefined") {
+            console.log("Not defined");
+            this.setState({
+                queue: e.nativeEvent.data, finalizedSymbols: finalizedSymbols.concat(dict[queue]),
+                display: finalizedSymbols.concat(dict[queue].concat(dict[e.nativeEvent.data]))
+            })
+            console.log("Added in final form:", dict[queue], " ", updatedQueue);
+
+        }
+        else if (stoppers.test(queue.concat(e.nativeEvent.data))) {
 
             const finalSymbol = dict[updatedQueue];
             console.log("Added in final form:", finalSymbol, " ", updatedQueue);
 
-            this.setState({ queue: '', finalizedSymbols: finalizedSymbols.concat(finalSymbol), display: finalizedSymbols.concat(finalSymbol), english: newEnglish })
-        } else if (updatedQueue.length === 1) {
+            this.setState({
+                queue: '', finalizedSymbols: finalizedSymbols.concat(finalSymbol),
+                display: finalizedSymbols.concat(finalSymbol), english: newEnglish
+            })
+        }
+        else if (updatedQueue.length === 1 || updatedQueue.length === 2 || updatedQueue.length === 3) {
             console.log("Queue len == 1", dict[updatedQueue])
-            this.setState({ display: finalizedSymbols.concat(dict[updatedQueue]), queue: updatedQueue, english: newEnglish })
-        } else if (updatedQueue.length === 2) {
-            console.log("Queue len == 2", dict[updatedQueue])
-            this.setState({ display: finalizedSymbols.concat(dict[updatedQueue]), queue: updatedQueue, english: newEnglish })
-        } else if (updatedQueue.length === 3) {
-            const iTest = /[A-z]i[A-z]/;
-            if (iTest.test(updatedQueue)) {
-                this.setState({ queue: updatedQueue.slice(0, -1), finalizedSymbols: finalizedSymbols.concat(dict[queue]), english: newEnglish, display: finalizedSymbols.concat(dict[queue]).concat(dict[e.nativeEvent.data]) })
-                console.log("Added in final form:", dict[queue], " ", queue);
-
-            } else {
-                console.log("ENDED UP IN LENGTH THREE")
-                this.setState({ display: finalizedSymbols.concat(dict[updatedQueue]), queue: updatedQueue, english: newEnglish })
-
-            }
-        } else if (updatedQueue.length === 4) {
-            const iTest = /[A-z][A-z]i[^e]/;
-            if (iTest.test(updatedQueue)) {
-                console.log("HERE")
-                this.setState({ queue: updatedQueue.slice(0, -1), finalizedSymbols: finalizedSymbols.concat(dict[queue]), english: newEnglish, display: finalizedSymbols.concat(dict[queue]).concat(dict[e.nativeEvent.data]) })
-                console.log("Added in final form:", dict[queue], " ", queue);
-
-            } else {
-                console.log("ENDED UP IN LENGTH FOUR")
-
-            }
+            this.setState({
+                display: finalizedSymbols.concat(dict[updatedQueue]),
+                queue: updatedQueue, english: newEnglish
+            })
         }
 
         console.log(newEnglish);
-        // Regex for e, u, a, o
-        // if FALSE that then it's a new symbol.    UNLESS IT'S 'i'
-        // provisional goes to the final string
-        // the newest letter goes to the queue
-        // there's a new provisional
-        // If TRUE than current symbol updates
-        // the updated symbol is added to finalizedSymbols
-        // provisionalSymbol is again an empty string
-
-
-
-        // this.setState({ before: before.concat(e.nativeEvent.data), after: e.target.value });
-        // console.log("Last keypress: ", e.nativeEvent.data);
-        // console.log("After, visible input field:", this.state.);
-        // console.log(dict[e.target.value]);
+        console.log("updatedQueue: ", updatedQueue);
     }
+
+    englishToTigrinya(e) {
+        const { display } = this.state;
+        this.setState({ display: e.target.value });
+        if (/\s/.test(e.nativeEvent.data)) {
+            const splitBySpace = display.split(" ");
+            // eslint-disable-next-line no-useless-escape
+            const test2 = splitBySpace.map(word => word.replace(/[^0-9./<>?;:"'`!@#$%^&*()\[\]{}_+=|\\-]+/g, "<Tigrinya>"))
+            const print = test2.join(" ");
+            this.setState({ translation: print });
+        }
+    }
+
+    improveTranslation() {
+        const { improveTranslation, translation } = this.state;
+        this.setState({ improveTranslation: !improveTranslation, improvedTranslation: translation });
+    }
+
+    improveChangeHandler(e) {
+        this.setState({ improvedTranslation: e.target.value });
+    }
+
+    handleSubmit(e) {
+        alert(`The improved translation is: ${this.state.improvedTranslation}`);
+        e.preventDefault();
+    }
+
+    switchTranslations() {
+        const { TigrinyaToEnglish } = this.state;
+        this.setState({ TigrinyaToEnglish: !TigrinyaToEnglish, display: '', queue: '', translation: '', improvedTranslation: '', english: '', improveTranslation: false })
+    }
+
 
     render() {
 
-        const { display, dict } = this.state;
-        console.log("DICT: ", dict);
-
+        const { display, translation, TigrinyaToEnglish, improveTranslation, improvedTranslation } = this.state;
         return (
-            <div>
-                <input type='text' value={display} onChange={(e) => this.changeHandler(e)} />
-            </div>
-        )
-    }
+            <Container>
+                <button type="button" onClick={this.switchTranslations}>Switch</button>
+                {TigrinyaToEnglish ?
+                    <Row>
+                        <Col md={6} lg={6}>
+                            <p>Translate from Tigrinya to English</p>
+                            <div>
+                                <input type='text' value={display} onChange={(e) => this.tigrinyaToEnglish(e)} />
+                            </div>
+                        </Col>
+
+                        <Col md={6} lg={6}>
+                            <div>
+                                <p>{translation}</p>
+                            </div>
+                            <div>
+                                {improveTranslation ?
+                                    <form onSubmit={this.handleSubmit}>
+                                        <input type='text' value={improvedTranslation} onChange={this.improveChangeHandler} />
+                                        <button type="submit">Submit</button>
+                                    </form>
+                                    : <button type="button" onClick={this.improveTranslation}>Improve translation</button>}
+                            </div>
+                        </Col>
+                    </Row> :
+
+                    <Row>
+                        <Col md={6} lg={6}>
+                            <p>Translate from English to Tigrinya</p>
+                            <div>
+                                <input type='text' value={display} onChange={this.englishToTigrinya} onKeyUp={() => setTimeout(e => this.englishToTigrinya(e), 3000)} />
+                            </div>
+                        </Col>
+
+                        <Col md={6} lg={6}>
+                            <div>
+                                <p>{translation}</p>
+                            </div>
+                            <div>
+                                {improveTranslation ?
+                                    <form onSubmit={this.handleSubmit}>
+                                        <input type='text' value={improvedTranslation} onChange={this.improveChangeHandler} />
+                                        <button type="submit">Submit</button>
+                                    </form>
+                                    : <button type="button" onClick={this.improveTranslation}>Improve translation</button>}
+                            </div>
+                        </Col>
+                    </Row>}
+            </Container>
+
+        );
+    };
 };
