@@ -1,8 +1,9 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-nested-ternary */
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const Keyboard = ({ keyboard, keyboardSet, shift, keyLang, handleClick,
-    handleClickTgr, show }) => {
+const Keyboard = ({ keyboard, keyboardSet, shift, keyLang, handleClick, handleClickTgr, show }) => {
     const keyLayout = keyboard.length ? (
         keyboard.map(key => {
             // var handleClick = keyLang === 'Eng' ? {handleClick}: 'handleClickTgr';

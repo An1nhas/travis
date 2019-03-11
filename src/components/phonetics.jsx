@@ -114,7 +114,7 @@ export default class Phonetics extends Component {
 
     englishToTigrinya(e) {
         const { display } = this.state;
-        this.setState({ display: e.target.value });
+        if (e) this.setState({ display: e.target.value });
         if (/\s/.test(e.nativeEvent.data)) {
             const splitBySpace = display.split(" ");
             // eslint-disable-next-line no-useless-escape
@@ -141,7 +141,7 @@ export default class Phonetics extends Component {
 
     switchTranslations() {
         const { TigrinyaToEnglish } = this.state;
-        this.setState({ TigrinyaToEnglish: !TigrinyaToEnglish, display: '', queue: '', translation: '', improvedTranslation: '', english: '', improveTranslation: false })
+        this.setState({ finalizedSymbols: '', TigrinyaToEnglish: !TigrinyaToEnglish, display: '', queue: '', translation: '', improvedTranslation: '', english: '', improveTranslation: false })
     }
 
 
@@ -179,7 +179,7 @@ export default class Phonetics extends Component {
                         <Col md={6} lg={6}>
                             <p>Translate from English to Tigrinya</p>
                             <div>
-                                <input type='text' value={display} onChange={this.englishToTigrinya} onKeyUp={setTimeout(e => this.englishToTigrinya(e), 3000)} />
+                                <input type='text' value={display} onChange={this.englishToTigrinya} />
                             </div>
                         </Col>
 

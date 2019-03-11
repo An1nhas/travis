@@ -14,6 +14,8 @@ class Display extends Component {
       shift: false,
       show: false
     }
+    this.handleClick = this.handleClick.bind(this);
+    this.handleClickTgr = this.handleClickTgr.bind(this);
   }
   ;
   componentDidMount() {
