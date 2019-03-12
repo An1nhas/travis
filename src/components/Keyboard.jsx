@@ -1,36 +1,55 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable no-nested-ternary */
-import React from 'react';
+import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Suggestions from './Suggestions';
 
-const Keyboard = ({ keyboard, keyboardSet, shift, keyLang, handleClick, handleClickTgr, show }) => {
+const Keyboard = ({keyboard, keyboardSet, shift, keyLang, handleClick, 
+    handleClickTgr, show, target}) => {
     const keyLayout = keyboard.length ? (
         keyboard.map(key => {
-            // var handleClick = keyLang === 'Eng' ? {handleClick}: 'handleClickTgr';
-            const keyCurrent = keyLang === 'Eng' ? (
-                keyboardSet === 0 && shift === false ? key.keyEng :
-                    keyboardSet === 0 && shift === true ? key.keyEngShift :
-                        keyboardSet === 1 ? key.keyNum : key.keyPunct) :
-                (keyboardSet === 0 && shift === false ? key.keyTgr :
-                    keyboardSet === 0 && shift === true ? key.keyEngShift :
-                        keyboardSet === 1 ? key.keyNum : key.keyPunct);
+            var arrSgg = [];
+            var handleClickAll = keyLang === 'Tgr' && keyboardSet === 0 ? handleClickTgr: handleClick;
+            var keyCurrent = keyLang === 'Eng' ? (
+                keyboardSet === 0 && shift === false ? key.keyEng : 
+                keyboardSet === 0 && shift === true ? key.keyEngShift :
+                keyboardSet === 1 ? key.keyNum : key.keyPunct) :
+                (keyboardSet === 0 && shift === false ? key.keyTgr : 
+                keyboardSet === 0 && shift === true ? key.keyTgrShift :
+                keyboardSet === 1 ? key.keyNum : key.keyPunct);
             return (
-                <span>
-                    <button key={key.id} className="btns" onClick={handleClick}
+                <span key={key.id}>
+                    {shift === true && keyCurrent === "Shift" ? 
+                        <button key={key.id}  className="btns" 
+                        style={{color: "red"}} onClick={handleClickAll}
+                        value={keyCurrent} id={key.id}>{keyCurrent}</button> :
+                        <button key={key.id}  className="btns" onClick={handleClickAll}
                         value={keyCurrent} id={key.id}>{keyCurrent}</button>
-                    <div className="suggestions"
-                        style={{ display: "none" }}></div>
-                </span>
+                    }
+                    {show === true && shift === false ? (
+                        keyCurrent === target ? (
+                                <Suggestions suggestions={key.suggestions} />    
+                        ) : 
+                            (<span></span>)) : 
+                    show === true && shift === true ? (
+                        keyCurrent === target ? (
+                            <Suggestions suggestions={key.suggestionsShift} />    
+                        ) :
+                            (<span></span>)) : 
+                    (<span className="suggestionsHidden"
+                            ></span> )
+                    }
+                </span> 
             )
         })
     ) : (
-            <p>No keyboard found</p>
-        );
+        <p>No keyboard found</p>
+    );
     return (
-        <div>
+        <div id="keyboard">
             {keyLayout}
         </div>
     )
 };
 
 export default Keyboard;
+
+
