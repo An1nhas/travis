@@ -3,76 +3,86 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Keyboard from './Keyboard';
 import data from '../keyboardObj'
 
+
+var ReactDOM = require('react-dom')
+
 class Display extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      keyboard: [],
-      display: '',
-      keyboardSet: 0,
-      keyLang: 'Eng',
-      shift: false,
-      show: false
-    }
+        keyboard: [],
+        display: '',
+        keyboardSet: 0,
+        keyLang: 'Eng',
+        shift: false,
+        show: true,
+        target: null
+    };
+    
     this.handleClick = this.handleClick.bind(this);
     this.handleClickTgr = this.handleClickTgr.bind(this);
-  }
-  ;
+  };
   componentDidMount() {
-    if (data) {
+    if(data) {
       this.setState({
         keyboard: data.keyData
-      });
-    }
+      });    
+    };
+    
   };
-
-  handleClick(e) {
-    // if (e.target.value.match(/^[!-}\u20AC]{1}$/)) {
+  
+  handleClick = (e) => {
+    //if (e.target.value.match(/^[!-}\u20AC]{1}$/)) {
     this.setState({
       show: false
     })
     if (e.target.value.match(/^.{1}$/)) {
       this.setState({
-        display: this.state.display + e.target.value
+        display: document.getElementById("input-field").value + e.target.value
       })
     } else if (e.target.value === "Clear") {
       this.setState({
-        display: this.state.display.slice(0, this.state.display.length - 1)
-      })
+        display: document.getElementById("input-field").value.slice(0, document.getElementById("input-field").value.length-1)
+      }) 
     } else if (e.target.value === "123.,") {
       this.setState({
-        keyboardSet: 1
+        keyboardSet: 1,
+        display: document.getElementById("input-field").value
       })
     } else if (e.target.value === "#+=") {
       this.setState({
-        keyboardSet: 2
+        keyboardSet: 2,
+        display: document.getElementById("input-field").value
       })
     } else if (e.target.value === "abc") {
       this.setState({
-        keyboardSet: 0
+        keyboardSet: 0,
+        display: document.getElementById("input-field").value
       })
     } else if (e.target.value === "Shift") {
       this.setState({
-        shift: this.state.shift === false
+        shift: this.state.shift === false ? true : false,
+        display: document.getElementById("input-field").value
       })
     } else if (e.target.value === "space") {
       this.setState({
-        display: `${this.state.display} `
+        display: document.getElementById("input-field").value + ' '
       })
     } else if (e.target.value === "lng") {
       this.setState({
-        keyLang: this.state.keyLang === "Eng" ? "Ngr" : "Eng"
+        keyLang: this.state.keyLang === "Eng" ? "Tgr" : "Eng",
+        keyboardSet: 0,
+        display: document.getElementById("input-field").value
       })
     }
   };
 
-  handleClickTgr(e) {
-    this.setState({
-      show: false
-    })
+  handleClickTgr = (e) => {
     if (e.target.value.match(/^.{1}$/)) {
       this.setState({
-        show: true
+        show: true,
+        target: e.target.value,
+        display: document.getElementById("input-field").value
       })
     } else {
       this.handleClick(e);
@@ -84,13 +94,15 @@ class Display extends Component {
     return (
       <div className="container">
         <input id="input-field" value={this.state.display}></input>
-        <Keyboard keyboard={this.state.keyboard}
-          handleClick={this.handleClick}
+        <div id="suggestion-field" value=""></div>
+        <Keyboard keyboard={this.state.keyboard} 
+          handleClick={this.handleClick} 
           keyboardSet={this.state.keyboardSet}
-          shift={this.state.shift}
+          shift={this.state.shift} 
           keyLang={this.state.keyLang}
-          handleClickTgr={this.state.handleClickTgr}
-          show={this.state.show} />
+          handleClickTgr={this.handleClickTgr}
+          show={this.state.show}
+          target={this.state.target} />
       </div>
     );
   }
