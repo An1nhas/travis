@@ -18,25 +18,25 @@ export default class Footer extends Component {
 
       <div className="Footer">
       <div className="container">
-     <h3 style={{marginBottom: '100px'}}>Partners</h3>
+     <h3 style={{marginBottom: '80px'}}>Partners</h3>
      <Row>
-            <Col>
-            <img src={partner1} id="logo" alt="logo" />
+            <Col md={2} xs={4}>
+            <img src={partner1} className="logo" alt="logo" />
             </Col>
-            <Col>
-            <img src={partner2} id="logo" alt="logo" />
+            <Col md={2} xs={4}>
+            <img src={partner2} className="logo" alt="logo" />
             </Col>
-            <Col>
-            <img src={partner3} id="logo" alt="logo" />
+            <Col md={2} xs={4}>
+            <img src={partner3} className="logo" alt="logo" />
             </Col>
-            <Col>
-            <img src={partner4} id="logo" alt="logo" />
+            <Col md={2} xs={4}>
+            <img src={partner4} className="logo" alt="logo" />
             </Col>
-            <Col>
-            <img src={partner5} id="logo" alt="logo" />
+            <Col md={2} xs={4}>
+            <img src={partner5} className="logo" alt="logo" />
             </Col>
-            <Col>
-            <img src={partner6} id="logo" alt="logo" />
+            <Col md={2} xs={4}>
+            <img src={partner6} className="logo" alt="logo" />
             </Col>
          </Row>
      <Row>
@@ -71,7 +71,3 @@ export default class Footer extends Component {
   }
 
 }
-
-
-
-
