@@ -13,7 +13,7 @@ export default class Navigation extends Component {
     }
   }
 
-  toggle() {
+  toggle = () => {
     const { isOpen } = this.state;
     this.setState({
       isOpen: !isOpen
@@ -35,6 +35,9 @@ export default class Navigation extends Component {
               </NavItem>
               <NavItem className="ml-auto">
                 <NavLink href="/about"><Button outline color="secondary">About</Button></NavLink>
+              </NavItem>
+              <NavItem className="ml-auto">
+                <NavLink href="/Tigrinya"><Button outline color="secondary">Tigrinya</Button></NavLink>
               </NavItem>
             </Nav>
           </Collapse>
