@@ -88,7 +88,6 @@ export default class Phonetics extends Component {
                 display: finalizedSymbols.concat(dict[queue].concat(dict[e.nativeEvent.data]))
             })
             console.log("Added in final form:", dict[queue], " ", updatedQueue);
-
         }
         else if (stoppers.test(queue.concat(e.nativeEvent.data))) {
 
