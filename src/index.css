@@ -1,20 +1,15 @@
 code {
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
-
 .Homepage{
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
-
 .About{
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
-
-
 .Tigrinya{
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
-
 #logo{
   width: 6em;
   margin-bottom: -50px;
@@ -22,39 +17,31 @@ code {
   margin-left: 10px;
   box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.5);
 }
-
 .container{
   margin-top: 80px;
   text-align: center;
 }
-
-
 .Title{
   margin-bottom: 50px;
 }
-
 #photo{
   width: 100%;
   margin-top: 20px;
   box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.5);
 }
-
 .About p{
   text-align: justify;
   margin-bottom: 30px;
   margin-top: 40px;
 }
-
 .sub_title{
   font-size: 20px;
   margin-top: 50px;
 }
-
 #Title{
   margin-bottom: 50px;
   margin-top: 50px;
 }
-
 h1{
   margin-bottom: 80px;
 }
@@ -83,35 +70,27 @@ h1{
   margin-top: 20px;
   box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.5);
 }
-
-
 .Tigrinya p{
   text-align: justify;
   margin-bottom: 30px;
   margin-top: 40px;
 }
-
-
 .Tigrinya h1{
   margin-top: 30px;
 }
-
-
 .Footer{
   text-align: center;
   margin-bottom: 80px;
 }
-
-.Footer img{
-  width: 70%;
-}
-
-
 .Footer h3{
   margin-top: 100px;
 }
-
 .Footer p{
   text-align: center;
   margin: 0;
+}
+.logo{
+  width:70%;
+  box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.5);
+  margin-top: 20px;
 }
