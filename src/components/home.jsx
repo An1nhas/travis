@@ -3,6 +3,7 @@ import Navigation from './Navigation';
 import Phonetics from './phonetics';
 // eslint-disable-next-line
 import Display from './Display';
+import Footer from './Footer';
 
 const Home = () => {
   return (
@@ -18,6 +19,7 @@ const Home = () => {
       <div>
         <Display />
       </div>
+      <Footer />
     </div>
 
   );
