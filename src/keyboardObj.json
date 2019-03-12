@@ -15,6 +15,16 @@
                 "ቄ",
                 "ቅ",
                 "ቆ"
+            ],
+            "keyTgrShift": "ቐ",
+            "suggestionsShift": [
+                "ቐ",
+                "ቑ",
+                "ቒ",
+                "ቓ",
+                "ቔ",
+                "ቕ",
+                "ቖ"
             ]
         },
         {
@@ -32,6 +42,14 @@
                 "ዌ",
                 "ው",
                 "ዎ"
+            ],
+            "keyTgrShift": "ቘ",
+            "suggestionsShift": [
+                "ቘ",
+                "ቚ",
+                "ቛ",
+                "ቜ",
+                "ቜ"
             ]
         },
         {
@@ -43,6 +61,14 @@
             "keyTgr": "አ",
             "suggestions": [
                 "አ"
+            ],
+            "keyTgrShift": "ቈ",
+            "suggestionsShift": [
+                "ቈ",
+                "ቊ",
+                "ቋ",
+                "ቌ",
+                "ቍ"
             ]
         },
         {
@@ -53,6 +79,16 @@
             "keyPunct": "}",
             "keyTgr": "ረ",
             "suggestions": [
+                "ረ",
+                "ሩ",
+                "ሪ",
+                "ራ",
+                "ሬ",
+                "ር",
+                "ሮ"
+            ],
+            "keyTgrShift": "ረ",
+            "suggestionsShift": [
                 "ረ",
                 "ሩ",
                 "ሪ",
@@ -77,6 +113,16 @@
                 "ቴ",
                 "ት",
                 "ቶ"
+            ],
+            "keyTgrShift": "ጠ",
+            "suggestionsShift": [
+                "ጠ",
+                "ጡ",
+                "ጢ",
+                "ጣ",
+                "ጤ",
+                "ጥ",
+                "ጦ"
             ]
         },
         {
@@ -94,6 +140,15 @@
                 "ዬ",
                 "ይ",
                 "ዮ"
+            ],
+            "keyTgrShift": "ኀ",
+            "suggestionsShift": [
+                "ኁ",
+                "ኂ",
+                "ኃ",
+                "ኄ",
+                "ኅ",
+                "ኆ"
             ]
         },
         {
@@ -104,6 +159,10 @@
             "keyPunct": "^",
             "keyTgr": "ኡ",
             "suggestions": [
+                "ኡ"
+            ],
+            "keyTgrShift": "ኡ",
+            "suggestionsShift": [
                 "ኡ"
             ]
         },
@@ -116,7 +175,9 @@
             "keyTgr": "ኢ",
             "suggestions": [
                 "ኢ"
-            ]
+            ],
+            "keyTgrShift": "ኤ",
+            "suggestionsShift": ["ኤ"]
         },
         {
             "id": 8,
@@ -124,7 +185,20 @@
             "keyEngShift": "O",
             "keyNum": 9,
             "keyPunct": "+",
-            "keyTgr": "ኦ"
+            "keyTgr": "ኦ",
+            "suggestions": [
+                "ኦ"
+            ],
+            "keyTgrShift": "ዐ",
+            "suggestionsShift": [
+                "ዐ",
+                "ዑ",
+                "ዒ",
+                "ዓ",
+                "ዔ",
+                "ዕ",
+                "ዖ"
+            ]
         },
         {
             "id": 9,
@@ -141,6 +215,16 @@
                 "ፔ",
                 "ፕ",
                 "ፖ"
+            ],
+            "keyTgrShift": "ጰ",
+            "suggestionsShift": [
+                "ጰ",
+                "ጱ",
+                "ጲ",
+                "ጳ",
+                "ጴ",
+                "ጵ",
+                "ጶ"
             ]
         },
         {
@@ -152,6 +236,10 @@
             "keyTgr": "ኣ",
             "suggestions": [
                 "ኣ"
+            ],
+            "keyTgrShift": "እ",
+            "suggestionsShift": [
+                "እ"
             ]
         },
         {
@@ -169,6 +257,16 @@
                 "ሴ",
                 "ስ",
                 "ሶ"
+            ],
+            "keyTgrShift": "ሸ",
+            "suggestionsShift": [
+                "ሸ",
+                "ሹ",
+                "ሺ",
+                "ሻ",
+                "ሼ",
+                "ሽ",
+                "ሾ"
             ]
         },
         {
@@ -186,6 +284,16 @@
                 "ዴ",
                 "ድ",
                 "ዶ"
+            ],
+            "keyTgrShift": "ሠ",
+            "suggestionsShift": [
+                "ሠ",
+                "ሡ",
+                "ሢ",
+                "ሣ",
+                "ሤ",
+                "ሥ",
+                "ሦ"
             ]
         },
         {
@@ -203,6 +311,14 @@
                 "ፌ",
                 "ፍ",
                 "ፎ"
+            ],
+            "keyTgrShift": "ጐ",
+            "suggestionsShift": [
+                "ጐ",
+                "ጒ",
+                "ጓ",
+                "ጔ",
+                "ጕ"
             ]
         },
         {
@@ -220,6 +336,21 @@
                 "ጌ",
                 "ግ",
                 "ጎ"
+            ],
+            "keyTgrShift": "ጘ",
+            "suggestionsShift": [
+                "ጘ",
+                "ጙ",
+                "ጚ",
+                "ጛ",
+                "ጜ",
+                "ጝ",
+                "ጞ",
+                "ⶓ",
+                "ⶔ",
+                "ጟ",
+                "ⶕ",
+                "ⶖ"
             ]
         },
         {
@@ -237,6 +368,16 @@
                 "ሄ",
                 "ህ",
                 "ሆ"
+            ],
+            "keyTgrShift": "ሐ",
+            "suggestionsShift": [
+                "ሐ",
+                "ሑ",
+                "ሒ",
+                "ሓ",
+                "ሔ",
+                "ሕ",
+                "ሖ"
             ]
         },
         {
@@ -254,6 +395,14 @@
                 "ጄ",
                 "ጅ",
                 "ጆ"
+            ],
+            "keyTgrShift": "ዀ",
+            "suggestionsShift": [
+                "ዀ",
+                "ዂ",
+                "ዃ",
+                "ዄ",
+                "ዅ"
             ]
         },
         {
@@ -271,6 +420,16 @@
                 "ኬ",
                 "ክ",
                 "ኮ"
+            ],
+            "keyTgrShift": "ኸ",
+            "suggestionsShift": [
+                "ኸ",
+                "ኹ",
+                "ኺ",
+                "ኻ",
+                "ኼ",
+                "ኽ",
+                "ኾ"
             ]
         },
         {
@@ -288,6 +447,14 @@
                 "ሌ",
                 "ል",
                 "ሎ"
+            ],
+            "keyTgrShift": "ኰ",
+            "suggestionsShift": [
+                "ኰ",
+                "ኲ",
+                "ኳ",
+                "ኴ",
+                "ኵ"
             ]
         },
         {
@@ -296,7 +463,8 @@
             "keyEngShift": "Shift",
             "keyNum": "#+=",
             "keyPunct": "123.,",
-            "keyTgr": "Shift"
+            "keyTgr": "Shift",
+            "keyTgrShift": "Shift"
         },
         {
             "id": 20,
@@ -313,6 +481,16 @@
                 "ዜ",
                 "ዝ",
                 "ዞ"
+            ],
+            "keyTgrShift": "ዠ",
+            "suggestionsShift": [
+                "ዠ",
+                "ዡ",
+                "ዢ",
+                "ዣ",
+                "ዤ",
+                "ዥ",
+                "ዦ"
             ]
         },
         {
@@ -330,6 +508,16 @@
                 "ጼ",
                 "ጽ",
                 "ጾ"
+            ],
+            "keyTgrShift": "ፀ",
+            "suggestionsShift": [
+                "ፀ",
+                "ፁ",
+                "ፂ",
+                "ፃ",
+                "ፄ",
+                "ፅ",
+                "ፆ"
             ]
         },
         {
@@ -347,6 +535,16 @@
                 "ቼ",
                 "ች",
                 "ቾ"
+            ],
+            "keyTgrShift": "ጨ",
+            "suggestionsShift": [
+                "ጨ",
+                "ጩ",
+                "ጪ",
+                "ጫ",
+                "ጬ",
+                "ጭ",
+                "ጮ"
             ]
         },
         {
@@ -357,6 +555,16 @@
             "keyPunct": "!",
             "keyTgr": "ቨ",
             "suggestions": [
+                "ቨ",
+                "ቩ",
+                "ቪ",
+                "ቫ",
+                "ቬ",
+                "ቭ",
+                "ቮ"
+            ],
+            "keyTgrShift": "ቨ",
+            "suggestionsShift": [
                 "ቨ",
                 "ቩ",
                 "ቪ",
@@ -381,6 +589,14 @@
                 "ቤ",
                 "ብ",
                 "ቦ"
+            ],
+            "keyTgrShift": "ኈ",
+            "suggestionsShift": [
+                "ኈ",
+                "ኊ",
+                "ኋ",
+                "ኌ",
+                "ኍ"
             ]
         },
         {
@@ -398,6 +614,16 @@
                 "ኔ",
                 "ን",
                 "ኖ"
+            ],
+            "keyTgrShift": "ኘ",
+            "suggestionsShift": [
+                "ኘ",
+                "ኙ",
+                "ኚ",
+                "ኛ",
+                "ኜ",
+                "ኝ",
+                "ኞ"
             ]
         },
         {
@@ -415,6 +641,16 @@
                 "ሜ",
                 "ም",
                 "ሞ"
+            ],
+            "keyTgrShift": "መ",
+            "suggestionsShift": [
+                "መ",
+                "ሙ",
+                "ሚ",
+                "ማ",
+                "ሜ",
+                "ም",
+                "ሞ"
             ]
         },
         {
@@ -423,7 +659,8 @@
             "keyEngShift": "Clear",
             "keyNum": "Clear",
             "keyPunct": "Clear",
-            "keyTgr": "Clear"
+            "keyTgr": "Clear",
+            "keyTgrShift": "Clear"
         },
         {
             "id": 28,
@@ -431,7 +668,8 @@
             "keyEngShift": "123.,",
             "keyNum": "abc",
             "keyPunct": "abc",
-            "keyTgr": "123.,"
+            "keyTgr": "123.,",
+            "keyTgrShift": "123.,"
         },
         {
             "id": 29,
@@ -439,7 +677,8 @@
             "keyEngShift": "lng",
             "keyNum": "lng",
             "keyPunct": "lng",
-            "keyTgr": "lng"
+            "keyTgr": "lng",
+            "keyTgrShift": "lng"
         },
         {
             "id": 30,
@@ -447,7 +686,8 @@
             "keyEngShift": "micro",
             "keyNum": "micro",
             "keyPunct": "micro",
-            "keyTgr": "micro"
+            "keyTgr": "micro",
+            "keyTgrShift": "micro"
         },
         {
             "id": 31,
@@ -455,7 +695,8 @@
             "keyEngShift": "space",
             "keyNum": "space",
             "keyPunct": "space",
-            "keyTgr": "space"
+            "keyTgr": "space",
+            "keyTgrShift": "space"
         },
         {
             "id": 32,
@@ -463,7 +704,8 @@
             "keyEngShift": "return",
             "keyNum": "return",
             "keyPunct": "return",
-            "keyTgr": "return"
+            "keyTgr": "return",
+            "keyTgrShift": "return"
         }
     ]
 }
