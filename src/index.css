@@ -52,17 +52,57 @@ h1{
 }
 
 #keyboard {
-  position: relative;
+  border: 1px solid darkgray;
+  padding: 35px 10px 10px 10px;
+  margin: auto;
+  width: 100%;
+  text-align: center;
+}
+
+@media screen and (max-width: 1260px) {
+  .btns { font-size: 10px !important;
+  }
+  .suggestionList button{
+    font-size: 11px !important;
+  }
 }
 
 .btns {
+  background-color: white;
+  border: 1px solid darkgray;
+  color: darkgrey;
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 4px;
   display: inline-block;
+  width: 10%;
+  overflow: hidden;
+}
+
+#\33 1{
+  width: 50%;
+}
+
+
+#\32 8, #\33 2, #\33 0{
+  width: auto;
+}
+
+
+#\31 9, #\32 7{
+  width: 15%;
 }
 
 .suggestionList {
   position: absolute;
-  right: 0;
-  top: -30px;
+  top: 0;
+}
+
+.suggestionList button{
+  background-color: antiquewhite;
+  margin-left: 2px;
+  margin-right: 2px;
+  width: 4.5em;
 }
 
 
