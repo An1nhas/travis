@@ -14,10 +14,7 @@ const Home = () => {
         {/* <p style={{ fontFamily: 'Patua One' }}>ljc,hjcghgcx,hgcx,hxhx</p> */}
       </div>
       <div>
-       { /*<Phonetics />*/}
-      </div>
-      <div>
-        <Display />
+        <Phonetics />
       </div>
       <Footer />
     </div>
