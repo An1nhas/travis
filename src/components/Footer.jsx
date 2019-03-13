@@ -44,16 +44,16 @@ export default class Footer extends Component {
          <h3>Contact US</h3>
          <p><a href="mailto:hello@travis.foundation" style={{color: 'black'}}><FaEnvelope /> hello@travis.foundation</a></p>
          <Row className="justify-content-center">
-             <Col sm={2}>
+             <Col xs={2}>
              <a href="https://www.facebook.com/groups/2094271350851154/" style={{fontSize:'28px', textAlign:'center'}}><FaFacebook /></a>
              </Col>
-             <Col sm={2}>
+             <Col xs={2}>
              <a href="https://www.linkedin.com/company/travisfoundation/" style={{fontSize:'28px', textAlign:'center'}}><FaLinkedin /></a>
              </Col>
-             <Col sm={2}>
+             <Col xs={2}>
              <a href="https://twitter.com/travis_fdn" style={{fontSize:'28px', textAlign:'center'}}><FaTwitter /></a>
              </Col>
-             <Col sm={2}>
+             <Col xs={2}>
              <a href="https://mysocialmate.com/u/travis.foundation" style={{fontSize:'28px', textAlign:'center'}}><FaInstagram /></a>
              </Col>
          </Row>
