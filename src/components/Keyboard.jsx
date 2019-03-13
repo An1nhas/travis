@@ -26,12 +26,12 @@ const Keyboard = ({keyboard, keyboardSet, shift, keyLang, handleClick,
                     }
                     {show === true && shift === false ? (
                         keyCurrent === target ? (
-                                <Suggestions suggestions={key.suggestions} />    
+                                <Suggestions suggestions={key.suggestions} handleClickSugg={handleClick} />    
                         ) : 
                             (<span></span>)) : 
                     show === true && shift === true ? (
                         keyCurrent === target ? (
-                            <Suggestions suggestions={key.suggestionsShift} />    
+                            <Suggestions suggestions={key.suggestionsShift}  handleClickSugg={handleClick} />    
                         ) :
                             (<span></span>)) : 
                     (<span className="suggestionsHidden"
@@ -44,7 +44,7 @@ const Keyboard = ({keyboard, keyboardSet, shift, keyLang, handleClick,
         <p>No keyboard found</p>
     );
     return (
-        <div id="keyboard">
+        <div id="keyboard" className="col-sm-12 col-lg-6">
             {keyLayout}
         </div>
     )
