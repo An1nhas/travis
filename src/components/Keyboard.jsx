@@ -1,19 +1,21 @@
-import React, { Component } from 'react';
+import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Suggestions from './Suggestions';
 
-const Keyboard = ({keyboard, keyboardSet, shift, keyLang, handleClick, 
-    handleClickTgr, show, target}) => {
+const Keyboard = ({ keyboard, keyboardSet, shift, keyLang, handleClick,
+    handleClickTgr, show, target }) => {
     const keyLayout = keyboard.length ? (
         keyboard.map(key => {
-            let handleClickAll = keyLang === 'Tgr' && keyboardSet === 0 ? handleClickTgr: handleClick;
+
+            let handleClickAll = keyLang === 'Tgr' && keyboardSet === 0 ? handleClickTgr : handleClick;
             let keyCurrent = keyLang === 'Eng' ? (
-                keyboardSet === 0 && shift === false ? key.keyEng : 
-                keyboardSet === 0 && shift === true ? key.keyEngShift :
-                keyboardSet === 1 ? key.keyNum : key.keyPunct) :
-                (keyboardSet === 0 && shift === false ? key.keyTgr : 
-                keyboardSet === 0 && shift === true ? key.keyTgrShift :
-                keyboardSet === 1 ? key.keyNum : key.keyPunct);
+                keyboardSet === 0 && shift === false ? key.keyEng :
+                    keyboardSet === 0 && shift === true ? key.keyEngShift :
+                        keyboardSet === 1 ? key.keyNum : key.keyPunct) :
+                (keyboardSet === 0 && shift === false ? key.keyTgr :
+                    keyboardSet === 0 && shift === true ? key.keyTgrShift :
+                        keyboardSet === 1 ? key.keyNum : key.keyPunct);
+          
             return (
                 <span key={key.id}>
                     {shift === true && keyCurrent === "Shift" ? 
