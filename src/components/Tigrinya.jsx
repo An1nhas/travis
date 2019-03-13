@@ -21,10 +21,10 @@ const Tigrinya = () => {
         <Col md={6}>
         <h1>Why Tigrinya?</h1>
         <p>Prolonged conflict and an unsettled political climate have been damaging to the Eritrean quality of life, causing 4,000-5,000 Eritrean people fleeing their homes every month, as estimated by the UNHCR. Without a digitised language, many Eritrean people struggle with language learning, education and integration into new societies. With 500,000 Eritrean refugees in Europe alone, digitising the language will assist in communication in the refugee and migration process as well as promote inclusivity in communities beyond Northern-Africa.</p>
-        <img src={image2} alt="children from Tigrinya" />
+        <img src={image2} alt="children from Tigrinya" id="photo" />
         </Col>
         <Col md={6}>
-        <img src={image} alt="children from Tigrinya" />
+        <img src={image} alt="children from Tigrinya" id="photo" />
         <h1>Crowd-sourced model</h1>
         <p>Travis Foundation digitises lesser resourced languages, that is, languages that don't have significant data collected around them. This means we need to create the corpus and information necessary for digitisation. But we can't do this ourselves. Our community plays a huge part in collecting, translating and providing text on various topics. We match people's skills and interests to different topics required for our language corpus and collaborate to create the data together.</p>
         </Col>
