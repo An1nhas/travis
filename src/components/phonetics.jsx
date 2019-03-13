@@ -2,12 +2,17 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Container, Row, Col } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Keyboard from './Keyboard';
+import data from '../keyboardObj'
 
 
 export default class Phonetics extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            keyboard: [],
+            
             english: '',
             dict: {},
             queue: '',
@@ -16,20 +21,40 @@ export default class Phonetics extends Component {
             translation: '',
             improvedTranslation: '',
             TigrinyaToEnglish: true,
-            improveTranslation: false
+            improveTranslation: false,
+            
+            keyboardSet: 0,
+            keyLang: 'Eng',
+            shift: false,
+            show: true,
+            target: null
         }
         this.improveTranslation = this.improveTranslation.bind(this);
         this.improveChangeHandler = this.improveChangeHandler.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.switchTranslations = this.switchTranslations.bind(this);
         this.englishToTigrinya = this.englishToTigrinya.bind(this);
+
+        this.handleClick = this.handleClick.bind(this);
+        this.handleClickTgr = this.handleClickTgr.bind(this);
     };
 
     componentWillMount() {
         axios.get('http://localhost:8080/api/lang').then(response => this.setState({ dict: response.data }));
     }
 
+    componentDidMount() {
+        if(data) {
+          this.setState({
+            keyboard: data.keyData
+          });    
+        };
+        
+      };
+
+
     tigrinyaToEnglish(e) {
+
         const { finalizedSymbols, queue, english, dict, display } = this.state;
 
         // Letters which end a symbol
@@ -43,15 +68,17 @@ export default class Phonetics extends Component {
         console.log(Date.now());
         console.log(Date.now() + 10 - Date.now());
 
-        if (/[^a-zNKQHPCTZOK2]/.test(e.nativeEvent.data)) {
+        if (/[^a-zNKQHPCTZOKS2]/.test(e.nativeEvent.data)) {
             console.log("Character ", e.nativeEvent.data, " doesn't correspond to anything in Tigrinya");
             if (queue !== '') {
+                
                 const newFinalizedSymbols = finalizedSymbols.concat(dict[queue]).concat(e.nativeEvent.data);
                 this.setState({
                     finalizedSymbols: newFinalizedSymbols,
                     display: newFinalizedSymbols, queue: '', english: newEnglish
                 })
             } else {
+                
                 this.setState({
                     finalizedSymbols: finalizedSymbols.concat(e.nativeEvent.data),
                     display: finalizedSymbols.concat(e.nativeEvent.data), english: newEnglish
@@ -144,6 +171,70 @@ export default class Phonetics extends Component {
     }
 
 
+    handleClick = (e) => {
+
+        this.setState({
+          show: false,
+          queue: ''
+        })
+        if (e.target.value.match(/^.{1}$/)) {
+          this.setState({
+            display: document.getElementById("input-field").value + e.target.value,
+            finalizedSymbols: document.getElementById("input-field").value + e.target.value
+          })
+        } else if (e.target.value === "Clear") {
+          this.setState({
+            display: document.getElementById("input-field").value.slice(0, document.getElementById("input-field").value.length-1)
+          }) 
+        } else if (e.target.value === "123.,") {
+          this.setState({
+            keyboardSet: 1,
+            display: document.getElementById("input-field").value
+          })
+        } else if (e.target.value === "#+=") {
+          this.setState({
+            keyboardSet: 2,
+            display: document.getElementById("input-field").value
+          })
+        } else if (e.target.value === "abc") {
+          this.setState({
+            keyboardSet: 0,
+            display: document.getElementById("input-field").value
+          })
+        } else if (e.target.value === "Shift") {
+          this.setState({
+            shift: this.state.shift === false ? true : false,
+            display: document.getElementById("input-field").value
+          })
+        } else if (e.target.value === "space") {
+          this.setState({
+            display: document.getElementById("input-field").value + ' '
+          })
+        } else if (e.target.value === "lng") {
+          this.setState({
+            keyLang: this.state.keyLang === "Eng" ? "Tgr" : "Eng",
+            keyboardSet: 0,
+            display: document.getElementById("input-field").value
+          })
+        }
+      };
+    
+      handleClickTgr = (e) => {
+        if (e.target.value.match(/^.{1}$/)) {
+          this.setState({
+            queue: '',
+            show: true,
+            target: e.target.value,
+            display: document.getElementById("input-field").value,
+            finalizedSymbols: document.getElementById("input-field").value
+            
+          })
+        } else {
+          this.handleClick(e);
+        }
+      }
+
+
     render() {
 
         const { display, translation, TigrinyaToEnglish, improveTranslation, improvedTranslation } = this.state;
@@ -155,7 +246,7 @@ export default class Phonetics extends Component {
                         <Col md={6} lg={6}>
                             <p>Translate from Tigrinya to English</p>
                             <div>
-                                <input type='text' value={display} onChange={(e) => this.tigrinyaToEnglish(e)} />
+                                <textarea type='text' id="input-field" value={display} onChange={(e) => this.tigrinyaToEnglish(e)} />
                             </div>
                         </Col>
 
@@ -178,7 +269,7 @@ export default class Phonetics extends Component {
                         <Col md={6} lg={6}>
                             <p>Translate from English to Tigrinya</p>
                             <div>
-                                <input type='text' value={display} onChange={this.englishToTigrinya} />
+                                <textarea type='text' id="input-field" value={display} onChange={this.englishToTigrinya} />
                             </div>
                         </Col>
 
@@ -196,6 +287,16 @@ export default class Phonetics extends Component {
                             </div>
                         </Col>
                     </Row>}
+
+                <Keyboard keyboard={this.state.keyboard} 
+                    handleClick={this.handleClick} 
+                    keyboardSet={this.state.keyboardSet}
+                    shift={this.state.shift} 
+                    keyLang={this.state.keyLang}
+                    handleClickTgr={this.handleClickTgr}
+                    show={this.state.show}
+                    target={this.state.target} />
+     
             </Container>
 
         );
