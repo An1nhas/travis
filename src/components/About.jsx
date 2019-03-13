@@ -2,6 +2,9 @@ import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 import NavBar from './Navigation';
 import image from '../assets/team.jpg';
+import Footer from './Footer';
+
+
 
 const About = () => {
 
@@ -23,7 +26,7 @@ const About = () => {
             <p>We envisage a world where language hold no barriers. A world in which someone can visit a doctor, meet a lawyer or talk to a municipality and feel at ease. A world where direct communication exists between everyone, where everyone understands and can be understood.</p>
           </Col>
           <Col md={6}>
-            <img src={image} alt="Team Travis" />
+            <img src={image} alt="Team Travis" id="photo"/>
           </Col>
         </Row>
         <h1 id="Title">What we do</h1>
@@ -45,6 +48,7 @@ const About = () => {
           </Col>
         </Row>
       </div>
+      <Footer />
     </div>
 
   );
