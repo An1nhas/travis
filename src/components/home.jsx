@@ -16,9 +16,6 @@ const Home = () => {
       <div>
         <Phonetics />
       </div>
-      <div>
-        <Display />
-      </div>
       <Footer />
     </div>
 
