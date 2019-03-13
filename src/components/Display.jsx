@@ -3,34 +3,31 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Keyboard from './Keyboard';
 import data from '../keyboardObj'
 
-
-var ReactDOM = require('react-dom')
-
 class Display extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        keyboard: [],
-        display: '',
-        keyboardSet: 0,
-        keyLang: 'Eng',
-        shift: false,
-        show: true,
-        target: null
+      keyboard: [],
+      display: '',
+      keyboardSet: 0,
+      keyLang: 'Eng',
+      shift: false,
+      show: true,
+      target: null
     };
-    
+
     this.handleClick = this.handleClick.bind(this);
     this.handleClickTgr = this.handleClickTgr.bind(this);
   };
   componentDidMount() {
-    if(data) {
+    if (data) {
       this.setState({
         keyboard: data.keyData
-      });    
+      });
     };
-    
+
   };
-  
+
   handleClick = (e) => {
     //if (e.target.value.match(/^[!-}\u20AC]{1}$/)) {
     this.setState({
@@ -42,8 +39,8 @@ class Display extends Component {
       })
     } else if (e.target.value === "Clear") {
       this.setState({
-        display: document.getElementById("input-field").value.slice(0, document.getElementById("input-field").value.length-1)
-      }) 
+        display: document.getElementById("input-field").value.slice(0, document.getElementById("input-field").value.length - 1)
+      })
     } else if (e.target.value === "123.,") {
       this.setState({
         keyboardSet: 1,
@@ -95,10 +92,10 @@ class Display extends Component {
       <div className="container">
         <input id="input-field" value={this.state.display}></input>
         <div id="suggestion-field" value=""></div>
-        <Keyboard keyboard={this.state.keyboard} 
-          handleClick={this.handleClick} 
+        <Keyboard keyboard={this.state.keyboard}
+          handleClick={this.handleClick}
           keyboardSet={this.state.keyboardSet}
-          shift={this.state.shift} 
+          shift={this.state.shift}
           keyLang={this.state.keyLang}
           handleClickTgr={this.handleClickTgr}
           show={this.state.show}
