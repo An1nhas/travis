@@ -6,9 +6,8 @@ const Keyboard = ({keyboard, keyboardSet, shift, keyLang, handleClick,
     handleClickTgr, show, target}) => {
     const keyLayout = keyboard.length ? (
         keyboard.map(key => {
-            var arrSgg = [];
-            var handleClickAll = keyLang === 'Tgr' && keyboardSet === 0 ? handleClickTgr: handleClick;
-            var keyCurrent = keyLang === 'Eng' ? (
+            let handleClickAll = keyLang === 'Tgr' && keyboardSet === 0 ? handleClickTgr: handleClick;
+            let keyCurrent = keyLang === 'Eng' ? (
                 keyboardSet === 0 && shift === false ? key.keyEng : 
                 keyboardSet === 0 && shift === true ? key.keyEngShift :
                 keyboardSet === 1 ? key.keyNum : key.keyPunct) :
