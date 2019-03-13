@@ -1,6 +1,9 @@
+
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Suggestions from './Suggestions';
+import { FaExchangeAlt,FaGlobe, FaMicrophoneAlt, FaBackspace } from 'react-icons/fa';
+import { MdSwapHoriz, MdBackspace, MdSpaceBar, MdKeyboardReturn } from "react-icons/md";
 
 const Keyboard = ({ keyboard, keyboardSet, shift, keyLang, handleClick,
     handleClickTgr, show, target }) => {
@@ -45,7 +48,7 @@ const Keyboard = ({ keyboard, keyboardSet, shift, keyLang, handleClick,
         <p>No keyboard found</p>
     );
     return (
-        <div id="keyboard" className="col-sm-12 col-lg-6">
+        <div id="keyboard" className="col-xs-12 col-md-6">
             {keyLayout}
         </div>
     )

@@ -8,7 +8,8 @@ const Suggestions = ({suggestions, handleClickSugg}) => {
         suggestions.map((el, index) => {
             return (
                 <button onClick={handleClickSugg} value={el}
-                    style={{ color: "red" }} id={index} key={index}>{el}</button>
+                 id={index} key={index}>{el}</button>
+
             )
         })
     ) : (
