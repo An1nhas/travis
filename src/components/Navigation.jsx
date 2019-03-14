@@ -13,7 +13,8 @@ export default class Navigation extends Component {
     }
   }
 
-  toggle=()=> {
+
+  toggle = () => {
     const { isOpen } = this.state;
     this.setState({
       isOpen: !isOpen
