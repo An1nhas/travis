@@ -5,9 +5,10 @@ module.exports = (sequelize, DataTypes) => {
     original: DataTypes.STRING,
     translation: DataTypes.STRING,
     improved_translation: DataTypes.STRING
-  }, {});
-  Corrections.associate = function (models) {
-    // associations can be defined here
-  };
+  }, {
+      freezeTableName: true,
+      tableName: 'Corrections'
+    });
+
   return Corrections;
 };

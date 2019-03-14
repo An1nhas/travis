@@ -5,6 +5,7 @@
 const restify = require('restify');
 const jwt = require('restify-jwt-community');
 const corsMiddleware = require('restify-cors-middleware')
+const sequelize = require('sequelize');
 const config = require('./config/server');
 
 const extensions = require('./lib/extensions.js');
@@ -170,6 +171,16 @@ server.use(routeAuth);
 translate.routes(server);
 ping.routes(server);
 lang.routes(server);
+
+server.get('/api/test', (req, res) => {
+    return db.Corrections.findAll()
+        .then((corr) => res.send(corr))
+        .catch((err) => {
+            console.log("ERROR", JSON.stringify(err));
+            return res.send(err);
+        })
+
+})
 
 
 // store static files on the file system for caching purposes
