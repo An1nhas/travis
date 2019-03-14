@@ -672,24 +672,6 @@
             "keyTgrShift": "123.,"
         },
         {
-            "id": 29,
-            "keyEng": "lng",
-            "keyEngShift": "lng",
-            "keyNum": "lng",
-            "keyPunct": "lng",
-            "keyTgr": "lng",
-            "keyTgrShift": "lng"
-        },
-        {
-            "id": 30,
-            "keyEng": "micro",
-            "keyEngShift": "micro",
-            "keyNum": "micro",
-            "keyPunct": "micro",
-            "keyTgr": "micro",
-            "keyTgrShift": "micro"
-        },
-        {
             "id": 31,
             "keyEng": "space",
             "keyEngShift": "space",
