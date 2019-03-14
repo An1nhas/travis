@@ -274,7 +274,7 @@ export default class Phonetics extends Component {
                                     <div>
                                     <h6 style={{marginTop:'20px'}}>The Sentence Society</h6>
                                     <p style={{fontSize:'14px'}}>By playing this game, you're helping us digitise Tigrinya and and helping your fellow Tigrinya speakers all over the world.</p>
-                                    <a href="https://www.thesentencesociety.org/index.html"><Button id="game_button" outline color="secondary">PLAY GAME</Button></a>
+                                    <a href="https://www.thesentencesociety.org/index.html" id="game_button" outline color="secondary">PLAY GAME</a>
                                      </div>
                                     </Row>
                                     </Form>
@@ -310,7 +310,7 @@ export default class Phonetics extends Component {
                                     <div>
                                     <h6 style={{marginTop:'20px'}}>The Sentence Society</h6>
                                     <p style={{fontSize:'14px'}}>By playing this game, you're helping us digitise Tigrinya and and helping your fellow Tigrinya speakers all over the world.</p>
-                                    <a href="https://www.thesentencesociety.org/index.html"><Button id="game_button" outline color="secondary">PLAY GAME</Button></a>
+                                    <a href="https://www.thesentencesociety.org/index.html" id="game_button" outline color="secondary">PLAY GAME</a>
                                      </div>
                                     </Row>
                                     </Form>
