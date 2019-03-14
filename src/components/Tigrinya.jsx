@@ -32,7 +32,8 @@ const Tigrinya = () => {
     <h1 id="Title">Tigrinya Game</h1>
     <h2>The Sentence Society</h2>
     <p>We are creating game whereby playing, translated sentences are added to our data set. Through the contribution of Tigrinya speakers, we hope to reach 1 million sentences to digitise Tigrinya and make a good quality machine translation. By playing this game, you're helping us digitise Tigrinya and and helping your fellow Tigrinya speakers all over the world.</p>
-    <a href="https://www.thesentencesociety.org/index.html"><Button id="game_button" outline color="secondary">PLAY GAME</Button></a>
+    <h6>Be the first to hear about and play our new game!</h6>
+    <a href="https://travis.foundation/tigrinya-game/#signup"><Button id="game_button" outline color="secondary">Sign Up</Button></a>
     </div>
     <Footer />
     </div>
