@@ -173,13 +173,20 @@ ping.routes(server);
 lang.routes(server);
 
 server.get('/api/test', (req, res) => {
-    return db.Corrections.findAll()
-        .then((corr) => res.send(corr))
-        .catch((err) => {
-            console.log("ERROR", JSON.stringify(err));
-            return res.send(err);
-        })
+    // return db.Corrections.findAll()
+    //     .then((corr) => res.send(corr))
+    //     .catch((err) => {
+    //         console.log("ERROR", JSON.stringify(err));
+    //         return res.send(err);
+    //     })
 
+    return db.query("select * from Corrections", { type: sequelize.QueryTypes.SELECT })
+        .then((result => res.json(result)));
+
+})
+
+server.post('/api/add', (req, res) => {
+    const { original, translation, improved_translation } = req.body;
 })
 
 
