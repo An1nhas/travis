@@ -24,7 +24,6 @@ export default class Phonetics extends Component {
       improveTranslation: false,
 
       keyboardSet: 0,
-      keyLang: 'Eng',
       shift: false,
       show: true,
       target: null
@@ -57,7 +56,7 @@ export default class Phonetics extends Component {
 
 
   tigrinyaToEnglish(e) {
-
+ 
     const { finalizedSymbols, queue, english, dict, display } = this.state;
 
     // Letters which end a symbol
@@ -175,66 +174,63 @@ export default class Phonetics extends Component {
 
 
   handleClick(e) {
-
-    this.setState({
-      show: false,
-      queue: ''
-    })
-    if (e.target.value.match(/^.{1}$/)) {
+    if (typeof e.target.value != 'undefined') {
       this.setState({
-        display: document.getElementById("input-field").value + e.target.value,
-        finalizedSymbols: document.getElementById("input-field").value + e.target.value
+        show: false,
+        queue: ''
       })
-    } else if (e.target.value === "Clear") {
-      this.setState({
-        display: document.getElementById("input-field").value.slice(0, document.getElementById("input-field").value.length - 1)
-      })
-    } else if (e.target.value === "123.,") {
-      this.setState({
-        keyboardSet: 1,
-        display: document.getElementById("input-field").value
-      })
-    } else if (e.target.value === "#+=") {
-      this.setState({
-        keyboardSet: 2,
-        display: document.getElementById("input-field").value
-      })
-    } else if (e.target.value === "abc") {
-      this.setState({
-        keyboardSet: 0,
-        display: document.getElementById("input-field").value
-      })
-    } else if (e.target.value === "Shift") {
-      this.setState({
-        shift: this.state.shift === false,
-        display: document.getElementById("input-field").value
-      })
-    } else if (e.target.value === "space") {
-      this.setState({
-        display: `${document.getElementById("input-field").value} `
-      })
-    } else if (e.target.value === "lng") {
-      this.setState({
-        keyLang: this.state.keyLang === "Eng" ? "Tgr" : "Eng",
-        keyboardSet: 0,
-        display: document.getElementById("input-field").value
-      })
-    }
+      if (e.target.value.match(/^.{1}$/)) {
+        this.setState({
+          display: document.getElementById("input-field").value + e.target.value,
+          finalizedSymbols: document.getElementById("input-field").value + e.target.value
+        })
+      } else if (e.target.value === "Clear") {
+        this.setState({
+          display: document.getElementById("input-field").value.slice(0, document.getElementById("input-field").value.length - 1)
+        })
+      } else if (e.target.value === "123.,") {
+        this.setState({
+          keyboardSet: 1,
+          display: document.getElementById("input-field").value
+        })
+      } else if (e.target.value === "#+=") {
+        this.setState({
+          keyboardSet: 2,
+          display: document.getElementById("input-field").value
+        })
+      } else if (e.target.value === "abc") {
+        this.setState({
+          keyboardSet: 0,
+          display: document.getElementById("input-field").value
+        })
+      } else if (e.target.value === "Shift") {
+        this.setState({
+          shift: this.state.shift === false,
+          display: document.getElementById("input-field").value
+        })
+      } else if (e.target.value === "space") {
+        this.setState({
+          display: `${document.getElementById("input-field").value} `
+        })
+      }
+    };
   };
 
   handleClickTgr(e) {
-    if (e.target.value.match(/^.{1}$/)) {
-      this.setState({
-        queue: '',
-        show: true,
-        target: e.target.value,
-        display: document.getElementById("input-field").value,
-        finalizedSymbols: document.getElementById("input-field").value
+    if (typeof e.target.value != 'undefined') {
+      if (e.target.value.match(/^.{1}$/)) {
+        this.setState({
+          queue: '',
+          show: true,
+          target: e.target.value,
+          display: document.getElementById("input-field").value,
+          finalizedSymbols: document.getElementById("input-field").value
 
-      })
-    } else {
-      this.handleClick(e);
-    }
+        })
+      } else {
+        this.handleClick(e);
+      }
+    };
   }
 
 
