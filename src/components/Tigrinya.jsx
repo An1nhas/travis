@@ -29,10 +29,11 @@ const Tigrinya = () => {
         <p>Travis Foundation digitises lesser resourced languages, that is, languages that don't have significant data collected around them. This means we need to create the corpus and information necessary for digitisation. But we can't do this ourselves. Our community plays a huge part in collecting, translating and providing text on various topics. We match people's skills and interests to different topics required for our language corpus and collaborate to create the data together.</p>
         </Col>
     </Row>
-    <h1>Tigrinya Game</h1>
+    <h1 id="Title">Tigrinya Game</h1>
     <h2>The Sentence Society</h2>
     <p>We are creating game whereby playing, translated sentences are added to our data set. Through the contribution of Tigrinya speakers, we hope to reach 1 million sentences to digitise Tigrinya and make a good quality machine translation. By playing this game, you're helping us digitise Tigrinya and and helping your fellow Tigrinya speakers all over the world.</p>
-    <a href="https://www.thesentencesociety.org/index.html"><Button outline color="secondary">PLAY GAME</Button></a>
+    <h6>Be the first to hear about and play our new game!</h6>
+    <a href="https://travis.foundation/tigrinya-game/#signup"><Button id="game_button" outline color="secondary">Sign Up</Button></a>
     </div>
     <Footer />
     </div>

@@ -4,6 +4,7 @@ import Phonetics from './phonetics';
 // eslint-disable-next-line
 import Display from './Display';
 import Footer from './Footer';
+import {Button} from 'reactstrap';
 
 const Home = () => {
   return (
@@ -12,13 +13,13 @@ const Home = () => {
       <Navigation />
       <div className="container">
         {/* <p style={{ fontFamily: 'Patua One' }}>ljc,hjcghgcx,hgcx,hxhx</p> */}
-      </div>
+    
       <div>
         <Phonetics />
       </div>
       <Footer />
     </div>
-
+</div>
   );
 };
 
