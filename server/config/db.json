@@ -1,7 +1,8 @@
 {
 	"development": {
 		"version": "1.0.0",
-		"storage": "store/development.db",
+		"storage": "database_test.sqlite",
+		"host": "localhost",
 		"dialect": "sqlite",
 		"pool": {
 			"max": 5,
