@@ -76,7 +76,9 @@ h1{
 }
 
 @media screen and (max-width: 1260px) {
-  .btns { font-size: 10px !important;
+  .btns { 
+    font-size: 10px !important;
+    font-weight: bold;
   }
   .suggestionList button{
     font-size: 10px !important;
@@ -114,12 +116,7 @@ h1{
 }
 
 
-#\32 8, #\33 2, #\33 0{
-  width: auto;
-}
-
-
-#\31 9, #\32 7{
+#\31 9, #\32 7, #\33 2, #\32 8{
   width: 15%;
 }
 
@@ -132,7 +129,7 @@ h1{
   background-color: antiquewhite;
   margin-left: 2px;
   margin-right: 2px;
-  width: 3.5em;
+  width: 3em;
 }
 
 
