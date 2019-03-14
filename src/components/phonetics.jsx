@@ -244,10 +244,10 @@ export default class Phonetics extends Component {
         const { display, translation, TigrinyaToEnglish, improveTranslation, improvedTranslation } = this.state;
         return (
             <Container>
-                <Button outline color="secondary" size="sm" style={{width: '60px', marginBottom: '5px', fontSize:'18px'}} onClick={this.switchTranslations}><MdSwapHoriz /></Button>
+                <Button outline color="secondary" size="sm" style={{width: '70px', marginBottom: '5px'}} onClick={this.switchTranslations}><MdSwapHoriz /></Button>
                 {TigrinyaToEnglish ?
                 <Container style={{margin: '0'}}>
-                  <p>Translate from Tigrinya to English</p>
+                  <p>Tigrinya to English</p>
                     <Row>
                       
                         <Col xs={12} md={6}>
@@ -259,27 +259,32 @@ export default class Phonetics extends Component {
 
                         <Col xs={12} md={6}>
                             <div>
-                                <p id="translation">{translation}</p>
+                                <textarea type="text" id="input-field" placeholder={translation}/>
                             </div>
                             <div>
                                 {improveTranslation ?
                                     <Form onSubmit={this.handleSubmit}>
                                       <Row>
-                                    <Col xs={10}>
-                                        <Input type='text' value={improvedTranslation} onChange={this.improveChangeHandler} />
+                                    <Col xs={7} md={10}>
+                                        <Input type='text' placeholder="Type your corrections here..." value={improvedTranslation} onChange={this.improveChangeHandler} />
                                     </Col>
-                                    <Col xs={2}>
+                                    <Col xs={1} md={2}>
                                         <Button type="submit">Submit</Button>
                                     </Col>
+                                    <div>
+                                    <h6 style={{marginTop:'20px'}}>The Sentence Society</h6>
+                                    <p style={{fontSize:'14px'}}>By playing this game, you're helping us digitise Tigrinya and and helping your fellow Tigrinya speakers all over the world.</p>
+                                    <a href="https://www.thesentencesociety.org/index.html"><Button id="game_button" outline color="secondary">PLAY GAME</Button></a>
+                                     </div>
                                     </Row>
                                     </Form>
-                                    : <Button type="button" onClick={this.improveTranslation}><MdFlag/> Improve translation</Button>}
+                                    : <Button type="button" size="sm" onClick={this.improveTranslation}><MdFlag/> Improve translation</Button>}
                             </div>
                         </Col>
                     </Row> 
                     </Container> :
                     <Container style={{margin: '0'}}>
-                      <p>Translate from English to Tigrinya</p>
+                      <p>English to Tigrinya</p>
                     <Row>
                         <Col xs={12} md={6}>
                           
@@ -290,21 +295,26 @@ export default class Phonetics extends Component {
 
                         <Col xs={12} md={6}>
                             <div>
-                                <p id="translation">{translation}</p>
+                            <textarea type="text" id="input-field" placeholder={translation}/>
                             </div>
                             <div>
                                 {improveTranslation ?
                                     <Form onSubmit={this.handleSubmit}>
                                         <Row>
-                                    <Col xs={10}>
-                                        <Input type='text' value={improvedTranslation} onChange={this.improveChangeHandler} />
+                                    <Col xs={7} md={10}>
+                                        <Input type='text' placeholder="Type your corrections here..." value={improvedTranslation} onChange={this.improveChangeHandler} />
                                     </Col>
-                                    <Col xs={2}>
+                                    <Col xs={1} md={2}>
                                         <Button type="submit">Submit</Button>
                                     </Col>
+                                    <div>
+                                    <h6 style={{marginTop:'20px'}}>The Sentence Society</h6>
+                                    <p style={{fontSize:'14px'}}>By playing this game, you're helping us digitise Tigrinya and and helping your fellow Tigrinya speakers all over the world.</p>
+                                    <a href="https://www.thesentencesociety.org/index.html"><Button id="game_button" outline color="secondary">PLAY GAME</Button></a>
+                                     </div>
                                     </Row>
                                     </Form>
-                                    : <Button type="button" onClick={this.improveTranslation}><MdFlag/> Improve translation</Button>}
+                                    : <Button type="button" size="sm" onClick={this.improveTranslation}><MdFlag/> Improve translation</Button>}
                             </div>
                         </Col>
                     </Row>
