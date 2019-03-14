@@ -56,8 +56,12 @@ h1{
 }
 
 #game_button{
-  background-color: darkorange;
   font-weight: bold;
+  font-size: 12px;
+  border: solid darkgray;
+  border-radius: 4px;
+  padding: 5px;
+  color: darkgray;
 }
 
 #input-field {
