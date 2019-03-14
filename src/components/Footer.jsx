@@ -18,7 +18,7 @@ export default class Footer extends Component {
 
       <div className="Footer">
       <div className="container">
-     <h3 style={{marginBottom: '80px'}}>Partners</h3>
+     <h3 style={{marginBottom: '40px'}}>Partners</h3>
      <Row>
             <Col md={2} xs={4}>
             <img src={partner1} className="logo" alt="logo" />
@@ -41,7 +41,7 @@ export default class Footer extends Component {
          </Row>
      <Row>
          <Col md={{ size: 4, offset: 1}}>
-         <h3>Contact US</h3>
+         <h5>Contact US</h5>
          <p><a href="mailto:hello@travis.foundation" style={{color: 'black'}}><FaEnvelope /> hello@travis.foundation</a></p>
          <Row className="justify-content-center">
              <Col xs={2}>
@@ -59,7 +59,7 @@ export default class Footer extends Component {
          </Row>
          </Col>
          <Col md={{size: 4, offset: 1}}>
-         <h3>Drop By</h3>
+         <h5>Drop By</h5>
          <p>Groot Handels Gebow</p>
          <p> Stationplein 45, 4th Floor, 3013 AK Rotterdam, South Holland</p>
          </Col>

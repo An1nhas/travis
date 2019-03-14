@@ -1,10 +1,14 @@
 /* eslint-disable no-console */
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Keyboard from './Keyboard';
-import data from '../keyboardObj'
+import data from '../keyboardObj';
+import { Button, Input, Form } from 'reactstrap';
+import { MdSwapHoriz, MdFlag } from "react-icons/md";
+
+
 
 
 export default class Phonetics extends Component {
@@ -240,53 +244,71 @@ export default class Phonetics extends Component {
         const { display, translation, TigrinyaToEnglish, improveTranslation, improvedTranslation } = this.state;
         return (
             <Container>
-                <button type="button" onClick={this.switchTranslations}>Switch</button>
+                <Button outline color="secondary" size="sm" style={{width: '60px', marginBottom: '5px', fontSize:'18px'}} onClick={this.switchTranslations}><MdSwapHoriz /></Button>
                 {TigrinyaToEnglish ?
+                <Container style={{margin: '0'}}>
+                  <p>Translate from Tigrinya to English</p>
                     <Row>
-                        <Col md={6} lg={6}>
-                            <p>Translate from Tigrinya to English</p>
+                      
+                        <Col xs={12} md={6}>
+                      
                             <div>
                                 <textarea type='text' id="input-field" value={display} onChange={(e) => this.tigrinyaToEnglish(e)} />
                             </div>
                         </Col>
 
-                        <Col md={6} lg={6}>
+                        <Col xs={12} md={6}>
                             <div>
-                                <p>{translation}</p>
+                                <p id="translation">{translation}</p>
                             </div>
                             <div>
                                 {improveTranslation ?
-                                    <form onSubmit={this.handleSubmit}>
-                                        <input type='text' value={improvedTranslation} onChange={this.improveChangeHandler} />
-                                        <button type="submit">Submit</button>
-                                    </form>
-                                    : <button type="button" onClick={this.improveTranslation}>Improve translation</button>}
+                                    <Form onSubmit={this.handleSubmit}>
+                                      <Row>
+                                    <Col xs={10}>
+                                        <Input type='text' value={improvedTranslation} onChange={this.improveChangeHandler} />
+                                    </Col>
+                                    <Col xs={2}>
+                                        <Button type="submit">Submit</Button>
+                                    </Col>
+                                    </Row>
+                                    </Form>
+                                    : <Button type="button" onClick={this.improveTranslation}><MdFlag/> Improve translation</Button>}
                             </div>
                         </Col>
-                    </Row> :
-
+                    </Row> 
+                    </Container> :
+                    <Container style={{margin: '0'}}>
+                      <p>Translate from English to Tigrinya</p>
                     <Row>
-                        <Col md={6} lg={6}>
-                            <p>Translate from English to Tigrinya</p>
+                        <Col xs={12} md={6}>
+                          
                             <div>
                                 <textarea type='text' id="input-field" value={display} onChange={this.englishToTigrinya} />
                             </div>
                         </Col>
 
-                        <Col md={6} lg={6}>
+                        <Col xs={12} md={6}>
                             <div>
-                                <p>{translation}</p>
+                                <p id="translation">{translation}</p>
                             </div>
                             <div>
                                 {improveTranslation ?
-                                    <form onSubmit={this.handleSubmit}>
-                                        <input type='text' value={improvedTranslation} onChange={this.improveChangeHandler} />
-                                        <button type="submit">Submit</button>
-                                    </form>
-                                    : <button type="button" onClick={this.improveTranslation}>Improve translation</button>}
+                                    <Form onSubmit={this.handleSubmit}>
+                                        <Row>
+                                    <Col xs={10}>
+                                        <Input type='text' value={improvedTranslation} onChange={this.improveChangeHandler} />
+                                    </Col>
+                                    <Col xs={2}>
+                                        <Button type="submit">Submit</Button>
+                                    </Col>
+                                    </Row>
+                                    </Form>
+                                    : <Button type="button" onClick={this.improveTranslation}><MdFlag/> Improve translation</Button>}
                             </div>
                         </Col>
-                    </Row>}
+                    </Row>
+                    </Container>}
 
                 <Keyboard keyboard={this.state.keyboard} 
                     handleClick={this.handleClick} 
