@@ -37,6 +37,8 @@ export default class Phonetics extends Component {
     this.switchTranslations = this.switchTranslations.bind(this);
     this.englishToTigrinya = this.englishToTigrinya.bind(this);
     this.translateTiToEn = this.translateTiToEn.bind(this);
+    this.translateEnToTi = this.translateEnToTi.bind(this);
+    this.handlePaste = this.handlePaste.bind(this);
 
     this.handleClick = this.handleClick.bind(this);
     this.handleClickTgr = this.handleClickTgr.bind(this);
@@ -65,7 +67,7 @@ export default class Phonetics extends Component {
     console.log(e.nativeEvent);
 
     const { finalizedSymbols, queue, english, dict, display, improvedTranslation } = this.state;
-
+    if (e.nativeEvent.key) e.nativeEvent.data = e.nativeEvent.key;
     // Letters which end a symbol
     const stoppers = /(([^KkghQq]u)|[aeoAW])$/;
     // History of all Latin keyboard inputs
@@ -225,6 +227,7 @@ export default class Phonetics extends Component {
 
   switchTranslations() {
     const { TigrinyaToEnglish } = this.state;
+    this.unblockInput();
     this.setState({ finalizedSymbols: '', TigrinyaToEnglish: !TigrinyaToEnglish, display: '', queue: '', translation: '', improvedTranslation: '', english: '', improveTranslation: false })
   }
 
@@ -298,6 +301,22 @@ export default class Phonetics extends Component {
     };
   }
 
+  async translateEnToTi() {
+    const { display } = this.state;
+    const config = {
+      headers: { 'Authorization': 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg2Mzg0NDFiLWYzYTgtNDIyNC05ZmRiLWI2YWMxYzdmMmI5OSIsImVtYWlsIjoiaGVsbG9AdHJhdmlzLmZvdW5kYXRpb24iLCJmdWxsX25hbWUiOiJUcmF2aXMgRm91bmRhdGlvbiIsInJvbGUiOiJhcGktY2xpZW50IiwiaWF0IjoxNTUxMzA2MjMzLCJuYmYiOjE1NTEzMDYxNzMsImV4cCI6MTU4Mjg2MzgzMywiaXNzIjoiaHR0cDovL3RyYXZpcy5mb3VuZGF0aW9uIiwic3ViIjoiaGVsbG9AdHJhdmlzLmZvdW5kYXRpb24iLCJqdGkiOiJ0cmF2aXMtZm91bmRhdGlvbi10cmFuc2xhdGlvbi1hcGkifQ.TUjINnAwQAC3LOVTZOti1IoGf9Wi730e2jFEqdOxkkQ' }
+    }
+    const response = await axios.post('http://localhost:8080/api/translate', {
+      "source_lang": "en",
+      "target_lang": "ti",
+      "phrase": display
+    }, config)
+
+    const { translations } = await response.data;
+    console.log("TRANSLATION", translations[0].text);
+    this.setState({ translation: translations[0].text.slice(0, -2) })
+  }
+
 
   handlePaste(e) {
     // this function handles paste
@@ -310,13 +329,13 @@ export default class Phonetics extends Component {
   }
 
 
-  blockInput = () =>{
-  this.setState({display: document.getElementById("input-field").disabled = true, display: document.getElementById("input-field").value })
-}
+  blockInput = () => {
+    this.setState({ display: document.getElementById("input-field").disabled = true, display: document.getElementById("input-field").value })
+  }
 
-  unblockInput = () =>{
-  this.setState({display: document.getElementById("input-field").disabled = false, display: document.getElementById("input-field").innerHTML = ""})
-}
+  unblockInput = () => {
+    this.setState({ display: document.getElementById("input-field").disabled = false, display: document.getElementById("input-field").innerHTML = "" })
+  }
 
   render() {
 
@@ -332,13 +351,13 @@ export default class Phonetics extends Component {
               <Col xs={12} md={6}>
 
                 <div>
-                  <textarea type='text' id="input-field" name="display" value={display} onChange={(e) => { this.tigrinyaToEnglish(e); this.translateTiToEn(); }} />
+                  <textarea type='text' id="input-field" name="display" value={display} onKeyPress={e => this.tigrinyaToEnglish(e)} onChange={(e) => { this.translateTiToEn(); }} onPaste={this.handlePaste} />
                 </div>
               </Col>
 
               <Col xs={12} md={6}>
                 <div>
-                  <textarea type="text" disabled style={{backgroundColor:'white'}} id="input-field" value={translation} disabled />
+                  <textarea type="text" disabled style={{ backgroundColor: 'white' }} id="input-field" value={translation} disabled />
                 </div>
                 <div>
                   {improveTranslation ?
@@ -374,7 +393,7 @@ export default class Phonetics extends Component {
 
               <Col xs={12} md={6}>
                 <div>
-                  <textarea type="text" disabled style={{backgroundColor:'white'}} id="input-field" value={translation} disabled />
+                  <textarea type="text" disabled style={{ backgroundColor: 'white' }} id="input-field" value={translation} disabled />
                 </div>
                 <div>
                   {improveTranslation ?
@@ -382,7 +401,7 @@ export default class Phonetics extends Component {
                       <Row>
                         <Col xs={7} md={10}>
 
-                          <Input type='text' onClick={this.blockInput} id="correctionField" placeholder="Type your corrections here..." value={improvedTranslation} name="improvedTranslation" onChange={(e) => { this.tigrinyaToEnglish(e); this.translateEnToTi() }} />
+                          <Input type='text' onClick={this.blockInput} id="correctionField" placeholder="Type your corrections here..." value={improvedTranslation} name="improvedTranslation" onChange={(e) => { this.tigrinyaToEnglish(e); this.translateEnToTi(); }} />
 
 
                         </Col>
