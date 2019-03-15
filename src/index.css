@@ -64,7 +64,7 @@ h1{
   color: darkgray;
 }
 
-#input-field {
+.input-field {
   width: 100%;
   height: 200px;
   border: solid darkgray;
@@ -87,7 +87,7 @@ h1{
   .suggestionList button{
     font-size: 10px !important;
   }
-  #input-field { 
+  .input-field { 
     height: 80px  !important;
   }
   #keyboard {
