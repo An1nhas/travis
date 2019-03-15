@@ -62,9 +62,9 @@ export default class Phonetics extends Component {
 
 
   tigrinyaToEnglish(e) {
-    console.log(e.target);
-    console.log(e.currentTarget.name);
-    console.log(e.nativeEvent);
+
+    console.log("--------keyCode", e.keyCode);
+    console.log("--------nativeEvent", e.nativeEvent);
 
     const { finalizedSymbols, queue, english, dict, display, improvedTranslation } = this.state;
     if (e.nativeEvent.key) e.nativeEvent.data = e.nativeEvent.key;
@@ -73,11 +73,11 @@ export default class Phonetics extends Component {
     // History of all Latin keyboard inputs
     const newEnglish = english.concat(" ", e.nativeEvent.data);
     const updatedQueue = queue.concat(e.nativeEvent.data);
+    console.log("AAAAA", e.nativeEvent.data)
 
     console.log("Stopper test: ", stoppers.test(updatedQueue), " Queue is: ", updatedQueue);
-    console.log(e.nativeEvent.data);
 
-    if (/[^a-zNKQHPCTZOKS2]/.test(e.nativeEvent.data)) {
+    if (/[^a-zNKQHPCTZOKS2]/.test(e.nativeEvent.data) && e.keyCode !== 8) {
       console.log("Character ", e.nativeEvent.data, " doesn't correspond to anything in Tigrinya");
       if (queue !== '') {
 
@@ -95,7 +95,8 @@ export default class Phonetics extends Component {
       }
 
     }
-    else if (e.nativeEvent.inputType === "deleteContentBackward") {
+    else if (e.keyCode === 8 || e.keyCode === 13) {
+      console.log("RIGHT PLACE")
       this.setState({
         [e.currentTarget.name]: e.currentTarget.value,
         finalizedSymbols: e.currentTarget.value,
@@ -221,8 +222,17 @@ export default class Phonetics extends Component {
   handleSubmit(e) {
     e.preventDefault();
     // Here we add a correction to our database
+    const config = {
+      headers: { 'Authorization': 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg2Mzg0NDFiLWYzYTgtNDIyNC05ZmRiLWI2YWMxYzdmMmI5OSIsImVtYWlsIjoiaGVsbG9AdHJhdmlzLmZvdW5kYXRpb24iLCJmdWxsX25hbWUiOiJUcmF2aXMgRm91bmRhdGlvbiIsInJvbGUiOiJhcGktY2xpZW50IiwiaWF0IjoxNTUxMzA2MjMzLCJuYmYiOjE1NTEzMDYxNzMsImV4cCI6MTU4Mjg2MzgzMywiaXNzIjoiaHR0cDovL3RyYXZpcy5mb3VuZGF0aW9uIiwic3ViIjoiaGVsbG9AdHJhdmlzLmZvdW5kYXRpb24iLCJqdGkiOiJ0cmF2aXMtZm91bmRhdGlvbi10cmFuc2xhdGlvbi1hcGkifQ.TUjINnAwQAC3LOVTZOti1IoGf9Wi730e2jFEqdOxkkQ' }
+    }
     const { display, translation, improvedTranslation } = this.state;
-    alert(`The improved translation is: ${improvedTranslation}`);
+    axios.post('http://localhost:8080/api/report', {
+      original: display,
+      translation: translation,
+      improved: improvedTranslation
+    }, config).then(win => console.log(win));
+    // alert(`The improved translation is: ${improvedTranslation}`);
+    this.unblockInput();
   }
 
   switchTranslations() {
@@ -250,7 +260,8 @@ export default class Phonetics extends Component {
         })
       } else if (e.target.value === "Clear") {
         this.setState({
-          [targetState]: document.getElementById(targetField).value.slice(0, document.getElementById(targetField).value.length - 1)
+          [targetState]: document.getElementById(targetField).value.slice(0, document.getElementById(targetField).value.length - 1),
+          finalizedSymbols: document.getElementById(targetField).value.slice(0, document.getElementById(targetField).value.length - 1)
         })
       } else if (e.target.value === "123.,") {
         this.setState({
@@ -334,7 +345,7 @@ export default class Phonetics extends Component {
   }
 
   unblockInput = () => {
-    this.setState({ display: document.getElementById("input-field").disabled = false, display: document.getElementById("input-field").innerHTML = "" })
+    this.setState({ display: document.getElementById("input-field").disabled = false, display: document.getElementById("input-field").innerHTML = "", translation: "", improvedTranslation: "", improveTranslation: false })
   }
 
   render() {
@@ -367,7 +378,7 @@ export default class Phonetics extends Component {
                           <Input type='text' onClick={this.blockInput} id="correctionField" placeholder="Type your corrections here..." value={improvedTranslation} onChange={this.improveChangeHandler} />
                         </Col>
                         <Col xs={1} md={2}>
-                          <Button type="submit" onClick={this.unblockInput}>Submit</Button>
+                          <Button type="submit">Submit</Button>
                         </Col>
                         <div>
                           <h6 style={{ marginTop: '20px' }}>The Sentence Society</h6>
@@ -406,7 +417,7 @@ export default class Phonetics extends Component {
 
                         </Col>
                         <Col xs={1} md={2}>
-                          <Button type="submit" onClick={this.unblockInput}>Submit</Button>
+                          <Button type="submit">Submit</Button>
                         </Col>
                         <div>
                           <h6 style={{ marginTop: '20px' }}>The Sentence Society</h6>
