@@ -1,41 +1,14 @@
 {
   "development": {
-    "version": "1.0.0",
-    "storage": "database.sqlite3",
     "dialect": "sqlite",
-    "pool": {
-      "max": 5,
-      "min": 0,
-      "idle": 10000
-    },
-    "define": {
-      "underscored": true
-    }
+    "storage": "./database.sqlite3"
   },
   "test": {
-    "version": "1.0.0",
-    "storage": "database.sqlite3",
     "dialect": "sqlite",
-    "pool": {
-      "max": 5,
-      "min": 0,
-      "idle": 10000
-    },
-    "define": {
-      "underscored": true
-    }
+    "storage": ":memory"
   },
   "production": {
-    "version": "1.0.0",
-    "storage": "database.sqlite3",
     "dialect": "sqlite",
-    "pool": {
-      "max": 5,
-      "min": 0,
-      "idle": 10000
-    },
-    "define": {
-      "underscored": true
-    }
+    "storage": "./database.sqlite3"
   }
 }

@@ -1,9 +1,9 @@
 const lang = require('../lang.json');
 
-module.exports.routes = function (server) {
-    server.get('/api/lang', (req, res) => {
-        console.log("DICTIONARY");
+var restify = require('restify');
 
-        res.json(lang);
+module.exports.routes = (server) => {
+    server.get('/api/lang', (req, res) => {
+        res.json(lang)
     })
 }

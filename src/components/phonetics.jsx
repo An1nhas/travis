@@ -1,15 +1,12 @@
 /* eslint-disable no-console */
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Container, Row, Col} from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Keyboard from './Keyboard';
 import data from '../keyboardObj';
 import { Button, Input, Form } from 'reactstrap';
 import { MdSwapHoriz, MdFlag } from "react-icons/md";
-
-
-
 
 export default class Phonetics extends Component {
   constructor(props) {
@@ -60,7 +57,7 @@ export default class Phonetics extends Component {
 
 
   tigrinyaToEnglish(e) {
- 
+
     const { finalizedSymbols, queue, english, dict, display } = this.state;
 
     // Letters which end a symbol
@@ -239,99 +236,99 @@ export default class Phonetics extends Component {
 
 
 
-    render() {
+  render() {
 
-        const { display, translation, TigrinyaToEnglish, improveTranslation, improvedTranslation } = this.state;
-        return (
-            <Container>
-                <Button outline color="secondary" size="sm" style={{width: '70px', marginBottom: '5px'}} onClick={this.switchTranslations}><MdSwapHoriz /></Button>
-                {TigrinyaToEnglish ?
-                <Container style={{margin: '0'}}>
-                  <p>Tigrinya to English</p>
-                    <Row>
-                      
-                        <Col xs={12} md={6}>
-                      
-                            <div>
-                                <textarea type='text' id="input-field" value={display} onChange={(e) => this.tigrinyaToEnglish(e)} />
-                            </div>
+    const { display, translation, TigrinyaToEnglish, improveTranslation, improvedTranslation } = this.state;
+    return (
+      <Container>
+        <Button outline color="secondary" size="sm" style={{ width: '70px', marginBottom: '5px' }} onClick={this.switchTranslations}><MdSwapHoriz /></Button>
+        {TigrinyaToEnglish ?
+          <Container style={{ margin: '0' }}>
+            <p>Tigrinya to English</p>
+            <Row>
+
+              <Col xs={12} md={6}>
+
+                <div>
+                  <textarea type='text' id="input-field" value={display} onChange={(e) => this.tigrinyaToEnglish(e)} />
+                </div>
+              </Col>
+
+              <Col xs={12} md={6}>
+                <div>
+                  <textarea type="text" id="input-field" placeholder={translation} />
+                </div>
+                <div>
+                  {improveTranslation ?
+                    <Form onSubmit={this.handleSubmit}>
+                      <Row>
+                        <Col xs={7} md={10}>
+                          <Input type='text' placeholder="Type your corrections here..." value={improvedTranslation} onChange={this.improveChangeHandler} />
                         </Col>
-
-                        <Col xs={12} md={6}>
-                            <div>
-                                <textarea type="text" id="input-field" placeholder={translation}/>
-                            </div>
-                            <div>
-                                {improveTranslation ?
-                                    <Form onSubmit={this.handleSubmit}>
-                                      <Row>
-                                    <Col xs={7} md={10}>
-                                        <Input type='text' placeholder="Type your corrections here..." value={improvedTranslation} onChange={this.improveChangeHandler} />
-                                    </Col>
-                                    <Col xs={1} md={2}>
-                                        <Button type="submit">Submit</Button>
-                                    </Col>
-                                    <div>
-                                    <h6 style={{marginTop:'20px'}}>The Sentence Society</h6>
-                                    <p style={{fontSize:'14px'}}>By playing this game, you're helping us digitise Tigrinya and and helping your fellow Tigrinya speakers all over the world.</p>
-                                    <a href="https://www.thesentencesociety.org/index.html" id="game_button" outline color="secondary">PLAY GAME</a>
-                                     </div>
-                                    </Row>
-                                    </Form>
-                                    : <Button type="button" size="sm" onClick={this.improveTranslation}><MdFlag/> Improve translation</Button>}
-                            </div>
+                        <Col xs={1} md={2}>
+                          <Button type="submit">Submit</Button>
                         </Col>
-                    </Row> 
-                    </Container> :
-                    <Container style={{margin: '0'}}>
-                      <p>English to Tigrinya</p>
-                    <Row>
-                        <Col xs={12} md={6}>
-                          
-                            <div>
-                                <textarea type='text' id="input-field" value={display} onChange={this.englishToTigrinya} />
-                            </div>
+                        <div>
+                          <h6 style={{ marginTop: '20px' }}>The Sentence Society</h6>
+                          <p style={{ fontSize: '14px' }}>By playing this game, you're helping us digitise Tigrinya and and helping your fellow Tigrinya speakers all over the world.</p>
+                          <a href="https://www.thesentencesociety.org/index.html" id="game_button" outline color="secondary">PLAY GAME</a>
+                        </div>
+                      </Row>
+                    </Form>
+                    : <Button type="button" size="sm" onClick={this.improveTranslation}><MdFlag /> Improve translation</Button>}
+                </div>
+              </Col>
+            </Row>
+          </Container> :
+          <Container style={{ margin: '0' }}>
+            <p>English to Tigrinya</p>
+            <Row>
+              <Col xs={12} md={6}>
+
+                <div>
+                  <textarea type='text' id="input-field" value={display} onChange={this.englishToTigrinya} />
+                </div>
+              </Col>
+
+              <Col xs={12} md={6}>
+                <div>
+                  <textarea type="text" id="input-field" placeholder={translation} />
+                </div>
+                <div>
+                  {improveTranslation ?
+                    <Form onSubmit={this.handleSubmit}>
+                      <Row>
+                        <Col xs={7} md={10}>
+                          <Input type='text' placeholder="Type your corrections here..." value={improvedTranslation} onChange={this.improveChangeHandler} />
                         </Col>
-
-                        <Col xs={12} md={6}>
-                            <div>
-                            <textarea type="text" id="input-field" placeholder={translation}/>
-                            </div>
-                            <div>
-                                {improveTranslation ?
-                                    <Form onSubmit={this.handleSubmit}>
-                                        <Row>
-                                    <Col xs={7} md={10}>
-                                        <Input type='text' placeholder="Type your corrections here..." value={improvedTranslation} onChange={this.improveChangeHandler} />
-                                    </Col>
-                                    <Col xs={1} md={2}>
-                                        <Button type="submit">Submit</Button>
-                                    </Col>
-                                    <div>
-                                    <h6 style={{marginTop:'20px'}}>The Sentence Society</h6>
-                                    <p style={{fontSize:'14px'}}>By playing this game, you're helping us digitise Tigrinya and and helping your fellow Tigrinya speakers all over the world.</p>
-                                    <a href="https://www.thesentencesociety.org/index.html" id="game_button" outline color="secondary">PLAY GAME</a>
-                                     </div>
-                                    </Row>
-                                    </Form>
-                                    : <Button type="button" size="sm" onClick={this.improveTranslation}><MdFlag/> Improve translation</Button>}
-                            </div>
+                        <Col xs={1} md={2}>
+                          <Button type="submit">Submit</Button>
                         </Col>
-                    </Row>
-                    </Container>}
+                        <div>
+                          <h6 style={{ marginTop: '20px' }}>The Sentence Society</h6>
+                          <p style={{ fontSize: '14px' }}>By playing this game, you're helping us digitise Tigrinya and and helping your fellow Tigrinya speakers all over the world.</p>
+                          <a href="https://www.thesentencesociety.org/index.html" id="game_button" outline color="secondary">PLAY GAME</a>
+                        </div>
+                      </Row>
+                    </Form>
+                    : <Button type="button" size="sm" onClick={this.improveTranslation}><MdFlag /> Improve translation</Button>}
+                </div>
+              </Col>
+            </Row>
+          </Container>}
 
-                <Keyboard keyboard={this.state.keyboard} 
-                    handleClick={this.handleClick} 
-                    keyboardSet={this.state.keyboardSet}
-                    shift={this.state.shift} 
-                    keyLang={this.state.keyLang}
-                    handleClickTgr={this.handleClickTgr}
-                    show={this.state.show}
-                    target={this.state.target} />
-     
-            </Container>
+        <Keyboard keyboard={this.state.keyboard}
+          handleClick={this.handleClick}
+          keyboardSet={this.state.keyboardSet}
+          shift={this.state.shift}
+          keyLang={this.state.keyLang}
+          handleClickTgr={this.handleClickTgr}
+          show={this.state.show}
+          target={this.state.target} />
 
-       );
-    
+      </Container>
+
+    );
+
   };
 };

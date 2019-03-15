@@ -13,19 +13,19 @@ module.exports = {
       }], {});
     */
 
-    return queryInterface.bulkInsert('Corrections', [{
-      original: "tigtig, tig, tih, tig",
-      translation: "english english",
-      "improved_translation": "aaaaaaa",
+    return queryInterface.bulkInsert('Reports', [{
+      original: "Sentence in English",
+      translation: "Our first translation",
+      improved: "user-generated improvement",
       createdAt: new Date().toDateString(),
       updatedAt: new Date().toDateString()
     }, {
-      original: "tigtiTESTTEST",
-      translation: "english english more english",
-      "improved_translation": "bbbbbb",
+      original: "Another English sentence!",
+      translation: "That's what our API gave us!",
+      improved: "Better version",
       createdAt: new Date().toDateString(),
       updatedAt: new Date().toDateString()
-    }], {})
+    }], {});
   },
 
   down: (queryInterface, Sequelize) => {
@@ -36,5 +36,7 @@ module.exports = {
       Example:
       return queryInterface.bulkDelete('People', null, {});
     */
+    return queryInterface.bulkDelete('Reports', null, {});
+
   }
 };

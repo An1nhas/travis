@@ -1,30 +1,26 @@
 // config
+const config = require('./config/server');
 
 // used modules
-// const fs = require('fs');
+const fs = require('fs');
 const restify = require('restify');
 const jwt = require('restify-jwt-community');
 const corsMiddleware = require('restify-cors-middleware')
-const sequelize = require('sequelize');
-const config = require('./config/server');
 
 const extensions = require('./lib/extensions.js');
 const util = require('./lib/utilities');
 
-const routeAuth = require('./lib/route-auth');
-const db = require('./models');
+var routeAuth = require('./lib/route-auth');
+var db = require('./models');
 // var noCache = require( './lib/nocache.js' );
-const translate = require('./routes/translate');
-const ping = require('./routes/ping');
-const lang = require('./routes/lang');
 
 const server = restify.createServer(config);
 
 const cors = corsMiddleware({
-    preflightMaxAge: 5, // Optional
-    origins: ['*'],
-    allowHeaders: ['Authorization'],
-    exposeHeaders: ['Access-Control-Allow-Origin']
+	preflightMaxAge: 5, //Optional
+	origins: ['*'],
+	allowHeaders: ['Authorization'],
+	exposeHeaders: ['Access-Control-Allow-Origin']
 });
 
 server.pre(cors.preflight);
@@ -66,9 +62,9 @@ server.use(restify.plugins.bodyParser({ mapParams: true }));
 // to different resources (if for example, one route, like /my/slow/database is much easier
 // to overwhelm than /my/fast/memcache).
 server.use(restify.plugins.throttle({
-    burst: 50,
-    rate: 0.5,
-    ip: true
+	burst: 50,
+	rate: 0.5,
+	ip: true
 }));
 
 // You can use this handler to let clients do nice HTTP semantics with the "match" headers.
@@ -125,8 +121,8 @@ server.use(util.requestLogger);
 
 // mount the db
 server.use(function (req, res, next) {
-    req.db = db;
-    return next();
+	req.db = db;
+	return next();
 });
 
 // disable cache
@@ -135,60 +131,47 @@ server.use(function (req, res, next) {
 // } ) );
 
 server.use(jwt({
-    secret: config.secret,
-    isRevoked(req, payload, done) {
-        console.log('JWT'.green, payload);
+	secret: config.secret,
+	isRevoked: function (req, payload, done) {
+		console.log('JWT'.green, payload);
 
-        req.authorization = payload;
-        return done(null, false);
+		req.authorization = payload;
+		return done(null, false);
 
-        // var id = payload.id;
+		// var id = payload.id;
 
-        // req.db.User.findById( id ).then( function( user ) {
-        // 	req.authorization = user;
-        // 	// set req.username so we can use it for throttling
-        // 	if (user) {
-        // 		req.username = user.email
-        // 	}
-        // 	return done( null, false );
-        // }, function( err ) {
-        // 	return done( err, true );
-        // } );
-    }
+		// req.db.User.findById( id ).then( function( user ) {
+		// 	req.authorization = user;
+		// 	// set req.username so we can use it for throttling
+		// 	if (user) {
+		// 		req.username = user.email
+		// 	}
+		// 	return done( null, false );
+		// }, function( err ) {
+		// 	return done( err, true );
+		// } );
+	}
 }).unless({
-    path: config.openRoutes
+	path: config.openRoutes
 }));
 
 server.use(routeAuth);
 
-// fs.readdirSync('./routes').forEach(function (curFile) {
-//     if (curFile.substr(-3) === '.js') {
-//         route = require(`./routes/${curFile}`);
-//         route.routes(server);
-//     }
-// });
-
-translate.routes(server);
-ping.routes(server);
-lang.routes(server);
+fs.readdirSync('./routes').forEach(function (curFile) {
+	if (curFile.substr(-3) === '.js') {
+		route = require('./routes/' + curFile);
+		route.routes(server);
+	}
+});
 
 server.get('/api/test', (req, res) => {
-    // return db.Corrections.findAll()
-    //     .then((corr) => res.send(corr))
-    //     .catch((err) => {
-    //         console.log("ERROR", JSON.stringify(err));
-    //         return res.send(err);
-    //     })
-
-    return db.query("select * from Corrections", { type: sequelize.QueryTypes.SELECT })
-        .then((result => res.json(result)));
-
+	return db.Report.findAll()
+		.then((reports) => res.json(reports))
+		.catch((err) => {
+			console.log("ERROR ", JSON.stringify(err));
+			res.send(err);
+		})
 })
-
-server.post('/api/add', (req, res) => {
-    const { original, translation, improved_translation } = req.body;
-})
-
 
 // store static files on the file system for caching purposes
 // server.get( /\/assets\/?.*/, restify.serveStatic( {
@@ -197,45 +180,5 @@ server.post('/api/add', (req, res) => {
 // } ) );
 
 server.listen(config.port, config.host, function () {
-    console.info(util.getTimestamp(), server.name.blue, server.url);
+	console.info(util.getTimestamp(), server.name.blue, server.url);
 });
-
-
-// const express = require('express');
-// const bodyParser = require('body-parser');
-// const mongoose = require('mongoose');
-// const cors = require('cors');
-// const router = require('./router.js');
-
-// const app = express();
-
-
-// mongoose.connect('mongodb://localhost:27017/travis', {
-//     useNewUrlParser: true
-// });
-
-// app.use(bodyParser.json());
-
-// app.use(
-//     cors({
-//         origin: ['http://localhost:3000'],
-//         methods: ['GET', 'HEAD', 'POST', 'DELETE', 'PUT', 'PATCH', 'OPTIONS'],
-//         credentials: true
-//     }),
-//     cors({
-//         origin: ['http://localhost:5000'],
-//         methods: ['GET', 'HEAD', 'POST', 'DELETE', 'PUT', 'PATCH', 'OPTIONS'],
-//         credentials: true
-//     })
-// );
-
-
-// app.use('/api', router);
-
-// app.get('/', (req, res) => {
-//     res.send({
-//         hey: "Travis"
-//     });
-// });
-
-// app.listen(8080, () => console.log('Listening on http://localhost:8080'));

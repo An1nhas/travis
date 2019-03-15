@@ -1,0 +1,32 @@
+<script type="text/javascript">
+
+var httpRequest;
+
+function alertContents() {
+	if (httpRequest.readyState === XMLHttpRequest.DONE) {
+		if (httpRequest.status === 200) {
+			alert(httpRequest.responseText);
+		} else {
+			alert('There was a problem with the request.');
+		}
+	}
+}
+
+function makeTranslationRequest(json, token, handler) {
+	httpRequest = new XMLHttpRequest();
+	httpRequest.onreadystatechange = handler;
+	httpRequest.open('POST', 'http://127.0.0.1:8080/translate');
+	httpRequest.setRequestHeader('Content-Type', 'application/json');
+	httpRequest.setRequestHeader('Authorization', 'Bearer '+token);
+	httpRequest.send(json);
+}
+
+var token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg2Mzg0NDFiLWYzYTgtNDIyNC05ZmRiLWI2YWMxYzdmMmI5OSIsImVtYWlsIjoiaGVsbG9AdHJhdmlzLmZvdW5kYXRpb24iLCJmdWxsX25hbWUiOiJUcmF2aXMgRm91bmRhdGlvbiIsInJvbGUiOiJhcGktY2xpZW50IiwiaWF0IjoxNTUxMzA2MjMzLCJuYmYiOjE1NTEzMDYxNzMsImV4cCI6MTU4Mjg2MzgzMywiaXNzIjoiaHR0cDovL3RyYXZpcy5mb3VuZGF0aW9uIiwic3ViIjoiaGVsbG9AdHJhdmlzLmZvdW5kYXRpb24iLCJqdGkiOiJ0cmF2aXMtZm91bmRhdGlvbi10cmFuc2xhdGlvbi1hcGkifQ.TUjINnAwQAC3LOVTZOti1IoGf9Wi730e2jFEqdOxkkQ';
+
+makeTranslationRequest(
+	'{"source_lang":"en","target_lang": "ti","phrase":"Hello, how are you?"}',
+	token,
+	alertContents
+);
+
+</script>

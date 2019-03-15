@@ -1,18 +1,17 @@
+'use strict';
+var env = process.env.NODE_ENV || 'development';
 
-
-const env = process.env.NODE_ENV || 'development';
-
-function build_uri(path) {
+function build_uri( path ) {
 	return [
 		'http://',
 		process.env.HOST || '127.0.0.1',
 		':',
 		process.env.PORT || 8080,
 		path || ''
-	].join('');
+	].join( '' );
 }
 
-const config = {
+var config = {
 	// certificate: null, // HTTPS PEM-encoded certificate
 	// key: null, // HTTPS PEM-encoded key
 	name: 'travis-foundation-api',
@@ -36,7 +35,7 @@ const config = {
 	buildUri: build_uri
 };
 
-switch (env) {
+switch ( env ) {
 	case 'test':
 		// config = Object.assign( config, {} );
 		break;
