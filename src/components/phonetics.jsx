@@ -36,6 +36,7 @@ export default class Phonetics extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.switchTranslations = this.switchTranslations.bind(this);
     this.englishToTigrinya = this.englishToTigrinya.bind(this);
+    this.translateTiToEn = this.translateTiToEn.bind(this);
 
     this.handleClick = this.handleClick.bind(this);
     this.handleClickTgr = this.handleClickTgr.bind(this);
@@ -57,8 +58,11 @@ export default class Phonetics extends Component {
 
 
   tigrinyaToEnglish(e) {
+    console.log(e.target);
+    console.log(e.currentTarget.name);
+    console.log(e.nativeEvent);
 
-    const { finalizedSymbols, queue, english, dict, display, token } = this.state;
+    const { finalizedSymbols, queue, english, dict, display, improvedTranslation } = this.state;
 
     // Letters which end a symbol
     const stoppers = /(([^KkghQq]u)|[aeoAW])$/;
@@ -78,28 +82,23 @@ export default class Phonetics extends Component {
         const newFinalizedSymbols = finalizedSymbols.concat(dict[queue]).concat(e.nativeEvent.data);
         this.setState({
           finalizedSymbols: newFinalizedSymbols,
-          display: newFinalizedSymbols, queue: '', english: newEnglish
+          [e.currentTarget.name]: newFinalizedSymbols, queue: '', english: newEnglish
         })
       } else {
 
         this.setState({
           finalizedSymbols: finalizedSymbols.concat(e.nativeEvent.data),
-          display: finalizedSymbols.concat(e.nativeEvent.data), english: newEnglish
+          [e.currentTarget.name]: finalizedSymbols.concat(e.nativeEvent.data), english: newEnglish
         })
       }
 
     }
     else if (e.nativeEvent.inputType === "deleteContentBackward") {
-      if (display.length === finalizedSymbols.length) {
-        this.setState({
-          display: display.slice(0, -1),
-          finalizedSymbols: finalizedSymbols.slice(0, -1), queue: ''
-        })
-      } else if (display.length >= finalizedSymbols.length) {
-        this.setState({ display: display.slice(0, -1), queue: '' })
-      } else {
-        console.log("SHOULDN'T BE HERE");
-      }
+      this.setState({
+        [e.currentTarget.name]: e.currentTarget.value,
+        finalizedSymbols: e.currentTarget.value,
+        queue: ''
+      })
     }
     // If, after inputing the newest letter, the queue has no match in the dictionary we return the last valid symbol
     // and begin a new queue with the new letter
@@ -107,7 +106,7 @@ export default class Phonetics extends Component {
       console.log("Not defined");
       this.setState({
         queue: e.nativeEvent.data, finalizedSymbols: finalizedSymbols.concat(dict[queue]),
-        display: finalizedSymbols.concat(dict[queue].concat(dict[e.nativeEvent.data]))
+        [e.currentTarget.name]: finalizedSymbols.concat(dict[queue].concat(dict[e.nativeEvent.data]))
       })
       console.log("Added in final form:", dict[queue], " ", updatedQueue);
     }
@@ -118,13 +117,13 @@ export default class Phonetics extends Component {
 
       this.setState({
         queue: '', finalizedSymbols: finalizedSymbols.concat(finalSymbol),
-        display: finalizedSymbols.concat(finalSymbol), english: newEnglish
+        [e.currentTarget.name]: finalizedSymbols.concat(finalSymbol), english: newEnglish
       })
     }
     else if (updatedQueue.length === 1 || updatedQueue.length === 2 || updatedQueue.length === 3) {
       console.log("Queue len == 1", dict[updatedQueue])
       this.setState({
-        display: finalizedSymbols.concat(dict[updatedQueue]),
+        [e.currentTarget.name]: finalizedSymbols.concat(dict[updatedQueue]),
         queue: updatedQueue, english: newEnglish
       })
     }
@@ -133,35 +132,35 @@ export default class Phonetics extends Component {
     // const config = {
     //   headers: { 'Authorization': `bearer ${token}` }
     // }
-    const config = {
-      headers: { 'Authorization': 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg2Mzg0NDFiLWYzYTgtNDIyNC05ZmRiLWI2YWMxYzdmMmI5OSIsImVtYWlsIjoiaGVsbG9AdHJhdmlzLmZvdW5kYXRpb24iLCJmdWxsX25hbWUiOiJUcmF2aXMgRm91bmRhdGlvbiIsInJvbGUiOiJhcGktY2xpZW50IiwiaWF0IjoxNTUxMzA2MjMzLCJuYmYiOjE1NTEzMDYxNzMsImV4cCI6MTU4Mjg2MzgzMywiaXNzIjoiaHR0cDovL3RyYXZpcy5mb3VuZGF0aW9uIiwic3ViIjoiaGVsbG9AdHJhdmlzLmZvdW5kYXRpb24iLCJqdGkiOiJ0cmF2aXMtZm91bmRhdGlvbi10cmFuc2xhdGlvbi1hcGkifQ.TUjINnAwQAC3LOVTZOti1IoGf9Wi730e2jFEqdOxkkQ' }
-    }
+    // const config = {
+    //   headers: { 'Authorization': 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg2Mzg0NDFiLWYzYTgtNDIyNC05ZmRiLWI2YWMxYzdmMmI5OSIsImVtYWlsIjoiaGVsbG9AdHJhdmlzLmZvdW5kYXRpb24iLCJmdWxsX25hbWUiOiJUcmF2aXMgRm91bmRhdGlvbiIsInJvbGUiOiJhcGktY2xpZW50IiwiaWF0IjoxNTUxMzA2MjMzLCJuYmYiOjE1NTEzMDYxNzMsImV4cCI6MTU4Mjg2MzgzMywiaXNzIjoiaHR0cDovL3RyYXZpcy5mb3VuZGF0aW9uIiwic3ViIjoiaGVsbG9AdHJhdmlzLmZvdW5kYXRpb24iLCJqdGkiOiJ0cmF2aXMtZm91bmRhdGlvbi10cmFuc2xhdGlvbi1hcGkifQ.TUjINnAwQAC3LOVTZOti1IoGf9Wi730e2jFEqdOxkkQ' }
+    // }
 
-    const translate = async () => {
-      const response = await axios.post('http://localhost:8080/api/translate', {
-        "source_lang": "ti",
-        "target_lang": "en",
-        "phrase": display
-      }, config)
+    // const translate = async () => {
+    //   const response = await axios.post('http://localhost:8080/api/translate', {
+    //     "source_lang": "ti",
+    //     "target_lang": "en",
+    //     "phrase": display
+    //   }, config)
 
-      const { translations } = await response.data;
-      console.log("--------TRANSLATION", translations[0].text);
-      this.setState({ translation: translations[0].text })
+    //   const { translations } = await response.data;
+    //   console.log("--------TRANSLATION", translations[0].text);
+    //   this.setState({ translation: translations[0].text })
 
-      // this.setState({translation: })
-      // .then(res => {
-      //   console.log("TRANSLATION: ", res.data.translations[0].text)
-      //   this.setState({ translation: res.data.translations[0].text })
-      // })
-    }
+    //   // this.setState({translation: })
+    //   // .then(res => {
+    //   //   console.log("TRANSLATION: ", res.data.translations[0].text)
+    //   //   this.setState({ translation: res.data.translations[0].text })
+    //   // })
+    // }
 
-    translate();
+    // translate();
 
     console.log(newEnglish);
     console.log("updatedQueue: ", updatedQueue);
   }
 
-  async translateEnToTi() {
+  async translateTiToEn() {
     const { display } = this.state;
     const config = {
       headers: { 'Authorization': 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg2Mzg0NDFiLWYzYTgtNDIyNC05ZmRiLWI2YWMxYzdmMmI5OSIsImVtYWlsIjoiaGVsbG9AdHJhdmlzLmZvdW5kYXRpb24iLCJmdWxsX25hbWUiOiJUcmF2aXMgRm91bmRhdGlvbiIsInJvbGUiOiJhcGktY2xpZW50IiwiaWF0IjoxNTUxMzA2MjMzLCJuYmYiOjE1NTEzMDYxNzMsImV4cCI6MTU4Mjg2MzgzMywiaXNzIjoiaHR0cDovL3RyYXZpcy5mb3VuZGF0aW9uIiwic3ViIjoiaGVsbG9AdHJhdmlzLmZvdW5kYXRpb24iLCJqdGkiOiJ0cmF2aXMtZm91bmRhdGlvbi10cmFuc2xhdGlvbi1hcGkifQ.TUjINnAwQAC3LOVTZOti1IoGf9Wi730e2jFEqdOxkkQ' }
@@ -305,7 +304,7 @@ export default class Phonetics extends Component {
               <Col xs={12} md={6}>
 
                 <div>
-                  <textarea type='text' id="input-field" value={display} onChange={(e) => this.tigrinyaToEnglish(e)} />
+                  <textarea type='text' id="input-field" name="display" value={display} onChange={(e) => { this.tigrinyaToEnglish(e); this.translateTiToEn(); }} />
                 </div>
               </Col>
 
@@ -318,7 +317,7 @@ export default class Phonetics extends Component {
                     <Form onSubmit={this.handleSubmit}>
                       <Row>
                         <Col xs={7} md={10}>
-                          <Input type='text' placeholder="Type your corrections here..." value={improvedTranslation} onChange={this.improveChangeHandler} />
+                          <Input type='text' placeholder="Type your corrections here..." value={improvedTranslation} name="improvedTranslation" onChange={(e) => this.tigrinyaToEnglish(e)} />
                         </Col>
                         <Col xs={1} md={2}>
                           <Button type="submit">Submit</Button>
@@ -362,7 +361,7 @@ export default class Phonetics extends Component {
                         <div>
                           <h6 style={{ marginTop: '20px' }}>The Sentence Society</h6>
                           <p style={{ fontSize: '14px' }}>By playing this game, you're helping us digitise Tigrinya and and helping your fellow Tigrinya speakers all over the world.</p>
-                          <a href="https://www.thesentencesociety.org/index.html" id="game_button" outline color="secondary">PLAY GAME</a>
+                          <a href="https://www.thesentencesociety.org/index.html" id="game_button" color="secondary">PLAY GAME</a>
                         </div>
                       </Row>
                     </Form>
