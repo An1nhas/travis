@@ -237,9 +237,9 @@ export default class Phonetics extends Component {
       if (this.state.TigrinyaToEnglish === true) {
         this.translateTiToEn();
       }
-      
-      var targetState = this.state.improveTranslation === false ? "display" : "improvedTranslation";
-      var targetField = this.state.improveTranslation === false ? "input-field" : "correctionField";
+
+      const targetState = this.state.improveTranslation === false ? "display" : "improvedTranslation";
+      const targetField = this.state.improveTranslation === false ? "input-field" : "correctionField";
       if (e.target.value.match(/^.{1}$/)) {
         this.setState({
           [targetState]: document.getElementById(targetField).value + e.target.value,
@@ -298,6 +298,18 @@ export default class Phonetics extends Component {
     };
   }
 
+
+  handlePaste(e) {
+    // this function handles paste
+    const { display } = this.state;
+    this.setState({
+      display: display.concat(e.clipboardData.getData('text')),
+      finalizedSymbols: display.concat(e.clipboardData.getData('text')),
+      queue: ''
+    })
+  }
+
+
   blockInput = () =>{
   this.setState({display: document.getElementById("input-field").disabled = true, display: document.getElementById("input-field").value })
 }
@@ -305,7 +317,6 @@ export default class Phonetics extends Component {
   unblockInput = () =>{
   this.setState({display: document.getElementById("input-field").disabled = false, display: document.getElementById("input-field").innerHTML = ""})
 }
-
 
   render() {
 
@@ -370,7 +381,10 @@ export default class Phonetics extends Component {
                     <Form onSubmit={this.handleSubmit}>
                       <Row>
                         <Col xs={7} md={10}>
-                          <Input type='text' onClick={this.blockInput} id="correctionField"  placeholder="Type your corrections here..." value={improvedTranslation} name="improvedTranslation" onChange={(e) => this.tigrinyaToEnglish(e)} />
+
+                          <Input type='text' onClick={this.blockInput} id="correctionField" placeholder="Type your corrections here..." value={improvedTranslation} name="improvedTranslation" onChange={(e) => { this.tigrinyaToEnglish(e); this.translateEnToTi() }} />
+
+
                         </Col>
                         <Col xs={1} md={2}>
                           <Button type="submit" onClick={this.unblockInput}>Submit</Button>
