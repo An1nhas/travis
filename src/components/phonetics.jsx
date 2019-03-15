@@ -226,45 +226,55 @@ export default class Phonetics extends Component {
     this.setState({ finalizedSymbols: '', TigrinyaToEnglish: !TigrinyaToEnglish, display: '', queue: '', translation: '', improvedTranslation: '', english: '', improveTranslation: false })
   }
 
-
   handleClick(e) {
     if (typeof e.target.value !== 'undefined') {
       this.setState({
         show: false,
         queue: ''
-      })
+      });
+      if (this.state.TigrinyaToEnglish === true) {
+        this.translateTiToEn();
+      }
+      
+      var targetState = this.state.improveTranslation === false ? "display" : "improvedTranslation";
+      var targetField = this.state.improveTranslation === false ? "input-field" : "correctionField";
       if (e.target.value.match(/^.{1}$/)) {
         this.setState({
-          display: document.getElementById("input-field").value + e.target.value,
-          finalizedSymbols: document.getElementById("input-field").value + e.target.value
+          [targetState]: document.getElementById(targetField).value + e.target.value,
+          finalizedSymbols: document.getElementById(targetField).value + e.target.value
         })
       } else if (e.target.value === "Clear") {
         this.setState({
-          display: document.getElementById("input-field").value.slice(0, document.getElementById("input-field").value.length - 1)
+          [targetState]: document.getElementById(targetField).value.slice(0, document.getElementById(targetField).value.length - 1)
         })
       } else if (e.target.value === "123.,") {
         this.setState({
           keyboardSet: 1,
-          display: document.getElementById("input-field").value
+          [targetState]: document.getElementById(targetField).value
         })
       } else if (e.target.value === "#+=") {
         this.setState({
           keyboardSet: 2,
-          display: document.getElementById("input-field").value
+          [targetState]: document.getElementById(targetField).value
         })
       } else if (e.target.value === "abc") {
         this.setState({
           keyboardSet: 0,
-          display: document.getElementById("input-field").value
+          [targetState]: document.getElementById(targetField).value
         })
       } else if (e.target.value === "Shift") {
         this.setState({
           shift: this.state.shift === false,
-          display: document.getElementById("input-field").value
+          [targetState]: document.getElementById(targetField).value
         })
       } else if (e.target.value === "space") {
         this.setState({
-          display: `${document.getElementById("input-field").value} `
+          [targetState]: `${document.getElementById(targetField).value} `
+        })
+      } else if (e.target.value === "return") {
+        this.setState({
+          [targetState]: `${document.getElementById(targetField).value} \n`,
+          finalizedSymbols: `${document.getElementById(targetField).value} \n`,
         })
       }
     };
@@ -277,15 +287,15 @@ export default class Phonetics extends Component {
           queue: '',
           show: true,
           target: e.target.value,
-          display: document.getElementById("input-field").value,
-          finalizedSymbols: document.getElementById("input-field").value
-
+          // [targetState]: document.getElementById(targetField).value,
+          // finalizedSymbols: document.getElementById(targetField).value,
         })
       } else {
         this.handleClick(e);
       }
     };
   }
+
 
 
 
@@ -316,7 +326,7 @@ export default class Phonetics extends Component {
                     <Form onSubmit={this.handleSubmit}>
                       <Row>
                         <Col xs={7} md={10}>
-                          <Input type='text' placeholder="Type your corrections here..." value={improvedTranslation} onChange={this.improveChangeHandler} />
+                          <Input type='text' id="correctionField" placeholder="Type your corrections here..." value={improvedTranslation} onChange={this.improveChangeHandler} />
                         </Col>
                         <Col xs={1} md={2}>
                           <Button type="submit">Submit</Button>
@@ -352,7 +362,7 @@ export default class Phonetics extends Component {
                     <Form onSubmit={this.handleSubmit}>
                       <Row>
                         <Col xs={7} md={10}>
-                          <Input type='text' placeholder="Type your corrections here..." value={improvedTranslation} name="improvedTranslation" onChange={(e) => this.tigrinyaToEnglish(e)} />
+                          <Input type='text' id="correctionField"  placeholder="Type your corrections here..." value={improvedTranslation} name="improvedTranslation" onChange={(e) => this.tigrinyaToEnglish(e)} />
                         </Col>
                         <Col xs={1} md={2}>
                           <Button type="submit">Submit</Button>
