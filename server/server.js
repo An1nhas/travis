@@ -1,23 +1,23 @@
 // config
-const config = require('./config/server');
 
 // used modules
 const fs = require('fs');
 const restify = require('restify');
 const jwt = require('restify-jwt-community');
 const corsMiddleware = require('restify-cors-middleware')
+const config = require('./config/server');
 
 const extensions = require('./lib/extensions.js');
 const util = require('./lib/utilities');
 
-var routeAuth = require('./lib/route-auth');
-var db = require('./models');
+const routeAuth = require('./lib/route-auth');
+const db = require('./models');
 // var noCache = require( './lib/nocache.js' );
 
 const server = restify.createServer(config);
 
 const cors = corsMiddleware({
-	preflightMaxAge: 5, //Optional
+	preflightMaxAge: 5, // Optional
 	origins: ['*'],
 	allowHeaders: ['Authorization'],
 	exposeHeaders: ['Access-Control-Allow-Origin']
@@ -132,7 +132,7 @@ server.use(function (req, res, next) {
 
 server.use(jwt({
 	secret: config.secret,
-	isRevoked: function (req, payload, done) {
+	isRevoked(req, payload, done) {
 		console.log('JWT'.green, payload);
 
 		req.authorization = payload;
@@ -159,7 +159,7 @@ server.use(routeAuth);
 
 fs.readdirSync('./routes').forEach(function (curFile) {
 	if (curFile.substr(-3) === '.js') {
-		route = require('./routes/' + curFile);
+		route = require(`./routes/${curFile}`);
 		route.routes(server);
 	}
 });
@@ -171,6 +171,13 @@ server.get('/api/test', (req, res) => {
 			console.log("ERROR ", JSON.stringify(err));
 			res.send(err);
 		})
+})
+
+server.post('/api/report', (req, res) => {
+	const { original, translation, improved } = req.body;
+	return db.Report.create({ original, translation, improved })
+		.then((report) => res.send(report))
+		.catch((err) => res.send(err));
 })
 
 // store static files on the file system for caching purposes
