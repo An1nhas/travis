@@ -313,6 +313,7 @@ export default class Phonetics extends Component {
   }
 
   handlePaste(e) {
+    // this function handles paste
     const { display } = this.state;
     this.setState({
       display: display.concat(e.clipboardData.getData('text')),
