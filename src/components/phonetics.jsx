@@ -37,11 +37,11 @@ export default class Phonetics extends Component {
     this.switchTranslations = this.switchTranslations.bind(this);
     this.englishToTigrinya = this.englishToTigrinya.bind(this);
     this.translateTiToEn = this.translateTiToEn.bind(this);
-    this.translateEnToTi = this.translateEnToTi.bind(this);
-    this.handlePaste = this.handlePaste.bind(this);
 
     this.handleClick = this.handleClick.bind(this);
     this.handleClickTgr = this.handleClickTgr.bind(this);
+    this.blockInput = this.blockInput.bind(this);
+    this.unblockInput = this.unblockInput.bind(this);
   };
 
   componentDidMount() {
@@ -60,9 +60,12 @@ export default class Phonetics extends Component {
 
 
   tigrinyaToEnglish(e) {
+    console.log(e.target);
+    console.log(e.currentTarget.name);
+    console.log(e.nativeEvent);
 
     const { finalizedSymbols, queue, english, dict, display, improvedTranslation } = this.state;
-    if (e.nativeEvent.key) e.nativeEvent.data = e.nativeEvent.key;
+
     // Letters which end a symbol
     const stoppers = /(([^KkghQq]u)|[aeoAW])$/;
     // History of all Latin keyboard inputs
@@ -174,7 +177,6 @@ export default class Phonetics extends Component {
   }
 
   englishToTigrinya(e) {
-    console.log(e);
     const { display } = this.state;
     if (e) this.setState({ display: e.target.value });
 
@@ -203,22 +205,6 @@ export default class Phonetics extends Component {
     translate(e);
 
 
-  }
-
-  async translateEnToTi() {
-    const { display } = this.state;
-    const config = {
-      headers: { 'Authorization': 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg2Mzg0NDFiLWYzYTgtNDIyNC05ZmRiLWI2YWMxYzdmMmI5OSIsImVtYWlsIjoiaGVsbG9AdHJhdmlzLmZvdW5kYXRpb24iLCJmdWxsX25hbWUiOiJUcmF2aXMgRm91bmRhdGlvbiIsInJvbGUiOiJhcGktY2xpZW50IiwiaWF0IjoxNTUxMzA2MjMzLCJuYmYiOjE1NTEzMDYxNzMsImV4cCI6MTU4Mjg2MzgzMywiaXNzIjoiaHR0cDovL3RyYXZpcy5mb3VuZGF0aW9uIiwic3ViIjoiaGVsbG9AdHJhdmlzLmZvdW5kYXRpb24iLCJqdGkiOiJ0cmF2aXMtZm91bmRhdGlvbi10cmFuc2xhdGlvbi1hcGkifQ.TUjINnAwQAC3LOVTZOti1IoGf9Wi730e2jFEqdOxkkQ' }
-    }
-    const response = await axios.post('http://localhost:8080/api/translate', {
-      "source_lang": "en",
-      "target_lang": "ti",
-      "phrase": display
-    }, config)
-
-    const { translations } = await response.data;
-    console.log("TRANSLATION", translations[0].text);
-    this.setState({ translation: translations[0].text.slice(0, -2) })
   }
 
   improveTranslation() {
@@ -312,6 +298,7 @@ export default class Phonetics extends Component {
     };
   }
 
+
   handlePaste(e) {
     // this function handles paste
     const { display } = this.state;
@@ -321,6 +308,15 @@ export default class Phonetics extends Component {
       queue: ''
     })
   }
+
+
+  blockInput = () =>{
+  this.setState({display: document.getElementById("input-field").disabled = true, display: document.getElementById("input-field").value })
+}
+
+  unblockInput = () =>{
+  this.setState({display: document.getElementById("input-field").disabled = false, display: document.getElementById("input-field").innerHTML = ""})
+}
 
   render() {
 
@@ -336,23 +332,23 @@ export default class Phonetics extends Component {
               <Col xs={12} md={6}>
 
                 <div>
-                  <textarea type='text' id="input-field" name="display" value={display} onKeyPress={e => this.tigrinyaToEnglish(e)} onChange={(e) => { this.translateTiToEn(); }} onPaste={this.handlePaste} />
+                  <textarea type='text' id="input-field" name="display" value={display} onChange={(e) => { this.tigrinyaToEnglish(e); this.translateTiToEn(); }} />
                 </div>
               </Col>
 
               <Col xs={12} md={6}>
                 <div>
-                  <textarea type="text" id="input-field" value={translation} disabled />
+                  <textarea type="text" disabled style={{backgroundColor:'white'}} id="input-field" value={translation} disabled />
                 </div>
                 <div>
                   {improveTranslation ?
                     <Form onSubmit={this.handleSubmit}>
                       <Row>
                         <Col xs={7} md={10}>
-                          <Input type='text' id="correctionField" placeholder="Type your corrections here..." value={improvedTranslation} onChange={this.improveChangeHandler} />
+                          <Input type='text' onClick={this.blockInput} id="correctionField" placeholder="Type your corrections here..." value={improvedTranslation} onChange={this.improveChangeHandler} />
                         </Col>
                         <Col xs={1} md={2}>
-                          <Button type="submit">Submit</Button>
+                          <Button type="submit" onClick={this.unblockInput}>Submit</Button>
                         </Col>
                         <div>
                           <h6 style={{ marginTop: '20px' }}>The Sentence Society</h6>
@@ -372,13 +368,13 @@ export default class Phonetics extends Component {
               <Col xs={12} md={6}>
 
                 <div>
-                  <textarea type='text' id="input-field" value={display} onChange={this.englishToTigrinya} onPaste={e => console.log(e.clipboardData.getData('text'))} />
+                  <textarea type='text' id="input-field" value={display} onChange={this.englishToTigrinya} />
                 </div>
               </Col>
 
               <Col xs={12} md={6}>
                 <div>
-                  <textarea type="text" id="input-field" value={translation} disabled />
+                  <textarea type="text" disabled style={{backgroundColor:'white'}} id="input-field" value={translation} disabled />
                 </div>
                 <div>
                   {improveTranslation ?
@@ -386,12 +382,12 @@ export default class Phonetics extends Component {
                       <Row>
                         <Col xs={7} md={10}>
 
-                          <Input type='text' id="correctionField" placeholder="Type your corrections here..." value={improvedTranslation} name="improvedTranslation" onChange={(e) => { this.tigrinyaToEnglish(e); this.translateEnToTi() }} />
+                          <Input type='text' onClick={this.blockInput} id="correctionField" placeholder="Type your corrections here..." value={improvedTranslation} name="improvedTranslation" onChange={(e) => { this.tigrinyaToEnglish(e); this.translateEnToTi() }} />
 
 
                         </Col>
                         <Col xs={1} md={2}>
-                          <Button type="submit">Submit</Button>
+                          <Button type="submit" onClick={this.unblockInput}>Submit</Button>
                         </Col>
                         <div>
                           <h6 style={{ marginTop: '20px' }}>The Sentence Society</h6>
