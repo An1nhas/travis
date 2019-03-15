@@ -173,7 +173,7 @@ export default class Phonetics extends Component {
 
     const { translations } = await response.data;
     console.log("TRANSLATION", translations[0].text);
-    this.setState({ translation: translations[0].text })
+    this.setState({ translation: translations[0].text.slice(0, -1) })
   }
 
   englishToTigrinya(e) {
@@ -193,7 +193,7 @@ export default class Phonetics extends Component {
 
       const { translations } = await response.data;
       console.log("--------TRANSLATION", translations[0].text);
-      this.setState({ translation: translations[0].text })
+      this.setState({ translation: translations[0].text.slice(0, -1) })
 
       // this.setState({translation: })
       // .then(res => {
@@ -310,7 +310,7 @@ export default class Phonetics extends Component {
 
               <Col xs={12} md={6}>
                 <div>
-                  <textarea type="text" id="input-field" placeholder={translation} />
+                  <textarea type="text" id="input-field" value={translation} disabled />
                 </div>
                 <div>
                   {improveTranslation ?
@@ -346,7 +346,7 @@ export default class Phonetics extends Component {
 
               <Col xs={12} md={6}>
                 <div>
-                  <textarea type="text" id="input-field" placeholder={translation} />
+                  <textarea type="text" id="input-field" value={translation} disabled />
                 </div>
                 <div>
                   {improveTranslation ?
