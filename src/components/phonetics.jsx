@@ -72,8 +72,6 @@ export default class Phonetics extends Component {
 
     console.log("Stopper test: ", stoppers.test(updatedQueue), " Queue is: ", updatedQueue);
     console.log(e.nativeEvent.data);
-    console.log(Date.now());
-    console.log(Date.now() + 10 - Date.now());
 
     if (/[^a-zNKQHPCTZOKS2]/.test(e.nativeEvent.data)) {
       console.log("Character ", e.nativeEvent.data, " doesn't correspond to anything in Tigrinya");
@@ -193,7 +191,7 @@ export default class Phonetics extends Component {
 
       const { translations } = await response.data;
       console.log("--------TRANSLATION", translations[0].text);
-      this.setState({ translation: translations[0].text.slice(0, -1) })
+      this.setState({ translation: translations[0].text.slice(0, -2) })
 
       // this.setState({translation: })
       // .then(res => {
@@ -209,7 +207,7 @@ export default class Phonetics extends Component {
 
   improveTranslation() {
     const { improveTranslation, translation } = this.state;
-    this.setState({ improveTranslation: !improveTranslation, improvedTranslation: translation });
+    this.setState({ improveTranslation: !improveTranslation, improvedTranslation: translation, finalizedSymbols: translation });
   }
 
   improveChangeHandler(e) {
@@ -218,7 +216,8 @@ export default class Phonetics extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const { improvedTranslation } = this.state;
+    // Here we add a correction to our database
+    const { display, translation, improvedTranslation } = this.state;
     alert(`The improved translation is: ${improvedTranslation}`);
   }
 
@@ -317,7 +316,7 @@ export default class Phonetics extends Component {
                     <Form onSubmit={this.handleSubmit}>
                       <Row>
                         <Col xs={7} md={10}>
-                          <Input type='text' placeholder="Type your corrections here..." value={improvedTranslation} name="improvedTranslation" onChange={(e) => this.tigrinyaToEnglish(e)} />
+                          <Input type='text' placeholder="Type your corrections here..." value={improvedTranslation} onChange={this.improveChangeHandler} />
                         </Col>
                         <Col xs={1} md={2}>
                           <Button type="submit">Submit</Button>
@@ -353,7 +352,7 @@ export default class Phonetics extends Component {
                     <Form onSubmit={this.handleSubmit}>
                       <Row>
                         <Col xs={7} md={10}>
-                          <Input type='text' placeholder="Type your corrections here..." value={improvedTranslation} onChange={this.improveChangeHandler} />
+                          <Input type='text' placeholder="Type your corrections here..." value={improvedTranslation} name="improvedTranslation" onChange={(e) => this.tigrinyaToEnglish(e)} />
                         </Col>
                         <Col xs={1} md={2}>
                           <Button type="submit">Submit</Button>
