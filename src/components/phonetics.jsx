@@ -251,9 +251,9 @@ export default class Phonetics extends Component {
       if (this.state.TigrinyaToEnglish === true) {
         this.translateTiToEn();
       }
-      
-      var targetState = this.state.improveTranslation === false ? "display" : "improvedTranslation";
-      var targetField = this.state.improveTranslation === false ? "input-field" : "correctionField";
+
+      const targetState = this.state.improveTranslation === false ? "display" : "improvedTranslation";
+      const targetField = this.state.improveTranslation === false ? "input-field" : "correctionField";
       if (e.target.value.match(/^.{1}$/)) {
         this.setState({
           [targetState]: document.getElementById(targetField).value + e.target.value,
@@ -321,8 +321,6 @@ export default class Phonetics extends Component {
     })
   }
 
-
-
   render() {
 
     const { display, translation, TigrinyaToEnglish, improveTranslation, improvedTranslation } = this.state;
@@ -387,7 +385,7 @@ export default class Phonetics extends Component {
                       <Row>
                         <Col xs={7} md={10}>
 
-                          <Input type='text'id="correctionField"  placeholder="Type your corrections here..." value={improvedTranslation} name="improvedTranslation" onChange={(e) => { this.tigrinyaToEnglish(e); this.translateEnToTi() }} />
+                          <Input type='text' id="correctionField" placeholder="Type your corrections here..." value={improvedTranslation} name="improvedTranslation" onChange={(e) => { this.tigrinyaToEnglish(e); this.translateEnToTi() }} />
 
 
                         </Col>
