@@ -351,13 +351,13 @@ export default class Phonetics extends Component {
               <Col xs={12} md={6}>
 
                 <div>
-                  <textarea type='text' id="input-field" name="display" value={display} onKeyPress={e => this.tigrinyaToEnglish(e)} onChange={(e) => { this.translateTiToEn(); }} onPaste={this.handlePaste} />
+                  <textarea type='text' id="input-field" className="input-field" name="display" value={display} onKeyPress={e => this.tigrinyaToEnglish(e)} onChange={(e) => { this.translateTiToEn(); }} onPaste={this.handlePaste} />
                 </div>
               </Col>
 
               <Col xs={12} md={6}>
                 <div>
-                  <textarea type="text" disabled style={{ backgroundColor: 'white' }} id="input-field" value={translation} disabled />
+                  <textarea type="text" disabled style={{ backgroundColor: 'white' }} id="output-field" className="input-field" value={translation} disabled />
                 </div>
                 <div>
                   {improveTranslation ?
@@ -387,13 +387,13 @@ export default class Phonetics extends Component {
               <Col xs={12} md={6}>
 
                 <div>
-                  <textarea type='text' id="input-field" value={display} onChange={this.englishToTigrinya} />
+                  <textarea type='text' className="input-field" id="input-field" value={display} onChange={this.englishToTigrinya} />
                 </div>
               </Col>
 
               <Col xs={12} md={6}>
                 <div>
-                  <textarea type="text" disabled style={{ backgroundColor: 'white' }} id="input-field" value={translation} disabled />
+                  <textarea type="text" className="input-field" disabled style={{ backgroundColor: 'white' }} id="output-field" value={translation} disabled />
                 </div>
                 <div>
                   {improveTranslation ?
