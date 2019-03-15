@@ -3,10 +3,10 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Container, Row, Col } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Keyboard from './Keyboard';
-import data from '../keyboardObj';
 import { Button, Input, Form } from 'reactstrap';
 import { MdSwapHoriz, MdFlag } from "react-icons/md";
+import Keyboard from './Keyboard';
+import data from '../keyboardObj';
 
 export default class Phonetics extends Component {
   constructor(props) {
@@ -27,7 +27,9 @@ export default class Phonetics extends Component {
       keyboardSet: 0,
       shift: false,
       show: true,
-      target: null
+      target: null,
+
+      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg2Mzg0NDFiLWYzYTgtNDIyNC05ZmRiLWI2YWMxYzdmMmI5OSIsImVtYWlsIjoiaGVsbG9AdHJhdmlzLmZvdW5kYXRpb24iLCJmdWxsX25hbWUiOiJUcmF2aXMgRm91bmRhdGlvbiIsInJvbGUiOiJhcGktY2xpZW50IiwiaWF0IjoxNTUxMzA2MjMzLCJuYmYiOjE1NTEzMDYxNzMsImV4cCI6MTU4Mjg2MzgzMywiaXNzIjoiaHR0cDovL3RyYXZpcy5mb3VuZGF0aW9uIiwic3ViIjoiaGVsbG9AdHJhdmlzLmZvdW5kYXRpb24iLCJqdGkiOiJ0cmF2aXMtZm91bmRhdGlvbi10cmFuc2xhdGlvbi1hcGkifQ.TUjINnAwQAC3LOVTZOti1IoGf9Wi730e2jFEqdOxkkQ'
     }
     this.improveTranslation = this.improveTranslation.bind(this);
     this.improveChangeHandler = this.improveChangeHandler.bind(this);
@@ -39,13 +41,6 @@ export default class Phonetics extends Component {
     this.handleClickTgr = this.handleClickTgr.bind(this);
   };
 
-  componentWillMount() {
-    const config = {
-      headers: { 'Authorization': 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg2Mzg0NDFiLWYzYTgtNDIyNC05ZmRiLWI2YWMxYzdmMmI5OSIsImVtYWlsIjoiaGVsbG9AdHJhdmlzLmZvdW5kYXRpb24iLCJmdWxsX25hbWUiOiJUcmF2aXMgRm91bmRhdGlvbiIsInJvbGUiOiJhcGktY2xpZW50IiwiaWF0IjoxNTUxMzA2MjMzLCJuYmYiOjE1NTEzMDYxNzMsImV4cCI6MTU4Mjg2MzgzMywiaXNzIjoiaHR0cDovL3RyYXZpcy5mb3VuZGF0aW9uIiwic3ViIjoiaGVsbG9AdHJhdmlzLmZvdW5kYXRpb24iLCJqdGkiOiJ0cmF2aXMtZm91bmRhdGlvbi10cmFuc2xhdGlvbi1hcGkifQ.TUjINnAwQAC3LOVTZOti1IoGf9Wi730e2jFEqdOxkkQ' }
-    }
-    axios.get('http://localhost:8080/api/lang', config).then(response => this.setState({ dict: response.data }));
-  }
-
   componentDidMount() {
     if (data) {
       this.setState({
@@ -53,12 +48,17 @@ export default class Phonetics extends Component {
       });
     };
 
+    const config = {
+      headers: { 'Authorization': 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg2Mzg0NDFiLWYzYTgtNDIyNC05ZmRiLWI2YWMxYzdmMmI5OSIsImVtYWlsIjoiaGVsbG9AdHJhdmlzLmZvdW5kYXRpb24iLCJmdWxsX25hbWUiOiJUcmF2aXMgRm91bmRhdGlvbiIsInJvbGUiOiJhcGktY2xpZW50IiwiaWF0IjoxNTUxMzA2MjMzLCJuYmYiOjE1NTEzMDYxNzMsImV4cCI6MTU4Mjg2MzgzMywiaXNzIjoiaHR0cDovL3RyYXZpcy5mb3VuZGF0aW9uIiwic3ViIjoiaGVsbG9AdHJhdmlzLmZvdW5kYXRpb24iLCJqdGkiOiJ0cmF2aXMtZm91bmRhdGlvbi10cmFuc2xhdGlvbi1hcGkifQ.TUjINnAwQAC3LOVTZOti1IoGf9Wi730e2jFEqdOxkkQ' }
+    }
+    axios.get('http://localhost:8080/api/lang', config).then(response => this.setState({ dict: response.data }));
+
   };
 
 
   tigrinyaToEnglish(e) {
 
-    const { finalizedSymbols, queue, english, dict, display } = this.state;
+    const { finalizedSymbols, queue, english, dict, display, token } = this.state;
 
     // Letters which end a symbol
     const stoppers = /(([^KkghQq]u)|[aeoAW])$/;
@@ -88,14 +88,6 @@ export default class Phonetics extends Component {
         })
       }
 
-      // "Translate" after each space
-      if (/\s/.test(e.nativeEvent.data)) {
-        const splitBySpace = display.split(" ");
-        // eslint-disable-next-line no-useless-escape
-        const test2 = splitBySpace.map(word => word.replace(/[^a-zA-Z0-9./<>?;:"'`!@#$%^&*()\[\]{}_+=|\\-]+/g, "<English>"))
-        const print = test2.join(" ");
-        this.setState({ translation: print })
-      }
     }
     else if (e.nativeEvent.inputType === "deleteContentBackward") {
       if (display.length === finalizedSymbols.length) {
@@ -137,20 +129,83 @@ export default class Phonetics extends Component {
       })
     }
 
+
+    // const config = {
+    //   headers: { 'Authorization': `bearer ${token}` }
+    // }
+    const config = {
+      headers: { 'Authorization': 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg2Mzg0NDFiLWYzYTgtNDIyNC05ZmRiLWI2YWMxYzdmMmI5OSIsImVtYWlsIjoiaGVsbG9AdHJhdmlzLmZvdW5kYXRpb24iLCJmdWxsX25hbWUiOiJUcmF2aXMgRm91bmRhdGlvbiIsInJvbGUiOiJhcGktY2xpZW50IiwiaWF0IjoxNTUxMzA2MjMzLCJuYmYiOjE1NTEzMDYxNzMsImV4cCI6MTU4Mjg2MzgzMywiaXNzIjoiaHR0cDovL3RyYXZpcy5mb3VuZGF0aW9uIiwic3ViIjoiaGVsbG9AdHJhdmlzLmZvdW5kYXRpb24iLCJqdGkiOiJ0cmF2aXMtZm91bmRhdGlvbi10cmFuc2xhdGlvbi1hcGkifQ.TUjINnAwQAC3LOVTZOti1IoGf9Wi730e2jFEqdOxkkQ' }
+    }
+
+    const translate = async () => {
+      const response = await axios.post('http://localhost:8080/api/translate', {
+        "source_lang": "ti",
+        "target_lang": "en",
+        "phrase": display
+      }, config)
+
+      const { translations } = await response.data;
+      console.log("--------TRANSLATION", translations[0].text);
+      this.setState({ translation: translations[0].text })
+
+      // this.setState({translation: })
+      // .then(res => {
+      //   console.log("TRANSLATION: ", res.data.translations[0].text)
+      //   this.setState({ translation: res.data.translations[0].text })
+      // })
+    }
+
+    translate();
+
     console.log(newEnglish);
     console.log("updatedQueue: ", updatedQueue);
+  }
+
+  async translateEnToTi() {
+    const { display } = this.state;
+    const config = {
+      headers: { 'Authorization': 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg2Mzg0NDFiLWYzYTgtNDIyNC05ZmRiLWI2YWMxYzdmMmI5OSIsImVtYWlsIjoiaGVsbG9AdHJhdmlzLmZvdW5kYXRpb24iLCJmdWxsX25hbWUiOiJUcmF2aXMgRm91bmRhdGlvbiIsInJvbGUiOiJhcGktY2xpZW50IiwiaWF0IjoxNTUxMzA2MjMzLCJuYmYiOjE1NTEzMDYxNzMsImV4cCI6MTU4Mjg2MzgzMywiaXNzIjoiaHR0cDovL3RyYXZpcy5mb3VuZGF0aW9uIiwic3ViIjoiaGVsbG9AdHJhdmlzLmZvdW5kYXRpb24iLCJqdGkiOiJ0cmF2aXMtZm91bmRhdGlvbi10cmFuc2xhdGlvbi1hcGkifQ.TUjINnAwQAC3LOVTZOti1IoGf9Wi730e2jFEqdOxkkQ' }
+    }
+    const response = await axios.post('http://localhost:8080/api/translate', {
+      "source_lang": "ti",
+      "target_lang": "en",
+      "phrase": display
+    }, config)
+
+    const { translations } = await response.data;
+    console.log("TRANSLATION", translations[0].text);
+    this.setState({ translation: translations[0].text })
   }
 
   englishToTigrinya(e) {
     const { display } = this.state;
     if (e) this.setState({ display: e.target.value });
-    if (/\s/.test(e.nativeEvent.data)) {
-      const splitBySpace = display.split(" ");
-      // eslint-disable-next-line no-useless-escape
-      const test2 = splitBySpace.map(word => word.replace(/[^0-9./<>?;:"'`!@#$%^&*()\[\]{}_+=|\\-]+/g, "<Tigrinya>"))
-      const print = test2.join(" ");
-      this.setState({ translation: print });
+
+    const config = {
+      headers: { 'Authorization': 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg2Mzg0NDFiLWYzYTgtNDIyNC05ZmRiLWI2YWMxYzdmMmI5OSIsImVtYWlsIjoiaGVsbG9AdHJhdmlzLmZvdW5kYXRpb24iLCJmdWxsX25hbWUiOiJUcmF2aXMgRm91bmRhdGlvbiIsInJvbGUiOiJhcGktY2xpZW50IiwiaWF0IjoxNTUxMzA2MjMzLCJuYmYiOjE1NTEzMDYxNzMsImV4cCI6MTU4Mjg2MzgzMywiaXNzIjoiaHR0cDovL3RyYXZpcy5mb3VuZGF0aW9uIiwic3ViIjoiaGVsbG9AdHJhdmlzLmZvdW5kYXRpb24iLCJqdGkiOiJ0cmF2aXMtZm91bmRhdGlvbi10cmFuc2xhdGlvbi1hcGkifQ.TUjINnAwQAC3LOVTZOti1IoGf9Wi730e2jFEqdOxkkQ' }
     }
+
+    const translate = async (event) => {
+      const response = await axios.post('http://localhost:8080/api/translate', {
+        "source_lang": "en",
+        "target_lang": "ti",
+        "phrase": display + event.nativeEvent.data
+      }, config)
+
+      const { translations } = await response.data;
+      console.log("--------TRANSLATION", translations[0].text);
+      this.setState({ translation: translations[0].text })
+
+      // this.setState({translation: })
+      // .then(res => {
+      //   console.log("TRANSLATION: ", res.data.translations[0].text)
+      //   this.setState({ translation: res.data.translations[0].text })
+      // })
+    }
+    console.log(e.nativeEvent.data);
+    translate(e);
+
+
   }
 
   improveTranslation() {
@@ -175,7 +230,7 @@ export default class Phonetics extends Component {
 
 
   handleClick(e) {
-    if (typeof e.target.value != 'undefined') {
+    if (typeof e.target.value !== 'undefined') {
       this.setState({
         show: false,
         queue: ''
@@ -218,7 +273,7 @@ export default class Phonetics extends Component {
   };
 
   handleClickTgr(e) {
-    if (typeof e.target.value != 'undefined') {
+    if (typeof e.target.value !== 'undefined') {
       if (e.target.value.match(/^.{1}$/)) {
         this.setState({
           queue: '',
