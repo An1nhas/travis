@@ -65,9 +65,10 @@ export default class Phonetics extends Component {
 
     console.log("--------keyCode", e.keyCode);
     console.log("--------nativeEvent", e.nativeEvent);
+    console.log("----KEY----", e.key);
 
     const { finalizedSymbols, queue, english, dict, display, improvedTranslation } = this.state;
-    if (e.nativeEvent.key) e.nativeEvent.data = e.nativeEvent.key;
+    if (e.nativeEvent.key) e.nativeEvent.data = e.key;
     // Letters which end a symbol
     const stoppers = /(([^KkghQq]u)|[aeoAW])$/;
     // History of all Latin keyboard inputs
@@ -77,7 +78,7 @@ export default class Phonetics extends Component {
 
     console.log("Stopper test: ", stoppers.test(updatedQueue), " Queue is: ", updatedQueue);
 
-    if (/[^a-zNKQHPCTZOKS2]/.test(e.nativeEvent.data) && e.keyCode !== 8) {
+    if (/[^a-zNKQHPCTZOKS2]/.test(e.nativeEvent.data)) {
       console.log("Character ", e.nativeEvent.data, " doesn't correspond to anything in Tigrinya");
       if (queue !== '') {
 
@@ -87,15 +88,15 @@ export default class Phonetics extends Component {
           [e.currentTarget.name]: newFinalizedSymbols, queue: '', english: newEnglish
         })
       } else {
-
+        console.log("HERE");
         this.setState({
-          finalizedSymbols: finalizedSymbols.concat(e.nativeEvent.data),
-          [e.currentTarget.name]: finalizedSymbols.concat(e.nativeEvent.data), english: newEnglish
+          finalizedSymbols: e.target.value,
+          [e.currentTarget.name]: e.target.value, english: newEnglish
         })
       }
 
     }
-    else if (e.keyCode === 8 || e.keyCode === 13) {
+    else if (e.nativeEvent.data === "Enter") {
       console.log("RIGHT PLACE")
       this.setState({
         [e.currentTarget.name]: e.currentTarget.value,
