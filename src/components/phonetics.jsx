@@ -332,7 +332,7 @@ export default class Phonetics extends Component {
 
               <Col xs={12} md={6}>
                 <div>
-                  <textarea type="text" disabled style={{ backgroundColor: 'white' }} id="output-field" className="input-field" value={translation} disabled />
+                  <textarea type="text" style={{ backgroundColor: 'white' }} id="output-field" className="input-field" value={translation} disabled />
                 </div>
                 <div>
                   {improveTranslation ?
@@ -369,7 +369,7 @@ export default class Phonetics extends Component {
 
               <Col xs={12} md={6}>
                 <div>
-                  <textarea type="text" className="input-field" disabled style={{ backgroundColor: 'white' }} id="output-field" value={translation} disabled />
+                  <textarea type="text" className="input-field" style={{ backgroundColor: 'white' }} id="output-field" value={translation} disabled />
                 </div>
                 <div>
                   {improveTranslation ?
