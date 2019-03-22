@@ -47,6 +47,8 @@ export default class Phonetics extends Component {
   };
 
   componentDidMount() {
+    const { token } = this.state;
+
     if (data) {
       this.setState({
         keyboard: data.keyData
@@ -54,7 +56,7 @@ export default class Phonetics extends Component {
     };
 
     const config = {
-      headers: { 'Authorization': 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg2Mzg0NDFiLWYzYTgtNDIyNC05ZmRiLWI2YWMxYzdmMmI5OSIsImVtYWlsIjoiaGVsbG9AdHJhdmlzLmZvdW5kYXRpb24iLCJmdWxsX25hbWUiOiJUcmF2aXMgRm91bmRhdGlvbiIsInJvbGUiOiJhcGktY2xpZW50IiwiaWF0IjoxNTUxMzA2MjMzLCJuYmYiOjE1NTEzMDYxNzMsImV4cCI6MTU4Mjg2MzgzMywiaXNzIjoiaHR0cDovL3RyYXZpcy5mb3VuZGF0aW9uIiwic3ViIjoiaGVsbG9AdHJhdmlzLmZvdW5kYXRpb24iLCJqdGkiOiJ0cmF2aXMtZm91bmRhdGlvbi10cmFuc2xhdGlvbi1hcGkifQ.TUjINnAwQAC3LOVTZOti1IoGf9Wi730e2jFEqdOxkkQ' }
+      headers: { 'Authorization': `bearer ${token}` }
     }
     axios.get('http://localhost:8080/api/lang', config).then(response => this.setState({ dict: response.data }));
 
@@ -130,9 +132,9 @@ export default class Phonetics extends Component {
   }
 
   async translateTiToEn() {
-    const { display } = this.state;
+    const { display, token } = this.state;
     const config = {
-      headers: { 'Authorization': 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg2Mzg0NDFiLWYzYTgtNDIyNC05ZmRiLWI2YWMxYzdmMmI5OSIsImVtYWlsIjoiaGVsbG9AdHJhdmlzLmZvdW5kYXRpb24iLCJmdWxsX25hbWUiOiJUcmF2aXMgRm91bmRhdGlvbiIsInJvbGUiOiJhcGktY2xpZW50IiwiaWF0IjoxNTUxMzA2MjMzLCJuYmYiOjE1NTEzMDYxNzMsImV4cCI6MTU4Mjg2MzgzMywiaXNzIjoiaHR0cDovL3RyYXZpcy5mb3VuZGF0aW9uIiwic3ViIjoiaGVsbG9AdHJhdmlzLmZvdW5kYXRpb24iLCJqdGkiOiJ0cmF2aXMtZm91bmRhdGlvbi10cmFuc2xhdGlvbi1hcGkifQ.TUjINnAwQAC3LOVTZOti1IoGf9Wi730e2jFEqdOxkkQ' }
+      headers: { 'Authorization': `bearer ${token}` }
     }
     const response = await axios.post('http://localhost:8080/api/translate', {
       "source_lang": "ti",
@@ -145,11 +147,11 @@ export default class Phonetics extends Component {
   }
 
   englishToTigrinya(e) {
-    const { display } = this.state;
+    const { display, token } = this.state;
     if (e) this.setState({ display: e.target.value });
 
     const config = {
-      headers: { 'Authorization': 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg2Mzg0NDFiLWYzYTgtNDIyNC05ZmRiLWI2YWMxYzdmMmI5OSIsImVtYWlsIjoiaGVsbG9AdHJhdmlzLmZvdW5kYXRpb24iLCJmdWxsX25hbWUiOiJUcmF2aXMgRm91bmRhdGlvbiIsInJvbGUiOiJhcGktY2xpZW50IiwiaWF0IjoxNTUxMzA2MjMzLCJuYmYiOjE1NTEzMDYxNzMsImV4cCI6MTU4Mjg2MzgzMywiaXNzIjoiaHR0cDovL3RyYXZpcy5mb3VuZGF0aW9uIiwic3ViIjoiaGVsbG9AdHJhdmlzLmZvdW5kYXRpb24iLCJqdGkiOiJ0cmF2aXMtZm91bmRhdGlvbi10cmFuc2xhdGlvbi1hcGkifQ.TUjINnAwQAC3LOVTZOti1IoGf9Wi730e2jFEqdOxkkQ' }
+      headers: { 'Authorization': `bearer ${token}` }
     }
 
     const translate = async (event) => {
@@ -179,9 +181,10 @@ export default class Phonetics extends Component {
   }
 
   handleSubmit(e) {
+    const { token } = this.state;
     e.preventDefault();
     const config = {
-      headers: { 'Authorization': 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg2Mzg0NDFiLWYzYTgtNDIyNC05ZmRiLWI2YWMxYzdmMmI5OSIsImVtYWlsIjoiaGVsbG9AdHJhdmlzLmZvdW5kYXRpb24iLCJmdWxsX25hbWUiOiJUcmF2aXMgRm91bmRhdGlvbiIsInJvbGUiOiJhcGktY2xpZW50IiwiaWF0IjoxNTUxMzA2MjMzLCJuYmYiOjE1NTEzMDYxNzMsImV4cCI6MTU4Mjg2MzgzMywiaXNzIjoiaHR0cDovL3RyYXZpcy5mb3VuZGF0aW9uIiwic3ViIjoiaGVsbG9AdHJhdmlzLmZvdW5kYXRpb24iLCJqdGkiOiJ0cmF2aXMtZm91bmRhdGlvbi10cmFuc2xhdGlvbi1hcGkifQ.TUjINnAwQAC3LOVTZOti1IoGf9Wi730e2jFEqdOxkkQ' }
+      headers: { 'Authorization': `bearer ${token}` }
     }
     const { display, translation, improvedTranslation } = this.state;
     axios.post('http://localhost:8080/api/report', {
@@ -199,17 +202,18 @@ export default class Phonetics extends Component {
   }
 
   handleClick(e) {
+    const { TigrinyaToEnglish, improveTranslation } = this.state;
     if (typeof e.target.value !== 'undefined') {
       this.setState({
         show: false,
         queue: ''
       });
-      if (this.state.TigrinyaToEnglish === true) {
+      if (TigrinyaToEnglish === true) {
         this.translateTiToEn();
       }
 
-      const targetState = this.state.improveTranslation === false ? "display" : "improvedTranslation";
-      const targetField = this.state.improveTranslation === false ? "input-field" : "correctionField";
+      const targetState = improveTranslation === false ? "display" : "improvedTranslation";
+      const targetField = improveTranslation === false ? "input-field" : "correctionField";
       if (e.target.value.match(/^.{1}$/)) {
         this.setState({
           [targetState]: document.getElementById(targetField).value + e.target.value,
@@ -270,9 +274,9 @@ export default class Phonetics extends Component {
   }
 
   async translateEnToTi() {
-    const { display } = this.state;
+    const { display, token } = this.state;
     const config = {
-      headers: { 'Authorization': 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg2Mzg0NDFiLWYzYTgtNDIyNC05ZmRiLWI2YWMxYzdmMmI5OSIsImVtYWlsIjoiaGVsbG9AdHJhdmlzLmZvdW5kYXRpb24iLCJmdWxsX25hbWUiOiJUcmF2aXMgRm91bmRhdGlvbiIsInJvbGUiOiJhcGktY2xpZW50IiwiaWF0IjoxNTUxMzA2MjMzLCJuYmYiOjE1NTEzMDYxNzMsImV4cCI6MTU4Mjg2MzgzMywiaXNzIjoiaHR0cDovL3RyYXZpcy5mb3VuZGF0aW9uIiwic3ViIjoiaGVsbG9AdHJhdmlzLmZvdW5kYXRpb24iLCJqdGkiOiJ0cmF2aXMtZm91bmRhdGlvbi10cmFuc2xhdGlvbi1hcGkifQ.TUjINnAwQAC3LOVTZOti1IoGf9Wi730e2jFEqdOxkkQ' }
+      headers: { 'Authorization': `bearer ${token}` }
     }
     const response = await axios.post('http://localhost:8080/api/translate', {
       "source_lang": "en",
@@ -322,7 +326,7 @@ export default class Phonetics extends Component {
                 <div>
                   <textarea type='text' id="input-field" className="input-field" name="display" value={display}
                     onKeyUp={e => this.tigrinyaToEnglish(e)} onClick={(e) => { console.log(e); console.log(e.target); console.log(e.nativeEvent); }}
-                    onChange={(e) => { this.translateTiToEn(); }} onPaste={this.handlePaste} />
+                    onChange={() => { this.translateTiToEn(); }} onPaste={this.handlePaste} />
                 </div>
               </Col>
 
