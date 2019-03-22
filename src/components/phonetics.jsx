@@ -63,18 +63,13 @@ export default class Phonetics extends Component {
 
   tigrinyaToEnglish(e) {
 
-    console.log("--------keyCode", e.keyCode);
-    console.log("--------nativeEvent", e.nativeEvent);
-    console.log("----KEY----", e.key);
-
-    const { finalizedSymbols, queue, english, dict, display, improvedTranslation } = this.state;
+    const { finalizedSymbols, queue, english, dict } = this.state;
     if (e.nativeEvent.key) e.nativeEvent.data = e.key;
     // Letters which end a symbol
     const stoppers = /(([^KkghQq]u)|[aeoAW])$/;
     // History of all Latin keyboard inputs
     const newEnglish = english.concat(" ", e.nativeEvent.data);
     const updatedQueue = queue.concat(e.nativeEvent.data);
-    console.log("AAAAA", e.nativeEvent.data)
 
     console.log("Stopper test: ", stoppers.test(updatedQueue), " Queue is: ", updatedQueue);
 
@@ -112,7 +107,7 @@ export default class Phonetics extends Component {
         queue: e.nativeEvent.data, finalizedSymbols: finalizedSymbols.concat(dict[queue]),
         [e.currentTarget.name]: finalizedSymbols.concat(dict[queue].concat(dict[e.nativeEvent.data]))
       })
-      console.log("Added in final form:", dict[queue], " ", updatedQueue);
+      console.log("Added in final form:", dict[queue], " ", queue);
     }
     else if (stoppers.test(queue.concat(e.nativeEvent.data))) {
 
@@ -132,36 +127,6 @@ export default class Phonetics extends Component {
       })
     }
 
-
-    // const config = {
-    //   headers: { 'Authorization': `bearer ${token}` }
-    // }
-    // const config = {
-    //   headers: { 'Authorization': 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg2Mzg0NDFiLWYzYTgtNDIyNC05ZmRiLWI2YWMxYzdmMmI5OSIsImVtYWlsIjoiaGVsbG9AdHJhdmlzLmZvdW5kYXRpb24iLCJmdWxsX25hbWUiOiJUcmF2aXMgRm91bmRhdGlvbiIsInJvbGUiOiJhcGktY2xpZW50IiwiaWF0IjoxNTUxMzA2MjMzLCJuYmYiOjE1NTEzMDYxNzMsImV4cCI6MTU4Mjg2MzgzMywiaXNzIjoiaHR0cDovL3RyYXZpcy5mb3VuZGF0aW9uIiwic3ViIjoiaGVsbG9AdHJhdmlzLmZvdW5kYXRpb24iLCJqdGkiOiJ0cmF2aXMtZm91bmRhdGlvbi10cmFuc2xhdGlvbi1hcGkifQ.TUjINnAwQAC3LOVTZOti1IoGf9Wi730e2jFEqdOxkkQ' }
-    // }
-
-    // const translate = async () => {
-    //   const response = await axios.post('http://localhost:8080/api/translate', {
-    //     "source_lang": "ti",
-    //     "target_lang": "en",
-    //     "phrase": display
-    //   }, config)
-
-    //   const { translations } = await response.data;
-    //   console.log("--------TRANSLATION", translations[0].text);
-    //   this.setState({ translation: translations[0].text })
-
-    //   // this.setState({translation: })
-    //   // .then(res => {
-    //   //   console.log("TRANSLATION: ", res.data.translations[0].text)
-    //   //   this.setState({ translation: res.data.translations[0].text })
-    //   // })
-    // }
-
-    // translate();
-
-    console.log(newEnglish);
-    console.log("updatedQueue: ", updatedQueue);
   }
 
   async translateTiToEn() {
@@ -176,7 +141,6 @@ export default class Phonetics extends Component {
     }, config)
 
     const { translations } = await response.data;
-    console.log("TRANSLATION", translations[0].text);
     this.setState({ translation: translations[0].text.slice(0, -1) })
   }
 
@@ -198,12 +162,6 @@ export default class Phonetics extends Component {
       const { translations } = await response.data;
       console.log("--------TRANSLATION", translations[0].text);
       this.setState({ translation: translations[0].text.slice(0, -2) })
-
-      // this.setState({translation: })
-      // .then(res => {
-      //   console.log("TRANSLATION: ", res.data.translations[0].text)
-      //   this.setState({ translation: res.data.translations[0].text })
-      // })
     }
     console.log(e.nativeEvent.data);
     translate(e);
@@ -222,17 +180,15 @@ export default class Phonetics extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    // Here we add a correction to our database
     const config = {
       headers: { 'Authorization': 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg2Mzg0NDFiLWYzYTgtNDIyNC05ZmRiLWI2YWMxYzdmMmI5OSIsImVtYWlsIjoiaGVsbG9AdHJhdmlzLmZvdW5kYXRpb24iLCJmdWxsX25hbWUiOiJUcmF2aXMgRm91bmRhdGlvbiIsInJvbGUiOiJhcGktY2xpZW50IiwiaWF0IjoxNTUxMzA2MjMzLCJuYmYiOjE1NTEzMDYxNzMsImV4cCI6MTU4Mjg2MzgzMywiaXNzIjoiaHR0cDovL3RyYXZpcy5mb3VuZGF0aW9uIiwic3ViIjoiaGVsbG9AdHJhdmlzLmZvdW5kYXRpb24iLCJqdGkiOiJ0cmF2aXMtZm91bmRhdGlvbi10cmFuc2xhdGlvbi1hcGkifQ.TUjINnAwQAC3LOVTZOti1IoGf9Wi730e2jFEqdOxkkQ' }
     }
     const { display, translation, improvedTranslation } = this.state;
     axios.post('http://localhost:8080/api/report', {
       original: display,
-      translation: translation,
+      translation,
       improved: improvedTranslation
     }, config).then(win => console.log(win));
-    // alert(`The improved translation is: ${improvedTranslation}`);
     this.unblockInput();
   }
 
@@ -325,13 +281,11 @@ export default class Phonetics extends Component {
     }, config)
 
     const { translations } = await response.data;
-    console.log("TRANSLATION", translations[0].text);
     this.setState({ translation: translations[0].text.slice(0, -2) })
   }
 
 
   handlePaste(e) {
-    // this function handles paste
     const { display } = this.state;
     this.setState({
       display: display.concat(e.clipboardData.getData('text')),
@@ -341,12 +295,15 @@ export default class Phonetics extends Component {
   }
 
 
-  blockInput = () => {
+  blockInput() {
     this.setState({ display: document.getElementById("input-field").disabled = true, display: document.getElementById("input-field").value })
   }
 
-  unblockInput = () => {
-    this.setState({ display: document.getElementById("input-field").disabled = false, display: document.getElementById("input-field").innerHTML = "", translation: "", improvedTranslation: "", improveTranslation: false })
+  unblockInput() {
+    this.setState({
+      display: document.getElementById("input-field").disabled = false, display: document.getElementById("input-field").innerHTML = "",
+      translation: "", improvedTranslation: "", improveTranslation: false
+    })
   }
 
   render() {
@@ -363,7 +320,9 @@ export default class Phonetics extends Component {
               <Col xs={12} md={6}>
 
                 <div>
-                  <textarea type='text' id="input-field" className="input-field" name="display" value={display} onKeyPress={e => this.tigrinyaToEnglish(e)} onChange={(e) => { this.translateTiToEn(); }} onPaste={this.handlePaste} />
+                  <textarea type='text' id="input-field" className="input-field" name="display" value={display}
+                    onKeyUp={e => this.tigrinyaToEnglish(e)} onClick={(e) => { console.log(e); console.log(e.target); console.log(e.nativeEvent); }}
+                    onChange={(e) => { this.translateTiToEn(); }} onPaste={this.handlePaste} />
                 </div>
               </Col>
 
@@ -376,7 +335,8 @@ export default class Phonetics extends Component {
                     <Form onSubmit={this.handleSubmit}>
                       <Row>
                         <Col xs={7} md={10}>
-                          <Input type='text' onClick={this.blockInput} id="correctionField" placeholder="Type your corrections here..." value={improvedTranslation} onChange={this.improveChangeHandler} />
+                          <Input type='text' onClick={this.blockInput} id="correctionField" placeholder="Type your corrections here..." value={improvedTranslation}
+                            onChange={this.improveChangeHandler} />
                         </Col>
                         <Col xs={1} md={2}>
                           <Button type="submit">Submit</Button>
