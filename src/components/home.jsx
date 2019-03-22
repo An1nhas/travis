@@ -11,8 +11,6 @@ const Home = () => {
       <br />
       <Navigation />
       <div className="container">
-        {/* <p style={{ fontFamily: 'Patua One' }}>ljc,hjcghgcx,hgcx,hxhx</p> */}
-
         <div>
           <Phonetics />
         </div>
