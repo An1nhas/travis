@@ -65,9 +65,14 @@ export default class Phonetics extends Component {
 
   tigrinyaToEnglish(e) {
 
+    console.log('----------------------------------');
+    console.log(e.nativeEvent);
+    console.log('----------------------------------');
     const { finalizedSymbols, queue, english, dict } = this.state;
+    
     if (e.nativeEvent.key) e.nativeEvent.data = e.key;
     // Letters which end a symbol
+    
     const stoppers = /(([^KkghQq]u)|[aeoAW])$/;
     // History of all Latin keyboard inputs
     const newEnglish = english.concat(" ", e.nativeEvent.data);
@@ -93,14 +98,17 @@ export default class Phonetics extends Component {
       }
 
     }
-    else if (e.nativeEvent.data === "Enter") {
-      console.log("RIGHT PLACE")
+    
+    
+    else if (e.nativeEvent.inputType === "deleteContentBackward" || e.nativeEvent.inputType === "insertLineBreak") {
       this.setState({
         [e.currentTarget.name]: e.currentTarget.value,
         finalizedSymbols: e.currentTarget.value,
-        queue: ''
-      })
+        queue: ''             
+      })   
     }
+
+
     // If, after inputing the newest letter, the queue has no match in the dictionary we return the last valid symbol
     // and begin a new queue with the new letter
     else if (typeof dict[updatedQueue] === "undefined") {
@@ -246,7 +254,9 @@ export default class Phonetics extends Component {
         })
       } else if (e.target.value === "space") {
         this.setState({
-          [targetState]: `${document.getElementById(targetField).value} `
+          [targetState]: `${document.getElementById(targetField).value} `,
+          finalizedSymbols: document.getElementById(targetField).value + ' ',
+          queue: ''
         })
       } else if (e.target.value === "return") {
         this.setState({
@@ -325,8 +335,11 @@ export default class Phonetics extends Component {
 
                 <div>
                   <textarea type='text' id="input-field" className="input-field" name="display" value={display}
-                    onKeyUp={e => this.tigrinyaToEnglish(e)} onClick={(e) => { console.log(e); console.log(e.target); console.log(e.nativeEvent); }}
-                    onChange={() => { this.translateTiToEn(); }} onPaste={this.handlePaste} />
+                    onKeyPress= {(e) => {e.nativeEvent.code !== "Enter" ? this.tigrinyaToEnglish(e) : this.translateTiToEn()}}
+                    onChange={(e) => { e.nativeEvent.inputType === "deleteContentBackward" || e.nativeEvent.inputType === "insertLineBreak" ? 
+                      this.tigrinyaToEnglish(e) : this.translateTiToEn(); }} onPaste={this.handlePaste}
+                      />
+                    
                 </div>
               </Col>
 
