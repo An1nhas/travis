@@ -1,5 +1,3 @@
-// config
-
 // used modules
 const fs = require('fs');
 const restify = require('restify');
