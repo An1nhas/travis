@@ -54,6 +54,12 @@ export default class Phonetics extends Component {
       .then(response => this.setState({ dict: response.data }));
   };
 
+  componentDidUpdate(prevProps, prevState) {
+    const { display } = this.state;
+    if (prevState.display !== display) {
+      this.translate();
+    }
+  }
 
   tigrinyaToEnglish(e) {
 
@@ -117,8 +123,6 @@ export default class Phonetics extends Component {
         queue: updatedQueue
       })
     }
-
-    console.log(e.target.value);
   }
 
   async translate() {
@@ -137,7 +141,6 @@ export default class Phonetics extends Component {
     }, config)
 
     const { translations } = await response.data;
-    console.log("Display: ", display, " Translations: ", translations[0]);
     this.setState({ translation: translations[0].text.slice(0, -2) })
   }
 
@@ -185,15 +188,12 @@ export default class Phonetics extends Component {
   }
 
   handleClick(e) {
-    const { TigrinyaToEnglish, improveTranslation, shift } = this.state;
+    const { improveTranslation, shift } = this.state;
     if (typeof e.target.value !== 'undefined') {
       this.setState({
         show: false,
         queue: ''
       });
-      if (TigrinyaToEnglish === true) {
-        this.translate();
-      }
 
       const targetState = improveTranslation === false ? "display" : "improvedTranslation";
       const targetField = improveTranslation === false ? "input-field" : "correctionField";
@@ -248,9 +248,7 @@ export default class Phonetics extends Component {
         this.setState({
           queue: '',
           show: true,
-          target: e.target.value,
-          // [targetState]: document.getElementById(targetField).value,
-          // finalizedSymbols: document.getElementById(targetField).value,
+          target: e.target.value
         })
       } else {
         this.handleClick(e);
@@ -282,7 +280,7 @@ export default class Phonetics extends Component {
 
                 <div>
                   <textarea type='text' id="input-field" className="input-field" name="display" value={display}
-                    onChange={(e) => { this.tigrinyaToEnglish(e); this.translate(e) }}
+                    onChange={this.tigrinyaToEnglish}
                     onPaste={this.handlePaste}
                     readOnly={readOnlyDisplay}
                   />
@@ -327,7 +325,7 @@ export default class Phonetics extends Component {
                 <div>
                   <textarea type='text' name="display" className="input-field"
                     id="input-field" value={display}
-                    onChange={(e) => { this.englishInput(e); this.translate() }} />
+                    onChange={this.englishInput} />
                 </div>
               </Col>
 
