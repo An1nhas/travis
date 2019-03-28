@@ -14,7 +14,6 @@ export default class Phonetics extends Component {
     this.state = {
       keyboard: [],
 
-      english: '',
       dict: {},
       queue: '',
       finalizedSymbols: '',
@@ -23,6 +22,7 @@ export default class Phonetics extends Component {
       improvedTranslation: '',
       TigrinyaToEnglish: true,
       improveTranslation: false,
+      readOnlyDisplay: false,
 
       keyboardSet: 0,
       shift: false,
@@ -43,8 +43,6 @@ export default class Phonetics extends Component {
 
     this.handleClick = this.handleClick.bind(this);
     this.handleClickTgr = this.handleClickTgr.bind(this);
-    this.blockInput = this.blockInput.bind(this);
-    this.unblockInput = this.unblockInput.bind(this);
   };
 
   componentDidMount() {
@@ -60,31 +58,19 @@ export default class Phonetics extends Component {
       headers: { 'Authorization': `bearer ${token}` }
     }
     axios.get('http://localhost:8080/api/lang', config).then(response => this.setState({ dict: response.data }));
-
   };
 
 
   tigrinyaToEnglish(e) {
 
     if (e.nativeEvent.inputType === "insertFromPaste") return;
-    console.log('----------------------------------');
-    console.log("Key= ", e);
-    console.log("type", e.nativeEvent);
-    console.log("TYPE", e.type);
-    console.log('----------------------------------');
-    const { finalizedSymbols, queue, english, dict } = this.state;
 
-    if (e.nativeEvent.key) e.nativeEvent.data = e.nativeEvent.key;
+    const { finalizedSymbols, queue, dict } = this.state;
+
     // Letters which end a symbol
-
     const stoppers = /(([^KkghQq]u)|[aeoAW])$/;
-    // History of all Latin keyboard inputs
-    const newEnglish = english.concat(" ", e.nativeEvent.data);
+
     const updatedQueue = queue.concat(e.nativeEvent.data);
-
-    console.log("Stopper test: ", stoppers.test(updatedQueue), " Queue is: ", updatedQueue);
-
-
 
     if (/[^a-zNKQHPCTZOKS2]/.test(e.nativeEvent.data)) {
       console.log("Character ", e.nativeEvent.data, " doesn't correspond to anything in Tigrinya");
@@ -93,30 +79,26 @@ export default class Phonetics extends Component {
         const newFinalizedSymbols = finalizedSymbols.concat(dict[queue]).concat(e.nativeEvent.data);
         this.setState({
           finalizedSymbols: newFinalizedSymbols,
-          [e.currentTarget.name]: newFinalizedSymbols, queue: '', english: newEnglish
+          [e.currentTarget.name]: newFinalizedSymbols, queue: ''
         })
       } else {
-        console.log("HERE");
+        console.log("First IF, then ELSE");
         this.setState({
           finalizedSymbols: e.target.value,
-          [e.currentTarget.name]: e.target.value, english: newEnglish
+          [e.currentTarget.name]: e.target.value
         })
       }
     }
     else if (e.nativeEvent.inputType === "deleteContentBackward" || e.nativeEvent.inputType === "insertLineBreak") {
-      console.log("INSIDE backspace!111one");
-      console.log("targetValue", e.target.value);
       this.setState({
         [e.currentTarget.name]: e.target.value,
         finalizedSymbols: e.target.value,
         queue: ''
       })
     }
-
     // If, after inputing the newest letter, the queue has no match in the dictionary we return the last valid symbol
     // and begin a new queue with the new letter
     else if (typeof dict[updatedQueue] === "undefined") {
-      console.log("Not defined");
       this.setState({
         queue: e.nativeEvent.data, finalizedSymbols: finalizedSymbols.concat(dict[queue]),
         [e.currentTarget.name]: finalizedSymbols.concat(dict[queue].concat(dict[e.nativeEvent.data]))
@@ -130,17 +112,17 @@ export default class Phonetics extends Component {
 
       this.setState({
         queue: '', finalizedSymbols: finalizedSymbols.concat(finalSymbol),
-        [e.currentTarget.name]: finalizedSymbols.concat(finalSymbol), english: newEnglish
+        [e.currentTarget.name]: finalizedSymbols.concat(finalSymbol)
       })
     }
     else if (updatedQueue.length === 1 || updatedQueue.length === 2 || updatedQueue.length === 3) {
-      console.log("Queue len == 1", dict[updatedQueue])
+      console.log("Queue len == 1", dict[updatedQueue]);
+      console.log("PAY ATTENTION HERE");
       this.setState({
         [e.currentTarget.name]: finalizedSymbols.concat(dict[updatedQueue]),
-        queue: updatedQueue, english: newEnglish
+        queue: updatedQueue
       })
     }
-
   }
 
   async translateTiToEn() {
@@ -179,13 +161,14 @@ export default class Phonetics extends Component {
     }
     console.log(e.nativeEvent.data);
     translate(e);
-
-
-  }
+  };
 
   improveTranslation() {
     const { improveTranslation, translation } = this.state;
-    this.setState({ improveTranslation: !improveTranslation, improvedTranslation: translation, finalizedSymbols: translation });
+    this.setState({
+      improveTranslation: !improveTranslation, improvedTranslation: translation,
+      finalizedSymbols: translation, readOnlyDisplay: true
+    });
   }
 
   improveChangeHandler(e) {
@@ -203,14 +186,23 @@ export default class Phonetics extends Component {
       original: display,
       translation,
       improved: improvedTranslation
-    }, config).then(win => console.log(win));
-    this.unblockInput();
+    }, config).then(win => {
+      console.log(win)
+      this.setState({
+        display: '', readOnlyDisplay: false, queue: '',
+        translation: '', improvedTranslation: '',
+        finalizedSymbols: '', improveTranslation: false
+      })
+    });
   }
 
   switchTranslations() {
     const { TigrinyaToEnglish } = this.state;
-    this.unblockInput();
-    this.setState({ finalizedSymbols: '', TigrinyaToEnglish: !TigrinyaToEnglish, display: '', queue: '', translation: '', improvedTranslation: '', english: '', improveTranslation: false })
+    this.setState({
+      finalizedSymbols: '', TigrinyaToEnglish: !TigrinyaToEnglish,
+      display: '', queue: '', translation: '', improvedTranslation: '',
+      improveTranslation: false, readOnlyDisplay: false
+    })
   }
 
   handleClick(e) {
@@ -313,21 +305,9 @@ export default class Phonetics extends Component {
     console.log(e);
   }
 
-
-  blockInput() {
-    this.setState({ display: document.getElementById("input-field").disabled = true, display: document.getElementById("input-field").value })
-  }
-
-  unblockInput() {
-    this.setState({
-      display: document.getElementById("input-field").disabled = false, display: document.getElementById("input-field").innerHTML = "",
-      translation: "", improvedTranslation: "", improveTranslation: false
-    })
-  }
-
   render() {
 
-    const { display, translation, TigrinyaToEnglish, improveTranslation, improvedTranslation } = this.state;
+    const { display, readOnlyDisplay, translation, TigrinyaToEnglish, improveTranslation, improvedTranslation } = this.state;
     return (
       <Container>
         <Button outline color="secondary" size="sm" style={{ width: '70px', marginBottom: '5px' }} onClick={this.switchTranslations}><MdSwapHoriz /></Button>
@@ -342,6 +322,7 @@ export default class Phonetics extends Component {
                   <textarea type='text' id="input-field" className="input-field" name="display" value={display}
                     onChange={(e) => { this.tigrinyaToEnglish(e); this.translateTiToEn() }}
                     onPaste={this.handlePaste}
+                    readOnly={readOnlyDisplay}
                   />
 
                 </div>
@@ -349,14 +330,14 @@ export default class Phonetics extends Component {
 
               <Col xs={12} md={6}>
                 <div>
-                  <textarea type="text" style={{ backgroundColor: 'white' }} id="output-field" className="input-field" value={translation} disabled />
+                  <textarea type="text" style={{ backgroundColor: 'white' }} id="output-field" className="input-field" value={translation} readOnly />
                 </div>
                 <div>
                   {improveTranslation ?
                     <Form onSubmit={this.handleSubmit}>
                       <Row>
                         <Col xs={7} md={10}>
-                          <Input type='text' onClick={this.blockInput} id="correctionField" placeholder="Type your corrections here..." value={improvedTranslation}
+                          <Input type='text' id="correctionField" placeholder="Type your corrections here..." value={improvedTranslation}
                             onChange={this.improveChangeHandler} />
                         </Col>
                         <Col xs={1} md={2}>
@@ -394,7 +375,7 @@ export default class Phonetics extends Component {
                       <Row>
                         <Col xs={7} md={10}>
 
-                          <Input type='text' onClick={this.blockInput} id="correctionField" placeholder="Type your corrections here..." value={improvedTranslation} name="improvedTranslation" onChange={(e) => { this.tigrinyaToEnglish(e); this.translateEnToTi(); }} />
+                          <Input type='text' id="correctionField" placeholder="Type your corrections here..." value={improvedTranslation} name="improvedTranslation" onChange={(e) => { this.tigrinyaToEnglish(e); this.translateEnToTi(); }} />
 
 
                         </Col>
