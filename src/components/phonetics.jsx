@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Container, Row, Col } from 'react-bootstrap';
@@ -13,7 +12,6 @@ export default class Phonetics extends Component {
     super(props);
     this.state = {
       keyboard: [],
-
       dict: {},
       queue: '',
       finalizedSymbols: '',
@@ -23,12 +21,10 @@ export default class Phonetics extends Component {
       TigrinyaToEnglish: true,
       improveTranslation: false,
       readOnlyDisplay: false,
-
       keyboardSet: 0,
       shift: false,
       show: true,
       target: null,
-
       token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg2Mzg0NDFiLWYzYTgtNDIyNC05ZmRiLWI2YWMxYzdmMmI5OSIsImVtYWlsIjoiaGVsbG9AdHJhdmlzLmZvdW5kYXRpb24iLCJmdWxsX25hbWUiOiJUcmF2aXMgRm91bmRhdGlvbiIsInJvbGUiOiJhcGktY2xpZW50IiwiaWF0IjoxNTUxMzA2MjMzLCJuYmYiOjE1NTEzMDYxNzMsImV4cCI6MTU4Mjg2MzgzMywiaXNzIjoiaHR0cDovL3RyYXZpcy5mb3VuZGF0aW9uIiwic3ViIjoiaGVsbG9AdHJhdmlzLmZvdW5kYXRpb24iLCJqdGkiOiJ0cmF2aXMtZm91bmRhdGlvbi10cmFuc2xhdGlvbi1hcGkifQ.TUjINnAwQAC3LOVTZOti1IoGf9Wi730e2jFEqdOxkkQ'
     }
     this.improveTranslation = this.improveTranslation.bind(this);
@@ -40,7 +36,6 @@ export default class Phonetics extends Component {
     this.translateEnToTi = this.translateEnToTi.bind(this);
     this.handlePaste = this.handlePaste.bind(this);
     this.tigrinyaToEnglish = this.tigrinyaToEnglish.bind(this);
-
     this.handleClick = this.handleClick.bind(this);
     this.handleClickTgr = this.handleClickTgr.bind(this);
   };
@@ -57,7 +52,8 @@ export default class Phonetics extends Component {
     const config = {
       headers: { 'Authorization': `bearer ${token}` }
     }
-    axios.get('http://localhost:8080/api/lang', config).then(response => this.setState({ dict: response.data }));
+    axios.get('http://localhost:8080/api/lang', config)
+      .then(response => this.setState({ dict: response.data }));
   };
 
 
@@ -70,26 +66,29 @@ export default class Phonetics extends Component {
     // Letters which end a symbol
     const stoppers = /(([^KkghQq]u)|[aeoAW])$/;
 
+    // e.nativeEvent.data corresponds to the latest
+    // chacter entered by the user
     const updatedQueue = queue.concat(e.nativeEvent.data);
 
     if (/[^a-zNKQHPCTZOKS2]/.test(e.nativeEvent.data)) {
-      console.log("Character ", e.nativeEvent.data, " doesn't correspond to anything in Tigrinya");
+
       if (queue !== '') {
 
-        const newFinalizedSymbols = finalizedSymbols.concat(dict[queue]).concat(e.nativeEvent.data);
+        const newFinalizedSymbols = finalizedSymbols
+          .concat(dict[queue]).concat(e.nativeEvent.data);
         this.setState({
           finalizedSymbols: newFinalizedSymbols,
           [e.currentTarget.name]: newFinalizedSymbols, queue: ''
         })
       } else {
-        console.log("First IF, then ELSE");
         this.setState({
           finalizedSymbols: e.target.value,
           [e.currentTarget.name]: e.target.value
         })
       }
     }
-    else if (e.nativeEvent.inputType === "deleteContentBackward" || e.nativeEvent.inputType === "insertLineBreak") {
+    else if (e.nativeEvent.inputType === "deleteContentBackward" ||
+      e.nativeEvent.inputType === "insertLineBreak") {
       this.setState({
         [e.currentTarget.name]: e.target.value,
         finalizedSymbols: e.target.value,
@@ -103,21 +102,19 @@ export default class Phonetics extends Component {
         queue: e.nativeEvent.data, finalizedSymbols: finalizedSymbols.concat(dict[queue]),
         [e.currentTarget.name]: finalizedSymbols.concat(dict[queue].concat(dict[e.nativeEvent.data]))
       })
-      console.log("Added in final form:", dict[queue], " ", queue);
     }
     else if (stoppers.test(queue.concat(e.nativeEvent.data))) {
 
       const finalSymbol = dict[updatedQueue];
-      console.log("Added in final form:", finalSymbol, " ", updatedQueue);
+      updatedQueue);
 
       this.setState({
         queue: '', finalizedSymbols: finalizedSymbols.concat(finalSymbol),
         [e.currentTarget.name]: finalizedSymbols.concat(finalSymbol)
       })
     }
-    else if (updatedQueue.length === 1 || updatedQueue.length === 2 || updatedQueue.length === 3) {
-      console.log("Queue len == 1", dict[updatedQueue]);
-      console.log("PAY ATTENTION HERE");
+    else if (updatedQueue.length === 1 || updatedQueue.length === 2
+      || updatedQueue.length === 3) {
       this.setState({
         [e.currentTarget.name]: finalizedSymbols.concat(dict[updatedQueue]),
         queue: updatedQueue
@@ -156,17 +153,16 @@ export default class Phonetics extends Component {
       }, config)
 
       const { translations } = await response.data;
-      console.log("--------TRANSLATION", translations[0].text);
       this.setState({ translation: translations[0].text.slice(0, -2) })
     }
-    console.log(e.nativeEvent.data);
     translate(e);
   };
 
   improveTranslation() {
     const { improveTranslation, translation } = this.state;
     this.setState({
-      improveTranslation: !improveTranslation, improvedTranslation: translation,
+      improveTranslation: !improveTranslation,
+      improvedTranslation: translation,
       finalizedSymbols: translation, readOnlyDisplay: true
     });
   }
@@ -187,7 +183,6 @@ export default class Phonetics extends Component {
       translation,
       improved: improvedTranslation
     }, config).then(win => {
-      console.log(win)
       this.setState({
         display: '', readOnlyDisplay: false, queue: '',
         translation: '', improvedTranslation: '',
@@ -206,7 +201,7 @@ export default class Phonetics extends Component {
   }
 
   handleClick(e) {
-    const { TigrinyaToEnglish, improveTranslation } = this.state;
+    const { TigrinyaToEnglish, improveTranslation, shift } = this.state;
     if (typeof e.target.value !== 'undefined') {
       this.setState({
         show: false,
@@ -245,7 +240,7 @@ export default class Phonetics extends Component {
         })
       } else if (e.target.value === "Shift") {
         this.setState({
-          shift: this.state.shift === false,
+          shift: shift === false,
           [targetState]: document.getElementById(targetField).value
         })
       } else if (e.target.value === "space") {
@@ -302,7 +297,6 @@ export default class Phonetics extends Component {
       finalizedSymbols: display.concat(e.clipboardData.getData('text')),
       queue: ''
     })
-    console.log(e);
   }
 
   render() {
@@ -345,7 +339,7 @@ export default class Phonetics extends Component {
                         </Col>
                         <div>
                           <h6 style={{ marginTop: '20px' }}>The Sentence Society</h6>
-                          <p style={{ fontSize: '14px' }}>By playing this game, you're helping us digitise Tigrinya and and helping your fellow Tigrinya speakers all over the world.</p>
+                          <p style={{ fontSize: '14px' }}>By playing this game, you&aposre helping us digitise Tigrinya and and helping your fellow Tigrinya speakers all over the world.</p>
                           <a href="https://www.thesentencesociety.org/index.html" id="game_button" outline color="secondary">PLAY GAME</a>
                         </div>
                       </Row>
@@ -384,7 +378,7 @@ export default class Phonetics extends Component {
                         </Col>
                         <div>
                           <h6 style={{ marginTop: '20px' }}>The Sentence Society</h6>
-                          <p style={{ fontSize: '14px' }}>By playing this game, you're helping us digitise Tigrinya and and helping your fellow Tigrinya speakers all over the world.</p>
+                          <p style={{ fontSize: '14px' }}>By playing this game, you&aposre helping us digitise Tigrinya and and helping your fellow Tigrinya speakers all over the world.</p>
                           <a href="https://www.thesentencesociety.org/index.html" id="game_button" color="secondary">PLAY GAME</a>
                         </div>
                       </Row>
