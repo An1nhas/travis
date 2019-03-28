@@ -28,12 +28,10 @@ export default class Phonetics extends Component {
       token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg2Mzg0NDFiLWYzYTgtNDIyNC05ZmRiLWI2YWMxYzdmMmI5OSIsImVtYWlsIjoiaGVsbG9AdHJhdmlzLmZvdW5kYXRpb24iLCJmdWxsX25hbWUiOiJUcmF2aXMgRm91bmRhdGlvbiIsInJvbGUiOiJhcGktY2xpZW50IiwiaWF0IjoxNTUxMzA2MjMzLCJuYmYiOjE1NTEzMDYxNzMsImV4cCI6MTU4Mjg2MzgzMywiaXNzIjoiaHR0cDovL3RyYXZpcy5mb3VuZGF0aW9uIiwic3ViIjoiaGVsbG9AdHJhdmlzLmZvdW5kYXRpb24iLCJqdGkiOiJ0cmF2aXMtZm91bmRhdGlvbi10cmFuc2xhdGlvbi1hcGkifQ.TUjINnAwQAC3LOVTZOti1IoGf9Wi730e2jFEqdOxkkQ'
     }
     this.improveTranslation = this.improveTranslation.bind(this);
-    this.improveChangeHandler = this.improveChangeHandler.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.switchTranslations = this.switchTranslations.bind(this);
-    this.englishToTigrinya = this.englishToTigrinya.bind(this);
-    this.translateTiToEn = this.translateTiToEn.bind(this);
-    this.translateEnToTi = this.translateEnToTi.bind(this);
+    this.englishInput = this.englishInput.bind(this);
+    this.translate = this.translate.bind(this);
     this.handlePaste = this.handlePaste.bind(this);
     this.tigrinyaToEnglish = this.tigrinyaToEnglish.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -106,7 +104,6 @@ export default class Phonetics extends Component {
     else if (stoppers.test(queue.concat(e.nativeEvent.data))) {
 
       const finalSymbol = dict[updatedQueue];
-      updatedQueue);
 
       this.setState({
         queue: '', finalizedSymbols: finalizedSymbols.concat(finalSymbol),
@@ -120,42 +117,33 @@ export default class Phonetics extends Component {
         queue: updatedQueue
       })
     }
+
+    console.log(e.target.value);
   }
 
-  async translateTiToEn() {
-    const { display, token } = this.state;
+  async translate() {
+    const { display, token, TigrinyaToEnglish } = this.state;
     const config = {
       headers: { 'Authorization': `bearer ${token}` }
     }
+
+    const sourceLang = TigrinyaToEnglish ? "ti" : "en";
+    const targetLang = TigrinyaToEnglish ? "en" : "ti";
+
     const response = await axios.post('http://localhost:8080/api/translate', {
-      "source_lang": "ti",
-      "target_lang": "en",
+      "source_lang": sourceLang,
+      "target_lang": targetLang,
       "phrase": display
     }, config)
 
     const { translations } = await response.data;
-    this.setState({ translation: translations[0].text.slice(0, -1) })
+    console.log("Display: ", display, " Translations: ", translations[0]);
+    this.setState({ translation: translations[0].text.slice(0, -2) })
   }
 
-  englishToTigrinya(e) {
-    const { display, token } = this.state;
-    if (e) this.setState({ display: e.target.value });
 
-    const config = {
-      headers: { 'Authorization': `bearer ${token}` }
-    }
-
-    const translate = async (event) => {
-      const response = await axios.post('http://localhost:8080/api/translate', {
-        "source_lang": "en",
-        "target_lang": "ti",
-        "phrase": display + event.nativeEvent.data
-      }, config)
-
-      const { translations } = await response.data;
-      this.setState({ translation: translations[0].text.slice(0, -2) })
-    }
-    translate(e);
+  englishInput(e) {
+    this.setState({ [e.target.name]: e.target.value });
   };
 
   improveTranslation() {
@@ -165,10 +153,6 @@ export default class Phonetics extends Component {
       improvedTranslation: translation,
       finalizedSymbols: translation, readOnlyDisplay: true
     });
-  }
-
-  improveChangeHandler(e) {
-    this.setState({ improvedTranslation: e.target.value });
   }
 
   handleSubmit(e) {
@@ -182,13 +166,13 @@ export default class Phonetics extends Component {
       original: display,
       translation,
       improved: improvedTranslation
-    }, config).then(win => {
+    }, config).then(
       this.setState({
         display: '', readOnlyDisplay: false, queue: '',
         translation: '', improvedTranslation: '',
         finalizedSymbols: '', improveTranslation: false
       })
-    });
+    );
   }
 
   switchTranslations() {
@@ -208,7 +192,7 @@ export default class Phonetics extends Component {
         queue: ''
       });
       if (TigrinyaToEnglish === true) {
-        this.translateTiToEn();
+        this.translate();
       }
 
       const targetState = improveTranslation === false ? "display" : "improvedTranslation";
@@ -274,22 +258,6 @@ export default class Phonetics extends Component {
     };
   }
 
-  async translateEnToTi() {
-    const { display, token } = this.state;
-    const config = {
-      headers: { 'Authorization': `bearer ${token}` }
-    }
-    const response = await axios.post('http://localhost:8080/api/translate', {
-      "source_lang": "en",
-      "target_lang": "ti",
-      "phrase": display
-    }, config)
-
-    const { translations } = await response.data;
-    this.setState({ translation: translations[0].text.slice(0, -2) })
-  }
-
-
   handlePaste(e) {
     const { display } = this.state;
     this.setState({
@@ -304,7 +272,7 @@ export default class Phonetics extends Component {
     const { display, readOnlyDisplay, translation, TigrinyaToEnglish, improveTranslation, improvedTranslation } = this.state;
     return (
       <Container>
-        <Button outline color="secondary" size="sm" style={{ width: '70px', marginBottom: '5px' }} onClick={this.switchTranslations}><MdSwapHoriz /></Button>
+        <Button color="secondary" size="sm" style={{ width: '70px', marginBottom: '5px' }} onClick={this.switchTranslations}><MdSwapHoriz /></Button>
         {TigrinyaToEnglish ?
           <Container style={{ margin: '0' }}>
             <p>Tigrinya to English</p>
@@ -314,7 +282,7 @@ export default class Phonetics extends Component {
 
                 <div>
                   <textarea type='text' id="input-field" className="input-field" name="display" value={display}
-                    onChange={(e) => { this.tigrinyaToEnglish(e); this.translateTiToEn() }}
+                    onChange={(e) => { this.tigrinyaToEnglish(e); this.translate(e) }}
                     onPaste={this.handlePaste}
                     readOnly={readOnlyDisplay}
                   />
@@ -324,23 +292,25 @@ export default class Phonetics extends Component {
 
               <Col xs={12} md={6}>
                 <div>
-                  <textarea type="text" style={{ backgroundColor: 'white' }} id="output-field" className="input-field" value={translation} readOnly />
+                  <textarea type="text" style={{ backgroundColor: 'white' }} id="output-field"
+                    className="input-field" value={translation} readOnly />
                 </div>
                 <div>
                   {improveTranslation ?
                     <Form onSubmit={this.handleSubmit}>
                       <Row>
                         <Col xs={7} md={10}>
-                          <Input type='text' id="correctionField" placeholder="Type your corrections here..." value={improvedTranslation}
-                            onChange={this.improveChangeHandler} />
+                          <Input type='text' name="improvedTranslation" id="correctionField"
+                            placeholder="Type your corrections here..." value={improvedTranslation}
+                            onChange={this.englishInput} />
                         </Col>
                         <Col xs={1} md={2}>
                           <Button type="submit">Submit</Button>
                         </Col>
                         <div>
                           <h6 style={{ marginTop: '20px' }}>The Sentence Society</h6>
-                          <p style={{ fontSize: '14px' }}>By playing this game, you&aposre helping us digitise Tigrinya and and helping your fellow Tigrinya speakers all over the world.</p>
-                          <a href="https://www.thesentencesociety.org/index.html" id="game_button" outline color="secondary">PLAY GAME</a>
+                          <p style={{ fontSize: '14px' }}>By playing this game, you&apos;re helping us digitise Tigrinya and and helping your fellow Tigrinya speakers all over the world.</p>
+                          <a href="https://www.thesentencesociety.org/index.html" id="game_button" color="secondary">PLAY GAME</a>
                         </div>
                       </Row>
                     </Form>
@@ -355,7 +325,9 @@ export default class Phonetics extends Component {
               <Col xs={12} md={6}>
 
                 <div>
-                  <textarea type='text' className="input-field" id="input-field" value={display} onChange={this.englishToTigrinya} />
+                  <textarea type='text' name="display" className="input-field"
+                    id="input-field" value={display}
+                    onChange={(e) => { this.englishInput(e); this.translate() }} />
                 </div>
               </Col>
 
@@ -369,7 +341,7 @@ export default class Phonetics extends Component {
                       <Row>
                         <Col xs={7} md={10}>
 
-                          <Input type='text' id="correctionField" placeholder="Type your corrections here..." value={improvedTranslation} name="improvedTranslation" onChange={(e) => { this.tigrinyaToEnglish(e); this.translateEnToTi(); }} />
+                          <Input type='text' id="correctionField" placeholder="Type your corrections here..." value={improvedTranslation} name="improvedTranslation" onChange={this.tigrinyaToEnglish} />
 
 
                         </Col>
@@ -378,7 +350,7 @@ export default class Phonetics extends Component {
                         </Col>
                         <div>
                           <h6 style={{ marginTop: '20px' }}>The Sentence Society</h6>
-                          <p style={{ fontSize: '14px' }}>By playing this game, you&aposre helping us digitise Tigrinya and and helping your fellow Tigrinya speakers all over the world.</p>
+                          <p style={{ fontSize: '14px' }}>By playing this game, you&apos;re helping us digitise Tigrinya and and helping your fellow Tigrinya speakers all over the world.</p>
                           <a href="https://www.thesentencesociety.org/index.html" id="game_button" color="secondary">PLAY GAME</a>
                         </div>
                       </Row>
@@ -401,6 +373,5 @@ export default class Phonetics extends Component {
       </Container>
 
     );
-
   };
 };
