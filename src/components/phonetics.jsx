@@ -39,6 +39,7 @@ export default class Phonetics extends Component {
     this.translateTiToEn = this.translateTiToEn.bind(this);
     this.translateEnToTi = this.translateEnToTi.bind(this);
     this.handlePaste = this.handlePaste.bind(this);
+    this.tigrinyaToEnglish = this.tigrinyaToEnglish.bind(this);
 
     this.handleClick = this.handleClick.bind(this);
     this.handleClickTgr = this.handleClickTgr.bind(this);
@@ -65,20 +66,25 @@ export default class Phonetics extends Component {
 
   tigrinyaToEnglish(e) {
 
+    if (e.nativeEvent.inputType === "insertFromPaste") return;
     console.log('----------------------------------');
-    console.log(e.nativeEvent);
+    console.log("Key= ", e);
+    console.log("type", e.nativeEvent);
+    console.log("TYPE", e.type);
     console.log('----------------------------------');
     const { finalizedSymbols, queue, english, dict } = this.state;
-    
-    if (e.nativeEvent.key) e.nativeEvent.data = e.key;
+
+    if (e.nativeEvent.key) e.nativeEvent.data = e.nativeEvent.key;
     // Letters which end a symbol
-    
+
     const stoppers = /(([^KkghQq]u)|[aeoAW])$/;
     // History of all Latin keyboard inputs
     const newEnglish = english.concat(" ", e.nativeEvent.data);
     const updatedQueue = queue.concat(e.nativeEvent.data);
 
     console.log("Stopper test: ", stoppers.test(updatedQueue), " Queue is: ", updatedQueue);
+
+
 
     if (/[^a-zNKQHPCTZOKS2]/.test(e.nativeEvent.data)) {
       console.log("Character ", e.nativeEvent.data, " doesn't correspond to anything in Tigrinya");
@@ -96,18 +102,16 @@ export default class Phonetics extends Component {
           [e.currentTarget.name]: e.target.value, english: newEnglish
         })
       }
-
     }
-    
-    
     else if (e.nativeEvent.inputType === "deleteContentBackward" || e.nativeEvent.inputType === "insertLineBreak") {
+      console.log("INSIDE backspace!111one");
+      console.log("targetValue", e.target.value);
       this.setState({
-        [e.currentTarget.name]: e.currentTarget.value,
-        finalizedSymbols: e.currentTarget.value,
-        queue: ''             
-      })   
+        [e.currentTarget.name]: e.target.value,
+        finalizedSymbols: e.target.value,
+        queue: ''
+      })
     }
-
 
     // If, after inputing the newest letter, the queue has no match in the dictionary we return the last valid symbol
     // and begin a new queue with the new letter
@@ -255,7 +259,7 @@ export default class Phonetics extends Component {
       } else if (e.target.value === "space") {
         this.setState({
           [targetState]: `${document.getElementById(targetField).value} `,
-          finalizedSymbols: document.getElementById(targetField).value + ' ',
+          finalizedSymbols: `${document.getElementById(targetField).value} `,
           queue: ''
         })
       } else if (e.target.value === "return") {
@@ -306,6 +310,7 @@ export default class Phonetics extends Component {
       finalizedSymbols: display.concat(e.clipboardData.getData('text')),
       queue: ''
     })
+    console.log(e);
   }
 
 
@@ -335,11 +340,10 @@ export default class Phonetics extends Component {
 
                 <div>
                   <textarea type='text' id="input-field" className="input-field" name="display" value={display}
-                    onKeyPress= {(e) => {e.nativeEvent.code !== "Enter" ? this.tigrinyaToEnglish(e) : this.translateTiToEn()}}
-                    onChange={(e) => { e.nativeEvent.inputType === "deleteContentBackward" || e.nativeEvent.inputType === "insertLineBreak" ? 
-                      this.tigrinyaToEnglish(e) : this.translateTiToEn(); }} onPaste={this.handlePaste}
-                      />
-                    
+                    onChange={(e) => { this.tigrinyaToEnglish(e); this.translateTiToEn() }}
+                    onPaste={this.handlePaste}
+                  />
+
                 </div>
               </Col>
 
