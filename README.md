@@ -15,7 +15,7 @@ There are over 200 Tigrinya symbols. Our app allows users to write all of them u
 
 Alternatively our users can use on-screen keyboard. We've arranged the characters in an intuitive and user-friendly manner.
 
-![](docs-img/keyboard1.png
+![](docs-img/keyboard1.png)
 
 ## App
 
