@@ -174,7 +174,7 @@ server.get('/api/test', (req, res) => {
 server.post('/api/report', (req, res) => {
 	const { original, translation, improved } = req.body;
 	return db.Report.create({ original, translation, improved })
-		.then((report) => res.send(report))
+		.then((report) => console.log("Report added successfully!"))
 		.catch((err) => res.send(err));
 })
 
